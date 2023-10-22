@@ -9,7 +9,7 @@ public interface UserService {
 
     NewUserDto addUser(NewUserDto newUserDto);
 
-    UserDto getUser(Long id);
+    UserDto getUserById(Long id);
 
     List<UserDto> getAllUsers();
 

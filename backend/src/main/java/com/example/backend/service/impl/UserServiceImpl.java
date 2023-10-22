@@ -1,5 +1,6 @@
 package com.example.backend.service.impl;
 
+import com.example.backend.exception.CarRepairShopApiException;
 import com.example.backend.exception.ValidationException;
 import com.example.backend.model.User;
 import com.example.backend.payload.NewUserDto;
@@ -11,6 +12,7 @@ import com.example.backend.utils.AccessCodeGenerator;
 import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import org.modelmapper.ModelMapper;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,7 +48,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUser(Long id) {
+    public UserDto getUserById(Long id) {
         return null;
     }
 
@@ -87,7 +89,10 @@ public class UserServiceImpl implements UserService {
         Matcher matcher = pattern.matcher(phoneNumber);
 
         if(matcher.matches()){
-            return true;
+            if(userRepository.existsByPhone(phoneNumber)){
+                throw new CarRepairShopApiException(HttpStatus.BAD_REQUEST,"account with that phone number already exists");
+            }else
+                return true;
         }else{
             throw new ValidationException("phoneNumber");
         }
