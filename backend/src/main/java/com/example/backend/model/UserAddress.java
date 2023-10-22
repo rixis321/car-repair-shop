@@ -24,7 +24,6 @@ public class UserAddress {
     @Column(name = "street_name",nullable = false)
     private String streetName;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
+    @OneToOne(mappedBy = "userAddress")
     private User user;
 }
