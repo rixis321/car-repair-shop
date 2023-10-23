@@ -1,13 +1,12 @@
 package com.example.backend.service;
 
+import com.example.backend.payload.LoginDto;
 import com.example.backend.payload.NewUserDto;
 import com.example.backend.payload.UserDto;
 
 import java.util.List;
 
 public interface UserService {
-
-    NewUserDto addUser(NewUserDto newUserDto);
 
     UserDto getUserById(Long id);
 

@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+import org.springframework.web.bind.annotation.Mapping;
 
 @Data
 @AllArgsConstructor
@@ -20,9 +22,11 @@ public class NewUserDto {
     private String lastname;
     @NotEmpty(message = "phone number should not be null or empty")
     private String phone;
+    //TODO to wywalic pozniej
     @NotEmpty(message = "accessCode cannot be empty or null")
     private String accessCode;
 
+    private String role;
     @NotNull(message = "user address should not be null")
-    private UserAddress userAddress;
+    private UserAddressDto userAddress;
 }
