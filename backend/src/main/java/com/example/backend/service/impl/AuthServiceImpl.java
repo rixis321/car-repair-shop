@@ -1,19 +1,18 @@
 package com.example.backend.service.impl;
 
-import com.example.backend.exception.CarRepairShopApiException;
 import com.example.backend.exception.ValidationException;
-import com.example.backend.model.User;
+import com.example.backend.model.Employee;
 import com.example.backend.model.UserAddress;
 import com.example.backend.payload.LoginDto;
-import com.example.backend.payload.NewUserDto;
+import com.example.backend.payload.NewEmployeeDto;
+import com.example.backend.repository.EmployeeRepository;
 import com.example.backend.repository.RoleRepository;
-import com.example.backend.repository.UserRepository;
+import com.example.backend.repository.UserAddressRepository;
 import com.example.backend.security.JwtTokenProvider;
 import com.example.backend.service.AuthService;
-import com.example.backend.utils.AccessCodeGenerator;
+import com.example.backend.utils.StringCapitalizer;
+import com.example.backend.utils.UserDataValidator;
 import org.modelmapper.ModelMapper;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,127 +20,69 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 @Service
 public class AuthServiceImpl implements AuthService {
     private final ModelMapper modelMapper;
     private final AuthenticationManager authenticationManager;
-    private final UserRepository userRepository;
+    private final EmployeeRepository employeeRepository;
+
     private final RoleRepository roleRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
+    private final UserDataValidator userDataValidator;
     public AuthServiceImpl(ModelMapper modelMapper,
                            AuthenticationManager authenticationManager,
-                           UserRepository userRepository,
-                           RoleRepository roleRepository,
+                           EmployeeRepository employeeRepository, RoleRepository roleRepository,
                            JwtTokenProvider jwtTokenProvider,
-                           PasswordEncoder passwordEncoder) {
+                           PasswordEncoder passwordEncoder, UserDataValidator userDataValidator) {
         this.modelMapper = modelMapper;
         this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
+        this.employeeRepository = employeeRepository;
+
         this.roleRepository = roleRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.passwordEncoder = passwordEncoder;
+        this.userDataValidator = userDataValidator;
     }
 
     @Override
     public String login(LoginDto loginDto) {
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDto.getPhoneNumber(),loginDto.getAccessCode()
+                loginDto.getEmail(),loginDto.getPassword()
         ));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return jwtTokenProvider.generateToken(authentication);
     }
 
     @Override
-    public NewUserDto register(NewUserDto newUserDto) {
-        if(checkUserData(newUserDto)){
-            newUserDto.setName(capitalizeString(newUserDto.getName()));
-            newUserDto.setLastname(capitalizeString(newUserDto.getLastname()));
-            newUserDto.getUserAddress().setCity(capitalizeString(newUserDto.getUserAddress().getCity()));
+    public NewEmployeeDto register(NewEmployeeDto newEmployeeDto) {
+        if(userDataValidator.checkEmployeeData(newEmployeeDto)){
+            newEmployeeDto.setName(StringCapitalizer.capitalizeFirstLetter(newEmployeeDto.getName()));
+            newEmployeeDto.setLastname(StringCapitalizer.capitalizeFirstLetter(newEmployeeDto.getLastname()));
+            newEmployeeDto.getUserAddress().setCity(StringCapitalizer.capitalizeFirstLetter(newEmployeeDto.getUserAddress().getCity()));
 
-            User user = mapToEntity(newUserDto);
-            user.getUserAddress().setUser(user);
-            user = userRepository.save(user);
-            return modelMapper.map(user, NewUserDto.class);
+            Employee employee = mapToEntity(newEmployeeDto);
+            employee = employeeRepository.save(employee);
+            return modelMapper.map(employee, NewEmployeeDto.class);
         }
-        throw new ValidationException("User");
+        throw new ValidationException("Customer");
     }
 
 
-    private User mapToEntity(NewUserDto newUserDto){
-        User user = new User();
-        UserAddress userAddress = modelMapper.map(newUserDto.getUserAddress(),UserAddress.class);
-        user.setUserAddress(userAddress);
-        user.setName(newUserDto.getName());
-        user.setLastname(newUserDto.getLastname());
-        user.setPhone(newUserDto.getPhone());
+    private Employee mapToEntity(NewEmployeeDto newEmployeeDto){
+        Employee employee = new Employee();
+        UserAddress userAddress = modelMapper.map(newEmployeeDto.getUserAddress(),UserAddress.class);
+        //userAddress = userAddressRepository.save(userAddress);
 
-
-        user.setAccessCode(AccessCodeGenerator.generateCode());
-        System.out.println(user.getAccessCode());
-        user.setAccessCode(passwordEncoder.encode(user.getAccessCode()));
-        return user;
+        employee.setUserAddress(userAddress);
+        employee.setName(newEmployeeDto.getName());
+        employee.setLastname(newEmployeeDto.getLastname());
+        employee.setPhone(newEmployeeDto.getPhone());
+        employee.setPassword(passwordEncoder.encode(newEmployeeDto.getPassword()));
+        employee.setEmail(newEmployeeDto.getEmail());
+        employee.getUserAddress().setEmployee(employee);
+        return employee;
     }
 
-    private boolean checkUserData(NewUserDto newUserDto){
-        return validateString(newUserDto.getName()) && validateString(newUserDto.getLastname())
-                && validatePhoneNumber(newUserDto.getPhone()) && validateString(newUserDto.getUserAddress().getCity())
-                && validateString(newUserDto.getUserAddress().getStreetName())
-                && validateStreetNumber(newUserDto.getUserAddress().getStreetNumber())
-                && validateZipCode(newUserDto.getUserAddress().getZipcode());
-
-    }
-
-
-    private boolean validateString(String name){
-        if((name == null || name.isEmpty())|| !name.matches("^\\s*[a-zA-Z]+(\\s+[a-zA-Z]+)*\\s*$")){
-            throw new ValidationException("String");
-        }
-        return  true;
-    }
-    private boolean validatePhoneNumber(String phoneNumber){
-        String regex = "^\\s*[0-9]{3}\\s*[0-9]{3}\\s*[0-9]{3}\\s*$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(phoneNumber);
-
-        if(matcher.matches()){
-            if(userRepository.existsByPhone(phoneNumber)){
-                throw new CarRepairShopApiException(HttpStatus.BAD_REQUEST,"account with that phone number already exists");
-            }else
-                return true;
-        }else{
-            throw new ValidationException("phoneNumber");
-        }
-    }
-
-    private boolean validateZipCode(String zipcode){
-        String regex = "^\\s*[0-9]{2}\\s*-\\s*[0-9]{3}\\s*$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(zipcode);
-        if(matcher.matches()){
-            return true;
-        }else{
-            throw new ValidationException("zipcode");
-        }
-    }
-
-    private boolean validateStreetNumber(String streetNumber){
-        String regex = "^[a-zA-Z0-9]+$";
-        Pattern pattern = Pattern.compile(regex);
-
-        Matcher matcher = pattern.matcher(streetNumber);
-        if(matcher.matches()){
-            return true;
-        }else{
-            throw new ValidationException("streetNumber");
-        }
-    }
-    private String capitalizeString(String text){
-        return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
-    }
 }

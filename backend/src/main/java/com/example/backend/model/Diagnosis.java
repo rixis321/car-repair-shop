@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -38,8 +37,8 @@ public class Diagnosis {
     private Car car;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name ="user_id",nullable = false)
-    private User user;
+    @JoinColumn(name ="employee_id",nullable = false)
+    private Employee employee;
 
     @OneToOne(mappedBy = "diagnosis",cascade = CascadeType.ALL,orphanRemoval = true)
     private Service service;

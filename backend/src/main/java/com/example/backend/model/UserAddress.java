@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "users_info")
+@Table(name = "users_addresses")
 public class UserAddress {
 
     @Id
@@ -25,5 +25,7 @@ public class UserAddress {
     private String streetName;
 
     @OneToOne(mappedBy = "userAddress")
-    private User user;
+    private Employee employee;
+    @OneToOne(mappedBy = "userAddress")
+    private Customer customer;
 }

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -29,8 +28,8 @@ public class Car {
     private String type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id",nullable = false)
-    private User user;
+    @JoinColumn(name = "customer_id",nullable = false)
+    private Customer customer;
     @OneToOne(mappedBy = "car", cascade = CascadeType.ALL)
     private CarInfo carInfo;
 

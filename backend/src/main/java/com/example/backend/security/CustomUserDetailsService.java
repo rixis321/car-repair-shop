@@ -1,7 +1,7 @@
 package com.example.backend.security;
 
-import com.example.backend.model.User;
-import com.example.backend.repository.UserRepository;
+import com.example.backend.model.Employee;
+import com.example.backend.repository.EmployeeRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,24 +14,24 @@ import java.util.stream.Collectors;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    private final UserRepository userRepository;
+    private final EmployeeRepository employeeRepository;
 
-    public CustomUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public CustomUserDetailsService(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String phoneNumber) throws UsernameNotFoundException {
-       //User user = userRepository.findByAccessCode(accessCode)
-        User user = userRepository.findByPhone(phoneNumber).orElseThrow(()->
-                new UsernameNotFoundException("User not found with access code:" + phoneNumber));
 
-        Set<GrantedAuthority> authorities = user
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+       //User user = userRepository.findByAccessCode(accessCode)
+        Employee employee = employeeRepository.findByEmail(email).orElseThrow(()->
+                new UsernameNotFoundException("User not found with access code:" + email));
+        Set<GrantedAuthority> authorities = employee
                 .getRoles()
                 .stream()
                 .map((role)-> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
 
-        return new org.springframework.security.core.userdetails.User(user.getPhone(),user.getAccessCode(),authorities);
+        return new org.springframework.security.core.userdetails.User(employee.getEmail(),employee.getPassword(),authorities);
 
     }
 }

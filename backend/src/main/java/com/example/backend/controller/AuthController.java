@@ -2,7 +2,8 @@ package com.example.backend.controller;
 
 import com.example.backend.payload.JwtAuthResponse;
 import com.example.backend.payload.LoginDto;
-import com.example.backend.payload.NewUserDto;
+import com.example.backend.payload.NewCustomerDto;
+import com.example.backend.payload.NewEmployeeDto;
 import com.example.backend.service.AuthService;
 import com.example.backend.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<NewUserDto> register(@RequestBody NewUserDto newUserDto){
-        return new ResponseEntity<>(authService.register(newUserDto), HttpStatus.CREATED);
+    public ResponseEntity<NewEmployeeDto> register(@RequestBody NewEmployeeDto newEmployeeDto){
+        return new ResponseEntity<>(authService.register(newEmployeeDto), HttpStatus.CREATED);
     }
 }

@@ -21,13 +21,13 @@ public class JwtTokenProvider {
     private long jwtExpirationDate;
 
     public String generateToken(Authentication authentication){
-        String phoneNumber = authentication.getName();
+        String email = authentication.getName();
 
         Date currentDate = new Date();
         Date expiredDate = new Date(currentDate.getTime() + jwtExpirationDate);
 
         return Jwts.builder()
-                .setSubject(phoneNumber)
+                .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(expiredDate)
                 .signWith(key())
@@ -40,7 +40,7 @@ public class JwtTokenProvider {
         );
 
     }
-    public String getPhoneNumber(String token){
+    public String getEmail(String token){
         Claims claims = Jwts.parser()
                 .setSigningKey(key())
                 .build()

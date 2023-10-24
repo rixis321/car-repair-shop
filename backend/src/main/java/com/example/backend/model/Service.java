@@ -31,6 +31,10 @@ public class Service {
     @JoinColumn(name = "diagnosis_id")
     private Diagnosis diagnosis;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id",nullable = false)
+    private Employee employee;
+
     @OneToMany(mappedBy = "service",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<ServiceHistory> serviceHistories;
 
