@@ -17,6 +17,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,17 +47,19 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String login(LoginDto loginDto) {
+    public String loginEmployee(LoginDto loginDto) {
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 loginDto.getEmail(),loginDto.getPassword()
         ));
+        Employee employee = employeeRepository.findByEmail(loginDto.getEmail()).orElseThrow(
+                ()-> new UsernameNotFoundException("User not found with that email"));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return jwtTokenProvider.generateToken(authentication);
+        return jwtTokenProvider.generateToken(authentication,employee.getId());
     }
 
     @Override
-    public NewEmployeeDto register(NewEmployeeDto newEmployeeDto) {
+    public NewEmployeeDto registerEmployee(NewEmployeeDto newEmployeeDto) {
         if(userDataValidator.checkEmployeeData(newEmployeeDto)){
             newEmployeeDto.setName(StringCapitalizer.capitalizeFirstLetter(newEmployeeDto.getName()));
             newEmployeeDto.setLastname(StringCapitalizer.capitalizeFirstLetter(newEmployeeDto.getLastname()));

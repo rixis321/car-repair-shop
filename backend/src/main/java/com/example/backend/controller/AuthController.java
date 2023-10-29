@@ -23,17 +23,19 @@ public class AuthController {
         this.authService = authService;
     }
     @PostMapping("/login")
-    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto){
-        String token = authService.login(loginDto);
+    public ResponseEntity<String> login(@RequestBody LoginDto loginDto){
+        String token = authService.loginEmployee(loginDto);
 
         JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
         jwtAuthResponse.setAccessToken(token);
 
-        return ResponseEntity.ok(jwtAuthResponse);
+        return ResponseEntity.ok()
+                .header("Authorization","Bearer " + jwtAuthResponse.getAccessToken())
+                .body("Login successful");
     }
 
     @PostMapping("/register")
     public ResponseEntity<NewEmployeeDto> register(@RequestBody NewEmployeeDto newEmployeeDto){
-        return new ResponseEntity<>(authService.register(newEmployeeDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(authService.registerEmployee(newEmployeeDto), HttpStatus.CREATED);
     }
 }

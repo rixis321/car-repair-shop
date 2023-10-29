@@ -6,7 +6,7 @@ import com.example.backend.payload.NewEmployeeDto;
 
 public interface AuthService {
 
-    String login(LoginDto loginDto);
+    String loginEmployee(LoginDto loginDto);
 
-    NewEmployeeDto register(NewEmployeeDto newEmployeeDto);
+    NewEmployeeDto registerEmployee(NewEmployeeDto newEmployeeDto);
 }

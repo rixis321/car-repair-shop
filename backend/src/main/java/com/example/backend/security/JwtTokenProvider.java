@@ -20,14 +20,14 @@ public class JwtTokenProvider {
     @Value("${app-jwt-expiration-milliseconds}")
     private long jwtExpirationDate;
 
-    public String generateToken(Authentication authentication){
+    public String generateToken(Authentication authentication, Long employeeId){
         String email = authentication.getName();
-
         Date currentDate = new Date();
         Date expiredDate = new Date(currentDate.getTime() + jwtExpirationDate);
 
         return Jwts.builder()
                 .setSubject(email)
+                .claim("id",employeeId)
                 .setIssuedAt(new Date())
                 .setExpiration(expiredDate)
                 .signWith(key())
