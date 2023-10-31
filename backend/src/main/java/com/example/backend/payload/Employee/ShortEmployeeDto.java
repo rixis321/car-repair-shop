@@ -1,4 +1,4 @@
-package com.example.backend.payload;
+package com.example.backend.payload.Employee;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShortCustomerDto {
+public class ShortEmployeeDto {
     private long id;
     @NotEmpty(message = "Name should not be null or empty")
     private String name;
@@ -16,6 +16,7 @@ public class ShortCustomerDto {
     private String lastname;
     @NotEmpty(message = "phone number should not be null or empty")
     private String phone;
-    @NotEmpty(message = "accessCode cannot be empty or null")
-    private int accessCode;
+    @NotEmpty(message = "email should not be null or empty")
+    private String email;
+    private String role;
 }

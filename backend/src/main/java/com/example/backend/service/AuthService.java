@@ -1,7 +1,7 @@
 package com.example.backend.service;
 
-import com.example.backend.payload.LoginDto;
-import com.example.backend.payload.NewEmployeeDto;
+import com.example.backend.payload.Employee.LoginDto;
+import com.example.backend.payload.Employee.NewEmployeeDto;
 
 public interface AuthService {
 

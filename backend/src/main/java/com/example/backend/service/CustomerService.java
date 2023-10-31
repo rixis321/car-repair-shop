@@ -1,8 +1,8 @@
 package com.example.backend.service;
 
-import com.example.backend.payload.NewCustomerDto;
-import com.example.backend.payload.ShortCustomerDto;
-import com.example.backend.payload.CustomerDto;
+import com.example.backend.payload.Customer.NewCustomerDto;
+import com.example.backend.payload.Customer.ShortCustomerDto;
+import com.example.backend.payload.Customer.CustomerDto;
 
 import java.util.List;
 
@@ -10,11 +10,11 @@ public interface CustomerService {
 
     CustomerDto getCustomerById(Long id);
 
-    List<ShortCustomerDto> getAllUsers();
+    List<ShortCustomerDto> getAllCustomers();
 
-    NewCustomerDto updateUser(NewCustomerDto customerDto, Long userId);
+    NewCustomerDto updateCustomer(NewCustomerDto customerDto, Long customerId);
 
-    void deleteCustomer(Long userId);
+    String deleteCustomer(Long customerId);
 
     NewCustomerDto createCustomer(NewCustomerDto customerDto);
 }

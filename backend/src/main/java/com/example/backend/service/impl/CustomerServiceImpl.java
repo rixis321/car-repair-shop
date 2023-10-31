@@ -1,12 +1,12 @@
 package com.example.backend.service.impl;
 
 import com.example.backend.exception.CarRepairShopApiException;
+import com.example.backend.exception.ResourceNotFoundException;
 import com.example.backend.exception.ValidationException;
 import com.example.backend.model.Customer;
-import com.example.backend.model.UserAddress;
-import com.example.backend.payload.CustomerDto;
-import com.example.backend.payload.NewCustomerDto;
-import com.example.backend.payload.ShortCustomerDto;
+import com.example.backend.payload.Customer.CustomerDto;
+import com.example.backend.payload.Customer.NewCustomerDto;
+import com.example.backend.payload.Customer.ShortCustomerDto;
 import com.example.backend.repository.UserAddressRepository;
 import com.example.backend.repository.CustomerRepository;
 import com.example.backend.service.CustomerService;
@@ -38,22 +38,41 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto getCustomerById(Long id) {
-        return null;
+       Customer customer = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("customer","id",id));
+
+       return modelMapper.map(customer, CustomerDto.class);
     }
 
     @Override
-    public List<ShortCustomerDto> getAllUsers() {
-        return null;
+    public List<ShortCustomerDto> getAllCustomers() {
+
+        return customerRepository.findAll()
+                .stream()
+                .map((customer)->modelMapper.map(customer, ShortCustomerDto.class)).toList();
     }
 
     @Override
-    public NewCustomerDto updateUser(NewCustomerDto customerDto, Long userId) {
-        return null;
+    public NewCustomerDto updateCustomer(NewCustomerDto customerDto, Long customerId) {
+
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(()-> new ResourceNotFoundException("Customer","id",customerId));
+
+        //TODO jakas validacja here do przerobienia
+
+        customer = customerRepository.save(modelMapper.map(customerDto, Customer.class));
+        return modelMapper.map(customer,NewCustomerDto.class);
     }
 
 
     @Override
-    public void deleteCustomer(Long userId) {
+    public String deleteCustomer(Long customerId) {
+
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(()-> new ResourceNotFoundException("Customer","id",customerId));
+
+        customerRepository.delete(customer);
+
+        return "Customer deleted successfully";
 
     }
     @Override

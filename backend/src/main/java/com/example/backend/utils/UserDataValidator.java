@@ -2,8 +2,8 @@ package com.example.backend.utils;
 
 import com.example.backend.exception.CarRepairShopApiException;
 import com.example.backend.exception.ValidationException;
-import com.example.backend.payload.NewCustomerDto;
-import com.example.backend.payload.NewEmployeeDto;
+import com.example.backend.payload.Customer.NewCustomerDto;
+import com.example.backend.payload.Employee.NewEmployeeDto;
 import com.example.backend.repository.CustomerRepository;
 import com.example.backend.repository.EmployeeRepository;
 import org.springframework.http.HttpStatus;

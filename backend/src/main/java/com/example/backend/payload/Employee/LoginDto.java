@@ -1,4 +1,4 @@
-package com.example.backend.payload;
+package com.example.backend.payload.Employee;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
