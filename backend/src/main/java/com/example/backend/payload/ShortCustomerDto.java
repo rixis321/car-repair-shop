@@ -1,21 +1,14 @@
 package com.example.backend.payload;
 
-import com.example.backend.model.Car;
-import com.example.backend.model.Diagnosis;
-import com.example.backend.model.UserAddress;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-import java.util.Set;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class ShortCustomerDto {
     private long id;
     @NotEmpty(message = "Name should not be null or empty")
     private String name;
@@ -25,11 +18,4 @@ public class UserDto {
     private String phone;
     @NotEmpty(message = "accessCode cannot be empty or null")
     private int accessCode;
-
-    @NotNull(message = "user address should not be null")
-    private UserAddress userAddress;
-
-    private Set<Car> cars;
-
-    private List<Diagnosis> diagnoses;
 }

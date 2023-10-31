@@ -7,7 +7,6 @@ import com.example.backend.payload.LoginDto;
 import com.example.backend.payload.NewEmployeeDto;
 import com.example.backend.repository.EmployeeRepository;
 import com.example.backend.repository.RoleRepository;
-import com.example.backend.repository.UserAddressRepository;
 import com.example.backend.security.JwtTokenProvider;
 import com.example.backend.service.AuthService;
 import com.example.backend.utils.StringCapitalizer;
@@ -60,7 +59,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public NewEmployeeDto registerEmployee(NewEmployeeDto newEmployeeDto) {
-        if(userDataValidator.checkEmployeeData(newEmployeeDto)){
+        if(userDataValidator.validateEmployeeData(newEmployeeDto)){
             newEmployeeDto.setName(StringCapitalizer.capitalizeFirstLetter(newEmployeeDto.getName()));
             newEmployeeDto.setLastname(StringCapitalizer.capitalizeFirstLetter(newEmployeeDto.getLastname()));
             newEmployeeDto.getUserAddress().setCity(StringCapitalizer.capitalizeFirstLetter(newEmployeeDto.getUserAddress().getCity()));

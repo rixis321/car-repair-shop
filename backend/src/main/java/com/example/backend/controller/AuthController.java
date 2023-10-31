@@ -2,10 +2,9 @@ package com.example.backend.controller;
 
 import com.example.backend.payload.JwtAuthResponse;
 import com.example.backend.payload.LoginDto;
-import com.example.backend.payload.NewCustomerDto;
 import com.example.backend.payload.NewEmployeeDto;
 import com.example.backend.service.AuthService;
-import com.example.backend.service.UserService;
+import com.example.backend.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +18,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    public AuthController(UserService userService, AuthService authService) {
+    public AuthController(CustomerService customerService, AuthService authService) {
         this.authService = authService;
     }
     @PostMapping("/login")

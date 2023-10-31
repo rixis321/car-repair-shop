@@ -23,7 +23,7 @@ public class UserDataValidator {
         this.employeeRepository = employeeRepository;
     }
 
-    public boolean checkCustomerData(NewCustomerDto newCustomerDto){
+    public boolean validateCustomerData(NewCustomerDto newCustomerDto){
         return validateString(newCustomerDto.getName()) && validateString(newCustomerDto.getLastname())
                 && validatePhoneNumber(newCustomerDto.getPhone(),"customer") && validateString(newCustomerDto.getUserAddress().getCity())
                 && validateString(newCustomerDto.getUserAddress().getStreetName())
@@ -31,7 +31,7 @@ public class UserDataValidator {
                 && validateZipCode(newCustomerDto.getUserAddress().getZipcode());
 
     }
-    public boolean checkEmployeeData(NewEmployeeDto newEmployeeDto){
+    public boolean validateEmployeeData(NewEmployeeDto newEmployeeDto){
         return  validateEmail(newEmployeeDto.getEmail()) && validatePassword(newEmployeeDto.getPassword()) &&
                 validateString(newEmployeeDto.getName()) && validateString(newEmployeeDto.getLastname())
                 && validatePhoneNumber(newEmployeeDto.getPhone(),"employee") && validateString(newEmployeeDto.getUserAddress().getCity())
@@ -51,47 +51,59 @@ public class UserDataValidator {
     private boolean validatePhoneNumber(String phoneNumber, String userType){
         String regex = "^\\s*[0-9]{3}\\s*[0-9]{3}\\s*[0-9]{3}\\s*$";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(phoneNumber);
+        if(phoneNumber != null){
+            Matcher matcher = pattern.matcher(phoneNumber);
 
-        if(matcher.matches()){
-            if(userType.equals("customer")){
-                if(customerRepository.existsByPhone(phoneNumber)){
-                    throw new CarRepairShopApiException(HttpStatus.BAD_REQUEST,"account with that phone number already exists");
-                }else
-                    return true;
-            }else {
-                if(employeeRepository.existsByPhone(phoneNumber)){
-                    throw new CarRepairShopApiException(HttpStatus.BAD_REQUEST,"account with that phone number already exists");
-                }else
-                    return true;
+            if(matcher.matches()){
+                if(userType.equals("customer")){
+                    if(customerRepository.existsByPhone(phoneNumber)){
+                        throw new CarRepairShopApiException(HttpStatus.BAD_REQUEST,"account with that phone number already exists");
+                    }else
+                        return true;
+                }else {
+                    if(employeeRepository.existsByPhone(phoneNumber)){
+                        throw new CarRepairShopApiException(HttpStatus.BAD_REQUEST,"account with that phone number already exists");
+                    }else
+                        return true;
+                }
+
+            }else{
+                throw new ValidationException("phoneNumber");
             }
-
         }else{
             throw new ValidationException("phoneNumber");
         }
+
     }
 
     private boolean validateZipCode(String zipcode){
         String regex = "^\\s*[0-9]{2}\\s*-\\s*[0-9]{3}\\s*$";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(zipcode);
-        if(matcher.matches()){
-            return true;
-        }else{
+        if(zipcode != null){
+            Matcher matcher = pattern.matcher(zipcode);
+            if(matcher.matches()){
+                return true;
+            }else{
+                throw new ValidationException("zipcode");
+            }
+        }else
             throw new ValidationException("zipcode");
-        }
+
     }
 
     private boolean validateStreetNumber(String streetNumber){
         String regex = "^[a-zA-Z0-9]+$";
         Pattern pattern = Pattern.compile(regex);
-
-        Matcher matcher = pattern.matcher(streetNumber);
-        if(matcher.matches()){
-            return true;
-        }else{
+        if(streetNumber !=null){
+            Matcher matcher = pattern.matcher(streetNumber);
+            if(matcher.matches()){
+                return true;
+            }else{
+                throw new ValidationException("streetNumber");
+            }
+        }else
             throw new ValidationException("streetNumber");
-        }
+
     }
     private String capitalizeString(String text){
         return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
@@ -99,21 +111,35 @@ public class UserDataValidator {
     private boolean validateEmail(String email){
         String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-        if(matcher.matches()){
-            return true;
+        if(email != null){
+            Matcher matcher = pattern.matcher(email);
+            if(matcher.matches()){
+                if(employeeRepository.existsByEmail(email)){
+                    throw new CarRepairShopApiException(HttpStatus.BAD_REQUEST,"account with that email already exists");
+                }else
+                    return true;
+            }else{
+                throw new ValidationException("email");
+            }
         }else{
             throw new ValidationException("email");
         }
+
     }
     private boolean validatePassword(String password){
         String regex = "^(?=.*[A-Z])(?=.*\\d.*\\d.*\\d)[A-Za-z\\d]{8,}$";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(password);
-        if(matcher.matches()){
-            return true;
+        if(password != null){
+            Matcher matcher = pattern.matcher(password);
+            if(matcher.matches()){
+                return true;
+            }else{
+                throw new ValidationException("password");
+            }
         }else{
             throw new ValidationException("password");
         }
+
+
     }
 }
