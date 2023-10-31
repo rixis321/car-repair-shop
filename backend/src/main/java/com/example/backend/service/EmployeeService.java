@@ -8,7 +8,7 @@ import com.example.backend.payload.Employee.ShortEmployeeDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-@Service
+
 public interface EmployeeService {
     EmployeeDto getEmployeeById(Long id);
 
