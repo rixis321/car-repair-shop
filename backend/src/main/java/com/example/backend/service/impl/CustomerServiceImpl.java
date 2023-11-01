@@ -56,11 +56,27 @@ public class CustomerServiceImpl implements CustomerService {
 
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(()-> new ResourceNotFoundException("Customer","id",customerId));
+        Customer updatedCustomer = new Customer();
+        if(userDataValidator.validateCustomerUpdatedData(customerDto)){
+            if(customerDto.getPhone().equals(customer.getPhone())){
+                updatedCustomer = modelMapper.map(customerDto, Customer.class);
+            }else{
+                if(userDataValidator.validatePhoneNumber(customerDto.getPhone(),"customer")){
+                    updatedCustomer =  modelMapper.map(customerDto, Customer.class);
+                }else{
+                    throw new ValidationException("phone number");
+                }
+            }
+        }
+        updatedCustomer.getUserAddress().setId(customer.getUserAddress().getId());
+        updatedCustomer.getUserAddress().setCustomer(customer);
 
-        //TODO jakas validacja here do przerobienia
+        updatedCustomer.setCars(customer.getCars());
+        updatedCustomer.setId(customer.getId());
+        updatedCustomer.setAccessCode(customer.getAccessCode());
 
-        customer = customerRepository.save(modelMapper.map(customerDto, Customer.class));
-        return modelMapper.map(customer,NewCustomerDto.class);
+        updatedCustomer = customerRepository.save(updatedCustomer);
+        return modelMapper.map(updatedCustomer,NewCustomerDto.class);
     }
 
 

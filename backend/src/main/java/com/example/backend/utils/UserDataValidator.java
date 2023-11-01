@@ -31,6 +31,27 @@ public class UserDataValidator {
                 && validateZipCode(newCustomerDto.getUserAddress().getZipcode());
 
     }
+
+    public boolean validateCustomerUpdatedData(NewCustomerDto newCustomerDto){
+        return validateString(newCustomerDto.getName()) && validateString(newCustomerDto.getLastname())
+                && validateString(newCustomerDto.getUserAddress().getCity())
+                && validateString(newCustomerDto.getUserAddress().getStreetName())
+                && validateStreetNumber(newCustomerDto.getUserAddress().getStreetNumber())
+                && validateZipCode(newCustomerDto.getUserAddress().getZipcode());
+
+    }
+
+    public boolean validateEmployeeUpdatedData(NewEmployeeDto newEmployeeDto){
+        return  validatePassword(newEmployeeDto.getPassword()) &&
+                validateString(newEmployeeDto.getName()) && validateString(newEmployeeDto.getLastname())
+                && validateString(newEmployeeDto.getUserAddress().getCity())
+                && validateString(newEmployeeDto.getUserAddress().getStreetName())
+                && validateStreetNumber(newEmployeeDto.getUserAddress().getStreetNumber())
+                && validateZipCode(newEmployeeDto.getUserAddress().getZipcode());
+
+    }
+
+
     public boolean validateEmployeeData(NewEmployeeDto newEmployeeDto){
         return  validateEmail(newEmployeeDto.getEmail()) && validatePassword(newEmployeeDto.getPassword()) &&
                 validateString(newEmployeeDto.getName()) && validateString(newEmployeeDto.getLastname())
@@ -48,7 +69,7 @@ public class UserDataValidator {
         }
         return  true;
     }
-    private boolean validatePhoneNumber(String phoneNumber, String userType){
+    public boolean validatePhoneNumber(String phoneNumber, String userType){
         String regex = "^\\s*[0-9]{3}\\s*[0-9]{3}\\s*[0-9]{3}\\s*$";
         Pattern pattern = Pattern.compile(regex);
         if(phoneNumber != null){
@@ -108,7 +129,7 @@ public class UserDataValidator {
     private String capitalizeString(String text){
         return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
     }
-    private boolean validateEmail(String email){
+    public boolean validateEmail(String email){
         String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
         Pattern pattern = Pattern.compile(regex);
         if(email != null){

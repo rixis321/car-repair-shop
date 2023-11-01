@@ -2,6 +2,7 @@ package com.example.backend.payload.Customer;
 
 import com.example.backend.model.Car;
 import com.example.backend.model.UserAddress;
+import com.example.backend.payload.UserAddressDto;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,6 @@ public class CustomerDto {
     private String phone;
     @NotEmpty(message = "accessCode cannot be empty or null")
     private String accessCode;
-    private UserAddress userAddress;
+    private UserAddressDto userAddress;
     private Set<Car> cars;
 }

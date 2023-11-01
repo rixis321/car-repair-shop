@@ -2,6 +2,7 @@ package com.example.backend.service.impl;
 
 import com.example.backend.exception.ValidationException;
 import com.example.backend.model.Employee;
+import com.example.backend.model.Role;
 import com.example.backend.model.UserAddress;
 import com.example.backend.payload.Employee.LoginDto;
 import com.example.backend.payload.Employee.NewEmployeeDto;
@@ -19,6 +20,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -63,10 +68,12 @@ public class AuthServiceImpl implements AuthService {
             newEmployeeDto.setName(StringCapitalizer.capitalizeFirstLetter(newEmployeeDto.getName()));
             newEmployeeDto.setLastname(StringCapitalizer.capitalizeFirstLetter(newEmployeeDto.getLastname()));
             newEmployeeDto.getUserAddress().setCity(StringCapitalizer.capitalizeFirstLetter(newEmployeeDto.getUserAddress().getCity()));
-
             Employee employee = mapToEntity(newEmployeeDto);
+
             employee = employeeRepository.save(employee);
-            return modelMapper.map(employee, NewEmployeeDto.class);
+            NewEmployeeDto registeredEmployee =  modelMapper.map(employee, NewEmployeeDto.class);
+//            registeredEmployee.setRole(newEmployeeDto.getRole());
+            return registeredEmployee;
         }
         throw new ValidationException("Customer");
     }
@@ -84,6 +91,10 @@ public class AuthServiceImpl implements AuthService {
         employee.setPassword(passwordEncoder.encode(newEmployeeDto.getPassword()));
         employee.setEmail(newEmployeeDto.getEmail());
         employee.getUserAddress().setEmployee(employee);
+        Set<Role> roles = new HashSet<>();
+        Role employeeRole = roleRepository.findByName(newEmployeeDto.getRoles().toString()).get();
+        roles.add(employeeRole);
+        employee.setRoles(roles);
         return employee;
     }
 

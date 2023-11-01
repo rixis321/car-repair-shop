@@ -4,6 +4,7 @@ import com.example.backend.model.Diagnosis;
 import com.example.backend.model.Role;
 import com.example.backend.model.Service;
 import com.example.backend.model.UserAddress;
+import com.example.backend.payload.UserAddressDto;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class EmployeeDto {
     private String email;
     @Column(nullable = false)
     private String password;
-    private UserAddress userAddress;
+    private UserAddressDto userAddressDto;
     private List<Diagnosis> diagnoses;
     private List<Service> services;
     private Set<Role> roles;

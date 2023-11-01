@@ -1,9 +1,12 @@
 package com.example.backend.payload.Employee;
 
+import com.example.backend.model.Role;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -18,5 +21,5 @@ public class ShortEmployeeDto {
     private String phone;
     @NotEmpty(message = "email should not be null or empty")
     private String email;
-    private String role;
+    private Set<Role> roles;
 }
