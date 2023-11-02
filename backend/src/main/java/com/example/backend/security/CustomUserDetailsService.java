@@ -25,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
        //User user = userRepository.findByAccessCode(accessCode)
         Employee employee = employeeRepository.findByEmail(email).orElseThrow(()->
-                new UsernameNotFoundException("User not found with access code:" + email));
+                new UsernameNotFoundException("User not found with email:" + email));
         Set<GrantedAuthority> authorities = employee
                 .getRoles()
                 .stream()

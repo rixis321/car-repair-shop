@@ -1,5 +1,6 @@
 package com.example.backend.service.impl;
 
+import com.example.backend.exception.CarRepairShopApiException;
 import com.example.backend.exception.ValidationException;
 import com.example.backend.model.Employee;
 import com.example.backend.model.Role;
@@ -11,8 +12,9 @@ import com.example.backend.repository.RoleRepository;
 import com.example.backend.security.JwtTokenProvider;
 import com.example.backend.service.AuthService;
 import com.example.backend.utils.StringCapitalizer;
-import com.example.backend.utils.UserDataValidator;
+import com.example.backend.validator.UserDataValidator;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,7 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -71,9 +73,8 @@ public class AuthServiceImpl implements AuthService {
             Employee employee = mapToEntity(newEmployeeDto);
 
             employee = employeeRepository.save(employee);
-            NewEmployeeDto registeredEmployee =  modelMapper.map(employee, NewEmployeeDto.class);
-//            registeredEmployee.setRole(newEmployeeDto.getRole());
-            return registeredEmployee;
+           //TODO ZWRACA ROLE KTORA JEST NULLEM ALE JEST TO NIEPOTRZEBNE :)
+            return modelMapper.map(employee, NewEmployeeDto.class);
         }
         throw new ValidationException("Customer");
     }
@@ -92,7 +93,7 @@ public class AuthServiceImpl implements AuthService {
         employee.setEmail(newEmployeeDto.getEmail());
         employee.getUserAddress().setEmployee(employee);
         Set<Role> roles = new HashSet<>();
-        Role employeeRole = roleRepository.findByName(newEmployeeDto.getRoles().toString()).get();
+        Role employeeRole = roleRepository.findByName(newEmployeeDto.getRole());
         roles.add(employeeRole);
         employee.setRoles(roles);
         return employee;

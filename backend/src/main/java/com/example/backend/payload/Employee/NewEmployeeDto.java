@@ -25,7 +25,7 @@ public class NewEmployeeDto {
     @NotEmpty(message = "phone number should not be null or empty")
     private String phone;
     @NotEmpty(message = "roles cannot be null or empty")
-    private Set<Role> roles;
+    private String role;
     @NotEmpty(message = "Email should not be null or empty")
     private String email;
     @NotEmpty(message = "password should not be null or empty")

@@ -15,17 +15,17 @@ public class InitialRoleLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if(roleRepository.findByName("ADMIN").isEmpty()){
+        if(!roleRepository.existsByName("ADMIN")){
             Role adminRole = new Role();
             adminRole.setName("ADMIN");
             roleRepository.save(adminRole);
         }
-        if(roleRepository.findByName("RECEPCJONISTA").isEmpty()){
+        if(!roleRepository.existsByName("RECEPCJONISTA")){
             Role recepctionisRole = new Role();
             recepctionisRole.setName("RECEPCJONISTA");
             roleRepository.save(recepctionisRole);
         }
-        if(roleRepository.findByName("MECHANIK").isEmpty()){
+        if(!roleRepository.existsByName("MECHANIK")){
             Role mechanicRole = new Role();
             mechanicRole.setName("MECHANIK");
             roleRepository.save(mechanicRole);

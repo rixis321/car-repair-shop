@@ -11,11 +11,12 @@ import com.example.backend.repository.UserAddressRepository;
 import com.example.backend.repository.CustomerRepository;
 import com.example.backend.service.CustomerService;
 import com.example.backend.utils.AccessCodeGenerator;
-import com.example.backend.utils.UserDataValidator;
+import com.example.backend.validator.UserDataValidator;
 import org.modelmapper.ModelMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,6 +42,13 @@ public class CustomerServiceImpl implements CustomerService {
        Customer customer = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("customer","id",id));
 
        return modelMapper.map(customer, CustomerDto.class);
+    }
+
+    @Override
+    public CustomerDto getCustomerByAccessCode(String accessCode) {
+        Customer customer = customerRepository.findCustomerByAccessCode(accessCode).orElseThrow(()-> new CarRepairShopApiException(HttpStatus.BAD_REQUEST,"Invalid code"));
+
+        return modelMapper.map(customer, CustomerDto.class);
     }
 
     @Override
@@ -101,12 +109,9 @@ public class CustomerServiceImpl implements CustomerService {
             customer.setAccessCode(AccessCodeGenerator.generateCode());
             customer = customerRepository.save(customer);
             return modelMapper.map(customer, NewCustomerDto.class);
-        } catch (CarRepairShopApiException e) {
+        } catch (CarRepairShopApiException | ValidationException e) {
             logger.error(e.getMessage());
-            throw new CarRepairShopApiException(e.getStatus(),e.getMessage());
-        } catch (ValidationException e) {
-            logger.error(e.getMessage());
-            throw new ValidationException(e.getMessage());
+            throw e;
         }
     }
 

@@ -45,4 +45,9 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.updateCustomer(customerDto,id),HttpStatus.OK);
     }
 
+    @GetMapping("/customers/access")
+    public ResponseEntity<CustomerDto> getCustomerByAccessCode(@RequestParam("accessCode") String accessCode){
+        return new ResponseEntity<>(customerService.getCustomerByAccessCode(accessCode),HttpStatus.OK);
+    }
+
 }

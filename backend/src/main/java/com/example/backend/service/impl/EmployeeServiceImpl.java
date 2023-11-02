@@ -8,11 +8,10 @@ import com.example.backend.payload.Employee.NewEmployeeDto;
 import com.example.backend.payload.Employee.ShortEmployeeDto;
 import com.example.backend.repository.EmployeeRepository;
 import com.example.backend.service.EmployeeService;
-import com.example.backend.utils.UserDataValidator;
+import com.example.backend.validator.UserDataValidator;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 
 @Service

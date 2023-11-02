@@ -1,4 +1,4 @@
-package com.example.backend.utils;
+package com.example.backend.validator;
 
 import com.example.backend.exception.CarRepairShopApiException;
 import com.example.backend.exception.ValidationException;
