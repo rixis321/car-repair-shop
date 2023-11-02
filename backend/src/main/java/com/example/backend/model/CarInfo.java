@@ -1,5 +1,7 @@
 package com.example.backend.model;
 
+import com.example.backend.model.constants.FuelType;
+import com.example.backend.model.constants.GearboxType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,14 +20,16 @@ public class CarInfo {
 
     @Column(name = "production_year",nullable = false)
     private int productionYear;
+    @Enumerated(EnumType.STRING)
     @Column(name = "gearbox_type",nullable = false)
-    private String gearboxType;
+    private GearboxType gearboxType;
+    @Enumerated(EnumType.STRING)
     @Column(name = "fuel_type",nullable = false)
-    private String fuelType;
-
+    private FuelType fuelType;
+    @Column(name = "engine",nullable = false)
+    private String engine;
     @Column(name = "vin_number",nullable = false)
     private String vinNumber;
-
     @OneToOne
     @JoinColumn(name = "car_id")
     private Car car;

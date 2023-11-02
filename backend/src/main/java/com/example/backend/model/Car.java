@@ -1,5 +1,6 @@
 package com.example.backend.model;
 
+import com.example.backend.model.constants.CarType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,9 +24,9 @@ public class Car {
     private String model;
     @Column(name = "registration_number",nullable = false)
     private String registrationNumber;
-
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String type;
+    private CarType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id",nullable = false)
