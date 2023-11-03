@@ -25,19 +25,19 @@ public class UserDataValidator {
 
     public boolean validateCustomerData(NewCustomerDto newCustomerDto){
         return validateString(newCustomerDto.getName()) && validateString(newCustomerDto.getLastname())
-                && validatePhoneNumber(newCustomerDto.getPhone(),"customer") && validateString(newCustomerDto.getUserAddress().getCity())
-                && validateString(newCustomerDto.getUserAddress().getStreetName())
-                && validateStreetNumber(newCustomerDto.getUserAddress().getStreetNumber())
-                && validateZipCode(newCustomerDto.getUserAddress().getZipcode());
+                && validatePhoneNumber(newCustomerDto.getPhone(),"customer") && validateString(newCustomerDto.getUserAddressDto().getCity())
+                && validateString(newCustomerDto.getUserAddressDto().getStreetName())
+                && validateStreetNumber(newCustomerDto.getUserAddressDto().getStreetNumber())
+                && validateZipCode(newCustomerDto.getUserAddressDto().getZipcode());
 
     }
 
     public boolean validateCustomerUpdatedData(NewCustomerDto newCustomerDto){
         return validateString(newCustomerDto.getName()) && validateString(newCustomerDto.getLastname())
-                && validateString(newCustomerDto.getUserAddress().getCity())
-                && validateString(newCustomerDto.getUserAddress().getStreetName())
-                && validateStreetNumber(newCustomerDto.getUserAddress().getStreetNumber())
-                && validateZipCode(newCustomerDto.getUserAddress().getZipcode());
+                && validateString(newCustomerDto.getUserAddressDto().getCity())
+                && validateString(newCustomerDto.getUserAddressDto().getStreetName())
+                && validateStreetNumber(newCustomerDto.getUserAddressDto().getStreetNumber())
+                && validateZipCode(newCustomerDto.getUserAddressDto().getZipcode());
 
     }
 

@@ -20,5 +20,5 @@ public class NewCustomerDto {
     @NotEmpty(message = "phone number should not be null or empty")
     private String phone;
     @NotNull(message = "user address should not be null")
-    private UserAddressDto userAddress;
+    private UserAddressDto userAddressDto;
 }

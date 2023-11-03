@@ -7,6 +7,7 @@ import com.example.backend.model.Customer;
 import com.example.backend.payload.Customer.CustomerDto;
 import com.example.backend.payload.Customer.NewCustomerDto;
 import com.example.backend.payload.Customer.ShortCustomerDto;
+import com.example.backend.payload.mapper.CustomerMapper;
 import com.example.backend.repository.UserAddressRepository;
 import com.example.backend.repository.CustomerRepository;
 import com.example.backend.service.CustomerService;
@@ -23,16 +24,18 @@ import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
-    private final ModelMapper modelMapper;
+
     private final CustomerRepository customerRepository;
     private final UserAddressRepository userInfoRepository;
 
+    private final CustomerMapper customerMapper;
+
     private final UserDataValidator userDataValidator;
 
-    public CustomerServiceImpl(ModelMapper modelMapper, CustomerRepository customerRepository, UserAddressRepository userInfoRepository, UserDataValidator userDataValidator) {
-        this.modelMapper = modelMapper;
+    public CustomerServiceImpl( CustomerRepository customerRepository, UserAddressRepository userInfoRepository, CustomerMapper customerMapper, UserDataValidator userDataValidator) {
         this.customerRepository = customerRepository;
         this.userInfoRepository = userInfoRepository;
+        this.customerMapper = customerMapper;
         this.userDataValidator = userDataValidator;
     }
 
@@ -41,14 +44,14 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto getCustomerById(Long id) {
        Customer customer = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("customer","id",id));
 
-       return modelMapper.map(customer, CustomerDto.class);
+       return customerMapper.mapToCustomerDto(customer);
     }
 
     @Override
     public CustomerDto getCustomerByAccessCode(String accessCode) {
         Customer customer = customerRepository.findCustomerByAccessCode(accessCode).orElseThrow(()-> new CarRepairShopApiException(HttpStatus.BAD_REQUEST,"Invalid code"));
 
-        return modelMapper.map(customer, CustomerDto.class);
+        return customerMapper.mapToCustomerDto(customer);
     }
 
     @Override
@@ -56,35 +59,35 @@ public class CustomerServiceImpl implements CustomerService {
 
         return customerRepository.findAll()
                 .stream()
-                .map((customer)->modelMapper.map(customer, ShortCustomerDto.class)).toList();
+                .map(customerMapper::mapToShortCustomerDto).toList();
     }
 
     @Override
     public NewCustomerDto updateCustomer(NewCustomerDto customerDto, Long customerId) {
-
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(()-> new ResourceNotFoundException("Customer","id",customerId));
-        Customer updatedCustomer = new Customer();
-        if(userDataValidator.validateCustomerUpdatedData(customerDto)){
-            if(customerDto.getPhone().equals(customer.getPhone())){
-                updatedCustomer = modelMapper.map(customerDto, Customer.class);
-            }else{
-                if(userDataValidator.validatePhoneNumber(customerDto.getPhone(),"customer")){
-                    updatedCustomer =  modelMapper.map(customerDto, Customer.class);
-                }else{
-                    throw new ValidationException("phone number");
-                }
+        Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
+        try{
+            Customer customer = customerRepository.findById(customerId)
+                    .orElseThrow(()-> new ResourceNotFoundException("Customer","id",customerId));
+            Customer updatedCustomer = new Customer();
+            userDataValidator.validateCustomerUpdatedData(customerDto);
+            if(!customerDto.getPhone().equals(customer.getPhone())){
+                userDataValidator.validatePhoneNumber(customerDto.getPhone(),"customer");
             }
+            updatedCustomer = customerMapper.mapToCustomer(customerDto);
+
+            updatedCustomer.getUserAddress().setId(customer.getUserAddress().getId());
+            updatedCustomer.getUserAddress().setCustomer(customer);
+            updatedCustomer.setCars(customer.getCars());
+            updatedCustomer.setId(customer.getId());
+            updatedCustomer.setAccessCode(customer.getAccessCode());
+
+            updatedCustomer = customerRepository.save(updatedCustomer);
+            return customerMapper.mapToNewCustomerDto(updatedCustomer);
+
+        }catch (CarRepairShopApiException | ValidationException e){
+            logger.error(e.getMessage());
+            throw e;
         }
-        updatedCustomer.getUserAddress().setId(customer.getUserAddress().getId());
-        updatedCustomer.getUserAddress().setCustomer(customer);
-
-        updatedCustomer.setCars(customer.getCars());
-        updatedCustomer.setId(customer.getId());
-        updatedCustomer.setAccessCode(customer.getAccessCode());
-
-        updatedCustomer = customerRepository.save(updatedCustomer);
-        return modelMapper.map(updatedCustomer,NewCustomerDto.class);
     }
 
 
@@ -104,11 +107,11 @@ public class CustomerServiceImpl implements CustomerService {
         Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
         try {
             userDataValidator.validateCustomerData(customerDto);
-            Customer customer = modelMapper.map(customerDto, Customer.class);
+            Customer customer = customerMapper.mapToCustomer(customerDto);
             customer.getUserAddress().setCustomer(customer);
             customer.setAccessCode(AccessCodeGenerator.generateCode());
             customer = customerRepository.save(customer);
-            return modelMapper.map(customer, NewCustomerDto.class);
+            return customerMapper.mapToNewCustomerDto(customer);
         } catch (CarRepairShopApiException | ValidationException e) {
             logger.error(e.getMessage());
             throw e;
