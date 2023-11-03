@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+
 @Entity
 @Table(name = "cars",uniqueConstraints = @UniqueConstraint(columnNames = {"registration_number"}))
 public class Car {

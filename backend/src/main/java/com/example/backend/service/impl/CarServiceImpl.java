@@ -8,6 +8,7 @@ import com.example.backend.model.Customer;
 import com.example.backend.payload.Car.CarDto;
 import com.example.backend.payload.Car.NewCarDto;
 import com.example.backend.payload.Car.ShortCarDto;
+import com.example.backend.payload.mapper.CarMapper;
 import com.example.backend.repository.CarInfoRepository;
 import com.example.backend.repository.CarRepository;
 import com.example.backend.repository.CustomerRepository;
@@ -28,13 +29,15 @@ public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
     private final CarInfoRepository carInfoRepository;
     private final ModelMapper modelMapper;
+    private final CarMapper carMapper;
 
-    public CarServiceImpl(CarDataValidator carDataValidator, CustomerRepository customerRepository, CarRepository carRepository, CarInfoRepository carInfoRepository, ModelMapper modelMapper) {
+    public CarServiceImpl(CarDataValidator carDataValidator, CustomerRepository customerRepository, CarRepository carRepository, CarInfoRepository carInfoRepository, ModelMapper modelMapper, CarMapper carMapper) {
         this.carDataValidator = carDataValidator;
         this.customerRepository = customerRepository;
         this.carRepository = carRepository;
         this.carInfoRepository = carInfoRepository;
         this.modelMapper = modelMapper;
+        this.carMapper = carMapper;
     }
 
     @Override
@@ -51,11 +54,12 @@ public class CarServiceImpl implements CarService {
                 throw new CarRepairShopApiException(HttpStatus.BAD_REQUEST,"Vin number already exists in database");
             }
 
-            Car car = modelMapper.map(newCarDto,Car.class);
+            Car car = carMapper.toCar(newCarDto);
             car.getCarInfo().setCar(car);
+            car.setCustomer(customer);
             customer.getCars().add(car);
             customer = customerRepository.save(customer);
-            return modelMapper.map(car,NewCarDto.class);
+            return carMapper.toNewCarDto(car);
             //customer.getCars().add()
 
             }
@@ -79,8 +83,8 @@ public class CarServiceImpl implements CarService {
                 .map((e)-> {
                    String name = e.getCustomer().getName();
                     String lastName = e.getCustomer().getLastname();
-                    ShortCarDto shortCarDto = modelMapper.map(e, ShortCarDto.class);
-                    shortCarDto.setFullOwnerName(name+""+lastName);
+                    ShortCarDto shortCarDto = carMapper.toShortCarDto(e);
+                    shortCarDto.setFullOwnerName(name+" "+lastName);
                     return shortCarDto;
 
                 })

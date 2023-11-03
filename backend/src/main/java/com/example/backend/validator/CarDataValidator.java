@@ -27,7 +27,7 @@ public class CarDataValidator {
         return year >= 1886 && year <= currentYear;
     }
     private boolean validateLicensePlate(String licensePlate){
-        String pattern =  "^[A-Z]{2,3}\\s?[0-9]{4,5}$";
+        String pattern =  "^[A-Z]{2}\\d{5}$|^[A-Z]{2}\\d{4}[A-Z]$";
 
         Pattern regex = Pattern.compile(pattern);
         if(licensePlate != null){
