@@ -6,10 +6,15 @@ import com.example.backend.model.Service;
 import com.example.backend.model.UserAddress;
 import com.example.backend.payload.UserAddressDto;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Set;
-
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class EmployeeDto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

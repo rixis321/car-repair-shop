@@ -31,5 +31,5 @@ public class NewEmployeeDto {
     @NotEmpty(message = "password should not be null or empty")
     private String password;
     @NotNull(message = "user address should not be null")
-    private UserAddressDto userAddress;
+    private UserAddressDto userAddressDto;
 }

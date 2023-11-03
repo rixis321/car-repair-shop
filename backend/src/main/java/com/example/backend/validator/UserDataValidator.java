@@ -44,10 +44,10 @@ public class UserDataValidator {
     public boolean validateEmployeeUpdatedData(NewEmployeeDto newEmployeeDto){
         return  validatePassword(newEmployeeDto.getPassword()) &&
                 validateString(newEmployeeDto.getName()) && validateString(newEmployeeDto.getLastname())
-                && validateString(newEmployeeDto.getUserAddress().getCity())
-                && validateString(newEmployeeDto.getUserAddress().getStreetName())
-                && validateStreetNumber(newEmployeeDto.getUserAddress().getStreetNumber())
-                && validateZipCode(newEmployeeDto.getUserAddress().getZipcode());
+                && validateString(newEmployeeDto.getUserAddressDto().getCity())
+                && validateString(newEmployeeDto.getUserAddressDto().getStreetName())
+                && validateStreetNumber(newEmployeeDto.getUserAddressDto().getStreetNumber())
+                && validateZipCode(newEmployeeDto.getUserAddressDto().getZipcode());
 
     }
 
@@ -55,10 +55,10 @@ public class UserDataValidator {
     public boolean validateEmployeeData(NewEmployeeDto newEmployeeDto){
         return  validateEmail(newEmployeeDto.getEmail()) && validatePassword(newEmployeeDto.getPassword()) &&
                 validateString(newEmployeeDto.getName()) && validateString(newEmployeeDto.getLastname())
-                && validatePhoneNumber(newEmployeeDto.getPhone(),"employee") && validateString(newEmployeeDto.getUserAddress().getCity())
-                && validateString(newEmployeeDto.getUserAddress().getStreetName())
-                && validateStreetNumber(newEmployeeDto.getUserAddress().getStreetNumber())
-                && validateZipCode(newEmployeeDto.getUserAddress().getZipcode());
+                && validatePhoneNumber(newEmployeeDto.getPhone(),"employee") && validateString(newEmployeeDto.getUserAddressDto().getCity())
+                && validateString(newEmployeeDto.getUserAddressDto().getStreetName())
+                && validateStreetNumber(newEmployeeDto.getUserAddressDto().getStreetNumber())
+                && validateZipCode(newEmployeeDto.getUserAddressDto().getZipcode());
 
     }
 

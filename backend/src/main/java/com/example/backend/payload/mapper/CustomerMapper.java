@@ -26,10 +26,10 @@ public interface CustomerMapper {
     NewCustomerDto mapToNewCustomerDto(Customer customer);
 
 
-    UserAddressDto toCarInfoDto(UserAddress userAddress);
+    UserAddressDto toUserAddressDto(UserAddress userAddress);
 
 
-    UserAddress toCarInfo(UserAddressDto userAddressDto);
+    UserAddress toUserAddress(UserAddressDto userAddressDto);
 
     ShortCustomerDto mapToShortCustomerDto(Customer customer);
 }
