@@ -20,7 +20,6 @@ public class CarDto {
     private String model;
     private String registrationNumber;
     private CarType type;
-    private Customer customer;
-    private CarInfo carInfo;
+    private CarInfoDto carInfoDto;
     private List<Diagnosis> diagnoses;
 }

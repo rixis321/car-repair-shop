@@ -89,12 +89,20 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void deleteCar(Long carId) {
+    public String deleteCar(Long carId) {
+        Car car = carRepository.findById(carId).orElseThrow(()->new ResourceNotFoundException("Car","id",carId));
 
+        carRepository.delete(car);
+
+        return "Car deleted successfully";
     }
 
     @Override
     public CarDto getCarById(Long carId) {
-        return null;
+
+        Car car = carRepository.findById(carId).orElseThrow(()-> new ResourceNotFoundException("Car","id",carId));
+        CarDto carDto = carMapper.toCarDto(car);
+        carDto.setCarInfoDto(carMapper.toCarInfoDto(car.getCarInfo()));
+       return carDto;
     }
 }

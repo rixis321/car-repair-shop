@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.payload.Car.CarDto;
 import com.example.backend.payload.Car.NewCarDto;
 import com.example.backend.payload.Car.ShortCarDto;
 import com.example.backend.payload.Customer.NewCustomerDto;
@@ -31,5 +32,14 @@ public class CarController {
     public ResponseEntity<List<ShortCarDto>> getAllCars(){
         return new ResponseEntity<>(carService.getAllCars(),HttpStatus.OK);
 
+    }
+
+    @DeleteMapping("/cars/{carId}")
+    public ResponseEntity<String> deleteCar(@PathVariable Long carId){
+        return new ResponseEntity<>(carService.deleteCar(carId),HttpStatus.OK);
+    }
+    @GetMapping("/cars/{carId}")
+    public ResponseEntity<CarDto> getCarById(@PathVariable Long carId){
+        return new ResponseEntity<>(carService.getCarById(carId),HttpStatus.OK);
     }
 }

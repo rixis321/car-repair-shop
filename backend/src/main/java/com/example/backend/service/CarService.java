@@ -14,7 +14,7 @@ public interface CarService {
 
     List<ShortCarDto> getAllCars();
 
-    void deleteCar(Long carId);
+    String deleteCar(Long carId);
 
     CarDto getCarById(Long carId);
 }

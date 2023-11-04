@@ -4,10 +4,7 @@ import com.example.backend.model.Car;
 import com.example.backend.model.CarInfo;
 import com.example.backend.model.constants.CarType;
 import com.example.backend.model.constants.FuelType;
-import com.example.backend.payload.Car.CarInfoDto;
-import com.example.backend.payload.Car.NewCarDto;
-import com.example.backend.payload.Car.ShortCarCustomerDto;
-import com.example.backend.payload.Car.ShortCarDto;
+import com.example.backend.payload.Car.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -21,6 +18,9 @@ public interface CarMapper {
     @Mapping(target = "customer",ignore = true)
     @Mapping(target = "diagnoses",ignore = true)
     Car toCar(NewCarDto newCarDto);
+
+
+    CarDto toCarDto(Car car);
 
     @Mapping(target = "fullOwnerName", ignore = true)
     ShortCarDto toShortCarDto(Car car);
