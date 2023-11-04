@@ -14,7 +14,6 @@ import com.example.backend.security.JwtTokenProvider;
 import com.example.backend.service.AuthService;
 import com.example.backend.utils.StringCapitalizer;
 import com.example.backend.validator.UserDataValidator;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,8 +39,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserDataValidator userDataValidator;
 
     private final UserAddressRepository userAddressRepository;
-    public AuthServiceImpl(ModelMapper modelMapper,
-                           EmployeeMapper employeeMapper, AuthenticationManager authenticationManager,
+    public AuthServiceImpl(EmployeeMapper employeeMapper, AuthenticationManager authenticationManager,
                            EmployeeRepository employeeRepository, RoleRepository roleRepository,
                            JwtTokenProvider jwtTokenProvider,
                            PasswordEncoder passwordEncoder, UserDataValidator userDataValidator, UserAddressRepository userAddressRepository) {
@@ -91,25 +89,5 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-
-
-//    private Employee mapToEntity(NewEmployeeDto newEmployeeDto){
-//        Employee employee = new Employee();
-//        UserAddress userAddress = modelMapper.map(newEmployeeDto.getUserAddress(),UserAddress.class);
-//        //userAddress = userAddressRepository.save(userAddress);
-//
-//        employee.setUserAddress(userAddress);
-//        employee.setName(newEmployeeDto.getName());
-//        employee.setLastname(newEmployeeDto.getLastname());
-//        employee.setPhone(newEmployeeDto.getPhone());
-//        employee.setPassword(passwordEncoder.encode(newEmployeeDto.getPassword()));
-//        employee.setEmail(newEmployeeDto.getEmail());
-//        employee.getUserAddress().setEmployee(employee);
-//        Set<Role> roles = new HashSet<>();
-//        Role employeeRole = roleRepository.findByName(newEmployeeDto.getRole());
-//        roles.add(employeeRole);
-//        employee.setRoles(roles);
-//        return employee;
-//    }
 
 }

@@ -14,7 +14,6 @@ import com.example.backend.repository.CarRepository;
 import com.example.backend.repository.CustomerRepository;
 import com.example.backend.service.CarService;
 import com.example.backend.validator.CarDataValidator;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -28,15 +27,13 @@ public class CarServiceImpl implements CarService {
     private final CustomerRepository customerRepository;
     private final CarRepository carRepository;
     private final CarInfoRepository carInfoRepository;
-    private final ModelMapper modelMapper;
     private final CarMapper carMapper;
 
-    public CarServiceImpl(CarDataValidator carDataValidator, CustomerRepository customerRepository, CarRepository carRepository, CarInfoRepository carInfoRepository, ModelMapper modelMapper, CarMapper carMapper) {
+    public CarServiceImpl(CarDataValidator carDataValidator, CustomerRepository customerRepository, CarRepository carRepository, CarInfoRepository carInfoRepository, CarMapper carMapper) {
         this.carDataValidator = carDataValidator;
         this.customerRepository = customerRepository;
         this.carRepository = carRepository;
         this.carInfoRepository = carInfoRepository;
-        this.modelMapper = modelMapper;
         this.carMapper = carMapper;
     }
 

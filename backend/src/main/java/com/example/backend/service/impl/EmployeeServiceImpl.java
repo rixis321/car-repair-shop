@@ -11,7 +11,6 @@ import com.example.backend.payload.mapper.EmployeeMapper;
 import com.example.backend.repository.EmployeeRepository;
 import com.example.backend.service.EmployeeService;
 import com.example.backend.validator.UserDataValidator;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
