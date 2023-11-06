@@ -22,7 +22,7 @@ public class CarController {
         this.carService = carService;
     }
 
-    @PostMapping("{customerId}/cars")
+    @PostMapping("/{customerId}/cars")
     public ResponseEntity<NewCarDto> addCar(@RequestBody NewCarDto newCarDto, @PathVariable Long customerId){
 
         return new ResponseEntity<>(carService.addCar(newCarDto,customerId), HttpStatus.CREATED);
