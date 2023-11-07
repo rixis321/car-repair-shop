@@ -4,11 +4,13 @@ import com.example.backend.payload.Diagnosis.DiagnosisDto;
 import com.example.backend.payload.Diagnosis.NewDiagnosisDto;
 import com.example.backend.payload.Diagnosis.ShortDiagnosisDto;
 
+import java.util.List;
+
 public interface DiagnosisService {
 
     NewDiagnosisDto addDiagnosis(NewDiagnosisDto newDiagnosisDto);
 
-    ShortDiagnosisDto getAllDiagnosis();
+    List<ShortDiagnosisDto> getAllDiagnosis();
 
     DiagnosisDto getDiagnosisById(Long diagnosisId);
 

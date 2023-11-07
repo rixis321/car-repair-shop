@@ -1,10 +1,16 @@
 package com.example.backend.payload.mapper;
 
+import com.example.backend.model.Car;
 import com.example.backend.model.Diagnosis;
 import com.example.backend.model.constants.ClientApproval;
+import com.example.backend.payload.Car.CarWithoutDiag;
+import com.example.backend.payload.Diagnosis.DiagnosisDto;
 import com.example.backend.payload.Diagnosis.NewDiagnosisDto;
+import com.example.backend.payload.Diagnosis.ShortDiagnosisDto;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
@@ -19,6 +25,14 @@ public interface DiagnosisMapper {
     @Mapping(target = "carId",source = "car.id")
     @Mapping(target = "employeeId",source = "employee.id")
     NewDiagnosisDto mapToNewDiagnosisDto(Diagnosis diagnosis);
+
+    DiagnosisDto maptoDiagnosisDto(Diagnosis diagnosis);
+
+    @Mapping(source = "carWithoutDiag", target = "car")
+    DiagnosisDto mapCarWithoutDiagToDto(CarWithoutDiag carWithoutDiag);
+    @Mapping(target = "fullNameOfEmployee",source = "employee.name")
+    @Mapping(target = "registrationNumber",source = "car.registrationNumber")
+    ShortDiagnosisDto maptoShortDiagnosisDto(Diagnosis diagnosis);
     default String mapClientApproval(ClientApproval clientApproval) {
         return clientApproval.toString();
     }
@@ -26,4 +40,19 @@ public interface DiagnosisMapper {
     default ClientApproval mapStringToClientApproval(String clientApproval) {
         return ClientApproval.valueOf(clientApproval);
     }
+    @AfterMapping
+    default void combineNameAndLastName(Diagnosis source, @MappingTarget ShortDiagnosisDto target) {
+        target.setFullNameOfEmployee(target.getFullNameOfEmployee() +" "+ source.getEmployee().getLastname());
+    }
+    default CarWithoutDiag mapCarToCarWithoutDiag(Car car) {
+        CarWithoutDiag carWithoutDiag = new CarWithoutDiag();
+        carWithoutDiag.setId(car.getId());
+        carWithoutDiag.setBrand(car.getBrand());
+        carWithoutDiag.setModel(car.getModel());
+        carWithoutDiag.setRegistrationNumber(car.getRegistrationNumber());
+        carWithoutDiag.setType(car.getType());
+        carWithoutDiag.setCarInfoDto(CarMapper.INSTANCE.toCarInfoDto(car.getCarInfo()));
+        return carWithoutDiag;
+    }
+
 }

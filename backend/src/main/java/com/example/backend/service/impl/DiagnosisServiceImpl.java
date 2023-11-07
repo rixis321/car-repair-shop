@@ -15,12 +15,16 @@ import com.example.backend.repository.CarRepository;
 import com.example.backend.repository.DiagnosisRepository;
 import com.example.backend.repository.EmployeeRepository;
 import com.example.backend.service.DiagnosisService;
+import com.example.backend.service.SMSService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
+@Slf4j
 public class DiagnosisServiceImpl implements DiagnosisService {
 
     private final EmployeeRepository employeeRepository;
@@ -28,11 +32,14 @@ public class DiagnosisServiceImpl implements DiagnosisService {
 
     private final DiagnosisMapper diagnosisMapper;
     private final DiagnosisRepository diagnosisRepository;
-    public DiagnosisServiceImpl(EmployeeRepository employeeRepository, CarRepository carRepository, DiagnosisMapper diagnosisMapper, DiagnosisRepository diagnosisRepository) {
+
+    private final SMSService smsService;
+    public DiagnosisServiceImpl(EmployeeRepository employeeRepository, CarRepository carRepository, DiagnosisMapper diagnosisMapper, DiagnosisRepository diagnosisRepository, SMSService smsService) {
         this.employeeRepository = employeeRepository;
         this.carRepository = carRepository;
         this.diagnosisMapper = diagnosisMapper;
         this.diagnosisRepository = diagnosisRepository;
+        this.smsService = smsService;
     }
 
     @Override
@@ -44,11 +51,10 @@ public class DiagnosisServiceImpl implements DiagnosisService {
                 .orElseThrow(()->new ResourceNotFoundException("Car","id",newDiagnosisDto.getCarId()));
 
         if(checkIfStringIsNumber(newDiagnosisDto.getEstimatedCost())){
-
-            Diagnosis diagnosis = diagnosisMapper.mapToDiagnosis(newDiagnosisDto);
             if(newDiagnosisDto.getDescription() == null || newDiagnosisDto.getDescription().isEmpty()){
                 throw new ValidationException("Description");
             }
+            Diagnosis diagnosis = diagnosisMapper.mapToDiagnosis(newDiagnosisDto);
             Instant date = Instant.now();
             diagnosis.setDiagnosisDate(date);
             diagnosis.setClientApproval(ClientApproval.OCZEKUJE);
@@ -63,9 +69,11 @@ public class DiagnosisServiceImpl implements DiagnosisService {
             carRepository.save(car);
             employeeRepository.save(employee);
 
-
-            //todo
-            // wyslanie wiadomosci na nr customera
+            log.info(car.getCustomer().getAccessCode());
+            String customerNumber = "+48" + car.getCustomer().getPhone();
+            log.info(customerNumber);
+            String message = "Status twojej diagnozy samochodu wymaga zatwierdzenia. Kod dostepu: " + car.getCustomer().getAccessCode();
+            //smsService.sendSMS(customerNumber,message);
 
             return diagnosisMapper.mapToNewDiagnosisDto(diagnosis);
 
@@ -74,18 +82,38 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     }
 
     @Override
-    public ShortDiagnosisDto getAllDiagnosis() {
-        return null;
+    public List<ShortDiagnosisDto> getAllDiagnosis() {
+        return diagnosisRepository.findAll()
+                .stream()
+                .map(diagnosisMapper::maptoShortDiagnosisDto)
+                .toList();
     }
 
     @Override
     public DiagnosisDto getDiagnosisById(Long diagnosisId) {
-        return null;
+        Diagnosis diagnosis = diagnosisRepository.findById(diagnosisId)
+                .orElseThrow(()->new ResourceNotFoundException("diagnosis","id",diagnosisId));
+        return diagnosisMapper.maptoDiagnosisDto(diagnosis);
     }
 
     @Override
     public NewDiagnosisDto updateDiagnosis(NewDiagnosisDto newDiagnosisDto, Long diagnosisId) {
-        return null;
+        Diagnosis diagnosis = diagnosisRepository.findById(diagnosisId)
+                .orElseThrow(() -> new ResourceNotFoundException("diagnosis", "id", diagnosisId));
+
+        if (checkIfStringIsNumber(newDiagnosisDto.getEstimatedCost())) {
+            if (newDiagnosisDto.getDescription() == null || newDiagnosisDto.getDescription().isEmpty()) {
+                throw new ValidationException("Description");
+            }
+            Instant date = Instant.now();
+            diagnosis.setDiagnosisDate(date);
+            //TODO
+            return null;
+        }else{
+            throw new CarRepairShopApiException(HttpStatus.BAD_REQUEST,"Diagnosis add error");
+        }
+
+
     }
 
     private boolean checkIfStringIsNumber(String str){

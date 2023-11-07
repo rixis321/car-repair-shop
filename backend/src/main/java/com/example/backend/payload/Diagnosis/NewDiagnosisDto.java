@@ -3,6 +3,7 @@ package com.example.backend.payload.Diagnosis;
 import com.example.backend.model.constants.ClientApproval;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,17 +15,17 @@ import java.time.Instant;
 @NoArgsConstructor
 public class NewDiagnosisDto {
     private long id;
-    @Column(nullable = false)
+    @NotEmpty(message = "car id should not be empty")
     private long carId;
-    @Column(nullable = false)
+    @NotEmpty(message = "employee id should not be empty")
     private long employeeId;
-    @Column(name = "diagnosis_date",nullable = false)
+    @NotEmpty(message = "diagnosis date should not be empty")
     private Instant diagnosisDate;
-    @Column(nullable = false)
+    @NotEmpty(message = "description should not be empty")
     private String description;
 
-    @Column(nullable = false)
+    @NotEmpty(message = "cost should not be empty")
     private String estimatedCost;
-
+    @NotEmpty(message = "diagnosis status should not be empty")
     private ClientApproval clientApproval;
 }
