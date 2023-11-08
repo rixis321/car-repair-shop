@@ -5,8 +5,9 @@ import com.example.backend.model.Diagnosis;
 import com.example.backend.model.constants.ClientApproval;
 import com.example.backend.payload.Car.CarWithoutDiag;
 import com.example.backend.payload.Diagnosis.DiagnosisDto;
+import com.example.backend.payload.Diagnosis.DiagnosisWithEmployee;
 import com.example.backend.payload.Diagnosis.NewDiagnosisDto;
-import com.example.backend.payload.Diagnosis.ShortDiagnosisDto;
+import com.example.backend.payload.Diagnosis.UpdatedDiagnosisDto;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -26,13 +27,20 @@ public interface DiagnosisMapper {
     @Mapping(target = "employeeId",source = "employee.id")
     NewDiagnosisDto mapToNewDiagnosisDto(Diagnosis diagnosis);
 
-    DiagnosisDto maptoDiagnosisDto(Diagnosis diagnosis);
+    DiagnosisDto mapToDiagnosisDto(Diagnosis diagnosis);
+
+    @Mapping(target = "car", ignore = true)
+    @Mapping(target = "employee", ignore = true)
+    @Mapping(target = "service", ignore = true)
+    Diagnosis mapToDiagnosis(UpdatedDiagnosisDto updatedDiagnosisDto);
 
     @Mapping(source = "carWithoutDiag", target = "car")
     DiagnosisDto mapCarWithoutDiagToDto(CarWithoutDiag carWithoutDiag);
     @Mapping(target = "fullNameOfEmployee",source = "employee.name")
     @Mapping(target = "registrationNumber",source = "car.registrationNumber")
-    ShortDiagnosisDto maptoShortDiagnosisDto(Diagnosis diagnosis);
+    DiagnosisWithEmployee maptoShortDiagnosisDto(Diagnosis diagnosis);
+
+    UpdatedDiagnosisDto mapToUpdatedDiagnosisDto(Diagnosis diagnosis);
     default String mapClientApproval(ClientApproval clientApproval) {
         return clientApproval.toString();
     }
@@ -41,7 +49,7 @@ public interface DiagnosisMapper {
         return ClientApproval.valueOf(clientApproval);
     }
     @AfterMapping
-    default void combineNameAndLastName(Diagnosis source, @MappingTarget ShortDiagnosisDto target) {
+    default void combineNameAndLastName(Diagnosis source, @MappingTarget DiagnosisWithEmployee target) {
         target.setFullNameOfEmployee(target.getFullNameOfEmployee() +" "+ source.getEmployee().getLastname());
     }
     default CarWithoutDiag mapCarToCarWithoutDiag(Car car) {

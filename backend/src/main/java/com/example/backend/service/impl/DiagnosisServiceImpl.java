@@ -8,8 +8,9 @@ import com.example.backend.model.Diagnosis;
 import com.example.backend.model.Employee;
 import com.example.backend.model.constants.ClientApproval;
 import com.example.backend.payload.Diagnosis.DiagnosisDto;
+import com.example.backend.payload.Diagnosis.DiagnosisWithEmployee;
 import com.example.backend.payload.Diagnosis.NewDiagnosisDto;
-import com.example.backend.payload.Diagnosis.ShortDiagnosisDto;
+import com.example.backend.payload.Diagnosis.UpdatedDiagnosisDto;
 import com.example.backend.payload.mapper.DiagnosisMapper;
 import com.example.backend.repository.CarRepository;
 import com.example.backend.repository.DiagnosisRepository;
@@ -82,7 +83,7 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     }
 
     @Override
-    public List<ShortDiagnosisDto> getAllDiagnosis() {
+    public List<DiagnosisWithEmployee> getAllDiagnosis() {
         return diagnosisRepository.findAll()
                 .stream()
                 .map(diagnosisMapper::maptoShortDiagnosisDto)
@@ -93,22 +94,30 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     public DiagnosisDto getDiagnosisById(Long diagnosisId) {
         Diagnosis diagnosis = diagnosisRepository.findById(diagnosisId)
                 .orElseThrow(()->new ResourceNotFoundException("diagnosis","id",diagnosisId));
-        return diagnosisMapper.maptoDiagnosisDto(diagnosis);
+        return diagnosisMapper.mapToDiagnosisDto(diagnosis);
     }
 
     @Override
-    public NewDiagnosisDto updateDiagnosis(NewDiagnosisDto newDiagnosisDto, Long diagnosisId) {
+    public UpdatedDiagnosisDto updateDiagnosis(UpdatedDiagnosisDto updatedDiagnosisDto, Long diagnosisId) {
         Diagnosis diagnosis = diagnosisRepository.findById(diagnosisId)
                 .orElseThrow(() -> new ResourceNotFoundException("diagnosis", "id", diagnosisId));
 
-        if (checkIfStringIsNumber(newDiagnosisDto.getEstimatedCost())) {
-            if (newDiagnosisDto.getDescription() == null || newDiagnosisDto.getDescription().isEmpty()) {
+        if (checkIfStringIsNumber(updatedDiagnosisDto.getEstimatedCost())) {
+            if (updatedDiagnosisDto.getDescription() == null || updatedDiagnosisDto.getDescription().isEmpty()) {
                 throw new ValidationException("Description");
             }
+
+            Diagnosis updatedDiagnosis = diagnosisMapper.mapToDiagnosis(updatedDiagnosisDto);
+
             Instant date = Instant.now();
-            diagnosis.setDiagnosisDate(date);
-            //TODO
-            return null;
+            updatedDiagnosis.setDiagnosisDate(date);
+            updatedDiagnosis.setId(diagnosisId);
+            updatedDiagnosis.setService(diagnosis.getService());
+            updatedDiagnosis.setCar(diagnosis.getCar());
+            updatedDiagnosis.setEmployee(diagnosis.getEmployee());
+
+            updatedDiagnosis = diagnosisRepository.save(updatedDiagnosis);
+            return diagnosisMapper.mapToUpdatedDiagnosisDto(updatedDiagnosis);
         }else{
             throw new CarRepairShopApiException(HttpStatus.BAD_REQUEST,"Diagnosis add error");
         }

@@ -1,9 +1,9 @@
 package com.example.backend.controller;
 
-import com.example.backend.payload.Customer.NewCustomerDto;
 import com.example.backend.payload.Diagnosis.DiagnosisDto;
+import com.example.backend.payload.Diagnosis.DiagnosisWithEmployee;
 import com.example.backend.payload.Diagnosis.NewDiagnosisDto;
-import com.example.backend.payload.Diagnosis.ShortDiagnosisDto;
+import com.example.backend.payload.Diagnosis.UpdatedDiagnosisDto;
 import com.example.backend.service.DiagnosisService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public class DiagnosisController {
         return new ResponseEntity<>(diagnosisService.addDiagnosis(newDiagnosisDto), HttpStatus.CREATED);
     }
     @GetMapping("/diagnosis")
-    public ResponseEntity<List<ShortDiagnosisDto>> getAllDiagnosis(){
+    public ResponseEntity<List<DiagnosisWithEmployee>> getAllDiagnosis(){
 
         return new ResponseEntity<>(diagnosisService.getAllDiagnosis(), HttpStatus.OK);
     }
@@ -35,6 +35,12 @@ public class DiagnosisController {
     public ResponseEntity<DiagnosisDto> getDiagnosisById(@PathVariable Long diagnosisId){
 
         return new ResponseEntity<>(diagnosisService.getDiagnosisById(diagnosisId), HttpStatus.OK);
+    }
+    @PutMapping("/diagnosis/{diagnosisId}")
+    public ResponseEntity<UpdatedDiagnosisDto> updateDiagnosis(@RequestBody UpdatedDiagnosisDto updatedDiagnosisDto,
+                                                               @PathVariable Long diagnosisId){
+
+        return new ResponseEntity<>(diagnosisService.updateDiagnosis(updatedDiagnosisDto,diagnosisId), HttpStatus.OK);
     }
 
 }

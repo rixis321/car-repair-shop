@@ -52,4 +52,5 @@ public interface CarMapper {
     default FuelType mapStringToFuelType(String fuelType) {
         return FuelType.valueOf(fuelType);
     }
+
 }

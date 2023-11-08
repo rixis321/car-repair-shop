@@ -11,13 +11,15 @@ import java.time.Instant;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShortDiagnosisDto {
+public class UpdatedDiagnosisDto {
     private long id;
-
-    @NotEmpty(message = "diagnosis status should not be empty")
-    private ClientApproval clientApproval;
     @NotEmpty(message = "diagnosis date should not be empty")
     private Instant diagnosisDate;
     @NotEmpty(message = "description should not be empty")
     private String description;
+
+    @NotEmpty(message = "cost should not be empty")
+    private String estimatedCost;
+    @NotEmpty(message = "diagnosis status should not be empty")
+    private ClientApproval clientApproval;
 }
