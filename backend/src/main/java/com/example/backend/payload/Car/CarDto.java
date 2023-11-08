@@ -12,7 +12,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//TODO diagnoza do naprawienia
 public class CarDto {
     private long id;
     private String brand;
