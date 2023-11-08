@@ -10,7 +10,7 @@ public interface CarService {
 
     NewCarDto addCar(NewCarDto newCarDto, Long customerId);
 
-    NewCarDto updateCar(NewCarDto newCarDto, Long customerId);
+    NewCarDto updateCar(NewCarDto newCarDto, Long carId);
 
     List<ShortCarDto> getAllCars();
 

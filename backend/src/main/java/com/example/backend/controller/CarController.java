@@ -42,4 +42,8 @@ public class CarController {
     public ResponseEntity<CarDto> getCarById(@PathVariable Long carId){
         return new ResponseEntity<>(carService.getCarById(carId),HttpStatus.OK);
     }
+    @PutMapping("/cars/{carId}")
+    public ResponseEntity<NewCarDto> updateCar(@RequestBody NewCarDto newCarDto,@PathVariable Long carId){
+        return new ResponseEntity<>(carService.updateCar(newCarDto,carId),HttpStatus.OK);
+    }
 }

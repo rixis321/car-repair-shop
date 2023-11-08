@@ -14,6 +14,7 @@ import com.example.backend.repository.CarRepository;
 import com.example.backend.repository.CustomerRepository;
 import com.example.backend.service.CarService;
 import com.example.backend.validator.CarDataValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class CarServiceImpl implements CarService {
     private final CarDataValidator carDataValidator;
@@ -69,8 +71,35 @@ public class CarServiceImpl implements CarService {
 
 
     @Override
-    public NewCarDto updateCar(NewCarDto newCarDto, Long customerId) {
-        return null;
+    public NewCarDto updateCar(NewCarDto newCarDto, Long carId) {
+
+        try{
+            Car car = carRepository.findById(carId)
+                    .orElseThrow(()-> new ResourceNotFoundException("Car","id", carId));
+
+            carDataValidator.validateCarData(newCarDto);
+            if(!newCarDto.getRegistrationNumber().equals(car.getRegistrationNumber())){
+                if(carRepository.existsByRegistrationNumber(newCarDto.getRegistrationNumber())){
+                    throw new CarRepairShopApiException(HttpStatus.BAD_REQUEST,"Registration number already exists in database");
+                }
+            }
+            if(!newCarDto.getCarInfoDto().getVinNumber().equals(car.getCarInfo().getVinNumber())){
+                if(carInfoRepository.existsByVinNumber(newCarDto.getCarInfoDto().getVinNumber())){
+                    throw new CarRepairShopApiException(HttpStatus.BAD_REQUEST,"Vin number already exists in database");
+                }
+            }
+            Car updatedCar = carMapper.toCar(newCarDto);
+            updatedCar.setId(car.getId());
+            updatedCar.setCustomer(car.getCustomer());
+            updatedCar.setDiagnoses(car.getDiagnoses());
+            updatedCar.getCarInfo().setId(car.getCarInfo().getId());
+            updatedCar.getCarInfo().setCar(updatedCar);
+            updatedCar = carRepository.save(updatedCar);
+            return  carMapper.toNewCarDto(updatedCar);
+        }catch (CarRepairShopApiException | ValidationException e){
+            log.info(String.valueOf(e));
+            throw e;
+        }
     }
 
     @Override
