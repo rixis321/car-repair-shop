@@ -19,7 +19,7 @@ public class DiagnosisDto {
     private Instant diagnosisDate;
     @NotEmpty(message = "description should not be empty")
     private String description;
-    @Column(nullable = false)
+    @NotEmpty(message = "cost should not be empty")
     private String estimatedCost;
     private ClientApproval clientApproval;
 

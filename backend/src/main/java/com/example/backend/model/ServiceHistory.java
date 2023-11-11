@@ -18,9 +18,6 @@ public class ServiceHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status",nullable = false)
-    private ServiceStatus serviceStatus;
     @Column(nullable = false)
     private String description;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
