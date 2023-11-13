@@ -58,6 +58,7 @@ public class RepairServiceImpl implements RepairService {
             Instant instant = Instant.now();
             serviceHistory.setDate(instant);
             serviceHistory.setDescription("Wprowadzono do systemu");
+            serviceHistory.setEmployee(employee);
 
             service.setServiceStatus(ServiceStatus.ROZPOCZETO);
             service = serviceRepository.save(service);

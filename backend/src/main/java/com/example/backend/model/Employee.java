@@ -38,6 +38,9 @@ public class Employee {
     @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Service> services;
 
+    @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<ServiceHistory> serviceHistories;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "employee_roles",

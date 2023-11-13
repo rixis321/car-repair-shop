@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface RepairHistoryService {
 
-    NewServiceHistoryDto addRepairStage(NewServiceHistoryDto newServiceHistoryDto);
-
-    // historia serwisu todo
+    NewServiceHistoryDto addRepairStage(NewServiceHistoryDto newServiceHistoryDto,Long serviceId,Long employeeId);
     List<ServiceHistoryDto> getServiceRepairHistory(Long serviceId);
 }

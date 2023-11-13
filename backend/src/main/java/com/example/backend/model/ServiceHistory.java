@@ -26,4 +26,7 @@ public class ServiceHistory {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id",nullable = false)
     private Service service;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "employee_id",nullable = false)
+    private Employee employee;
 }
