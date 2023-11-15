@@ -9,12 +9,10 @@ import java.time.Instant;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShortInvoiceDto {
+public class InvoiceWithoutService {
     private long id;
 
     private Instant issueDate;
 
     private String invoiceNumber;
-
-    //todo serviceDto
 }

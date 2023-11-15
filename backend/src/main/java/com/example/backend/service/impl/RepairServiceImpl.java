@@ -5,24 +5,22 @@ import com.example.backend.exception.ResourceNotFoundException;
 import com.example.backend.exception.ValidationException;
 import com.example.backend.model.Diagnosis;
 import com.example.backend.model.Employee;
+import com.example.backend.model.Invoice;
 import com.example.backend.model.ServiceHistory;
 import com.example.backend.model.constants.ClientApproval;
 import com.example.backend.model.constants.ServiceStatus;
 import com.example.backend.payload.Service.ServiceDto;
 import com.example.backend.payload.Service.ShortServiceDto;
 import com.example.backend.payload.mapper.ServiceMapper;
-import com.example.backend.repository.DiagnosisRepository;
-import com.example.backend.repository.EmployeeRepository;
-import com.example.backend.repository.ServiceHistoryRepository;
-import com.example.backend.repository.ServiceRepository;
+import com.example.backend.repository.*;
 import com.example.backend.service.RepairService;
+import com.example.backend.utils.InvoiceNumberGenerator;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class RepairServiceImpl implements RepairService {
@@ -31,13 +29,15 @@ public class RepairServiceImpl implements RepairService {
     private final ServiceHistoryRepository serviceHistoryRepository;
     private final ServiceMapper serviceMapper;
     private final ServiceRepository serviceRepository;
+    private final InvoiceRepository invoiceRepository;
 
-    public RepairServiceImpl(EmployeeRepository employeeRepository, DiagnosisRepository diagnosisRepository, ServiceHistoryRepository serviceHistoryRepository, ServiceMapper serviceMapper, ServiceRepository serviceRepository) {
+    public RepairServiceImpl(EmployeeRepository employeeRepository, DiagnosisRepository diagnosisRepository, ServiceHistoryRepository serviceHistoryRepository, ServiceMapper serviceMapper, ServiceRepository serviceRepository, InvoiceRepository invoiceRepository) {
         this.employeeRepository = employeeRepository;
         this.diagnosisRepository = diagnosisRepository;
         this.serviceHistoryRepository = serviceHistoryRepository;
         this.serviceMapper = serviceMapper;
         this.serviceRepository = serviceRepository;
+        this.invoiceRepository = invoiceRepository;
     }
 
     @Override
@@ -94,8 +94,34 @@ public class RepairServiceImpl implements RepairService {
 
     @Override
     public ServiceDto getServiceById(Long serviceId) {
-        return null;
+       com.example.backend.model.Service service = serviceRepository
+               .findById(serviceId)
+               .orElseThrow(()->new ResourceNotFoundException("Service","id",serviceId));
+
+       return serviceMapper.mapToServiceDto(service);
+
+
     }
+
+    @Override
+    public ShortServiceDto updateServiceStatus(Long serviceId, ServiceStatus serviceStatus) {
+        com.example.backend.model.Service service = serviceRepository
+                .findById(serviceId)
+                .orElseThrow(()->new ResourceNotFoundException("Service","id",serviceId));
+
+        service.setServiceStatus(serviceStatus);
+        service = serviceRepository.save(service);
+        if(serviceStatus.equals(ServiceStatus.OCZEKUJE_NA_KLIENTA)){
+            Invoice invoice = new Invoice();
+            invoice.setInvoiceNumber(InvoiceNumberGenerator.generateInvoiceNumber());
+            invoice.setIssueDate(Instant.now());
+
+            invoice.setService(service);
+            invoice = invoiceRepository.save(invoice);
+        }
+        return serviceMapper.mapToShortServiceDto(service);
+    }
+
 
     @Override
     public ShortServiceDto updateService(ShortServiceDto shortServiceDto, Long serviceId) {

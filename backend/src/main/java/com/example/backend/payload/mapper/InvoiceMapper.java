@@ -1,8 +1,8 @@
 package com.example.backend.payload.mapper;
 
 import com.example.backend.model.Invoice;
-import com.example.backend.payload.Invoice.InvoiceDto;
 import com.example.backend.payload.Invoice.ShortInvoiceDto;
+import com.example.backend.payload.Invoice.InvoiceDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -10,8 +10,8 @@ import org.mapstruct.factory.Mappers;
 public interface InvoiceMapper {
     InvoiceMapper INSTANCE = Mappers.getMapper(InvoiceMapper.class);
 
-    ShortInvoiceDto mapToShortInvoiceDto(Invoice invoice);
-    InvoiceDto mapToInvoiceDto(Invoice invoice);
-    Invoice mapToInvoice(ShortInvoiceDto shortInvoiceDto);
+    InvoiceDto mapToShortInvoiceDto(Invoice invoice);
+    ShortInvoiceDto mapToInvoiceDto(Invoice invoice);
     Invoice mapToInvoice(InvoiceDto invoiceDto);
+    Invoice mapToInvoice(ShortInvoiceDto shortInvoiceDto);
 }

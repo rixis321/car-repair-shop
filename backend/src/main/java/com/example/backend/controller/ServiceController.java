@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.model.constants.ServiceStatus;
+import com.example.backend.payload.Service.ServiceDto;
 import com.example.backend.payload.Service.ShortServiceDto;
 import com.example.backend.service.RepairService;
 import org.springframework.http.HttpStatus;
@@ -41,5 +42,13 @@ public class ServiceController {
     public ResponseEntity<List<ShortServiceDto>>  getAllServices(){
 
         return new ResponseEntity<>(repairService.getAllServices(), HttpStatus.OK);
+    }
+    @GetMapping("/services/{serviceId}")
+    public ResponseEntity<ServiceDto> getServiceById(@PathVariable Long serviceId){
+        return new ResponseEntity<>(repairService.getServiceById(serviceId),HttpStatus.OK);
+    }
+    @PutMapping("/services/{serviceId}/status")
+    public ResponseEntity<ShortServiceDto> updateServiceStatus(@PathVariable Long serviceId,@RequestParam ServiceStatus status){
+        return new ResponseEntity<>(repairService.updateServiceStatus(serviceId,status),HttpStatus.OK);
     }
 }

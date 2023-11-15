@@ -51,6 +51,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerDto getCustomerByAccessCode(String accessCode) {
         Customer customer = customerRepository.findCustomerByAccessCode(accessCode).orElseThrow(()-> new CarRepairShopApiException(HttpStatus.BAD_REQUEST,"Invalid code"));
 
+        //todo tutaj wszystkie jego dane
         return customerMapper.mapToCustomerDto(customer);
     }
 

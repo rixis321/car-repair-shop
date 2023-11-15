@@ -2,6 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.model.constants.ServiceStatus;
 import com.example.backend.payload.Service.ServiceDto;
+import com.example.backend.payload.Service.ServiceWithoutInvoices;
 import com.example.backend.payload.Service.ShortServiceDto;
 
 import java.util.List;
@@ -14,6 +15,10 @@ public interface RepairService {
 
     List<ShortServiceDto> getServicesByStatus(ServiceStatus serviceStatus);
     ServiceDto getServiceById(Long serviceId);
+
+    ShortServiceDto updateServiceStatus(Long serviceId, ServiceStatus serviceStatus);
+
+   // ServiceWithoutInvoices getServiceWithoutInvoices(Long serviceId);
 
     ShortServiceDto updateService(ShortServiceDto shortServiceDto, Long serviceId);
 }

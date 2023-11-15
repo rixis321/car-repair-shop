@@ -1,11 +1,9 @@
 package com.example.backend.payload.Invoice;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,5 +14,6 @@ public class InvoiceDto {
 
     private String invoiceNumber;
 
-    //todo serviceDto
+    private String fullOwnerName;
+    private String fullCarName;
 }
