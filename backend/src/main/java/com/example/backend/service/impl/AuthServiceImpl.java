@@ -16,6 +16,7 @@ import com.example.backend.utils.StringCapitalizer;
 import com.example.backend.validator.UserDataValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -63,7 +64,11 @@ public class AuthServiceImpl implements AuthService {
         Employee employee = employeeRepository.findByEmail(loginDto.getEmail()).orElseThrow(
                 ()-> new UsernameNotFoundException("User not found with that email"));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return jwtTokenProvider.generateToken(authentication,employee.getId());
+       Role role = employee.getRoles()
+                .stream()
+                .findFirst()
+                .orElseThrow(()-> new CarRepairShopApiException(HttpStatus.NOT_FOUND,"Role not found"));
+        return jwtTokenProvider.generateToken(authentication,employee.getId(),role.getName());
     }
 
     @Override
@@ -81,6 +86,7 @@ public class AuthServiceImpl implements AuthService {
             Role employeeRole = roleRepository.findByName(newEmployeeDto.getRole());
             roles.add(employeeRole);
             employee.setRoles(roles);
+            employee.setPassword(passwordEncoder.encode(employee.getPassword()));
             employee = employeeRepository.save(employee);
             return employeeMapper.mapToNewEmployeeDto(employee);
         } catch (CarRepairShopApiException | ValidationException e) {
