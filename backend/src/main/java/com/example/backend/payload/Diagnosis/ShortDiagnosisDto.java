@@ -20,4 +20,6 @@ public class ShortDiagnosisDto {
     private Instant diagnosisDate;
     @NotEmpty(message = "description should not be empty")
     private String description;
+
+    private String estimatedCost;
 }

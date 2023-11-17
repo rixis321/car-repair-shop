@@ -5,6 +5,7 @@ import com.example.backend.model.UserAddress;
 import com.example.backend.payload.Customer.CustomerDto;
 import com.example.backend.payload.Customer.NewCustomerDto;
 import com.example.backend.payload.Customer.ShortCustomerDto;
+import com.example.backend.payload.Customer.ShortCustomerWithoutCode;
 import com.example.backend.payload.UserAddressDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -20,6 +21,7 @@ public interface CustomerMapper {
     @Mapping(target = "accessCode", ignore = true)
     Customer mapToCustomer(NewCustomerDto newCustomerDto);
 
+    ShortCustomerWithoutCode mapToShortCustomerWithoutCode(Customer customer);
     @Mapping(target = "userAddressDto", source = "userAddress")
     CustomerDto mapToCustomerDto(Customer customer);
     @Mapping(target = "userAddressDto", source = "userAddress")

@@ -1,9 +1,7 @@
 package com.example.backend.controller;
 
-import com.example.backend.payload.Diagnosis.DiagnosisDto;
-import com.example.backend.payload.Diagnosis.DiagnosisWithEmployee;
-import com.example.backend.payload.Diagnosis.NewDiagnosisDto;
-import com.example.backend.payload.Diagnosis.UpdatedDiagnosisDto;
+import com.example.backend.model.constants.ClientApproval;
+import com.example.backend.payload.Diagnosis.*;
 import com.example.backend.service.DiagnosisService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +39,12 @@ public class DiagnosisController {
                                                                @PathVariable Long diagnosisId){
 
         return new ResponseEntity<>(diagnosisService.updateDiagnosis(updatedDiagnosisDto,diagnosisId), HttpStatus.OK);
+    }
+    @PutMapping("/diagnosis/{diagnosisId}/status")
+    public ResponseEntity<UpdatedDiagnosisDto> updateDiagnosisStatus(@PathVariable Long diagnosisId,
+                                                               @RequestParam ClientApproval status){
+
+        return new ResponseEntity<>(diagnosisService.updateDiagnosisStatus(diagnosisId,status), HttpStatus.OK);
     }
 
 }

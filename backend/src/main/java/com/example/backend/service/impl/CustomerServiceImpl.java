@@ -7,6 +7,7 @@ import com.example.backend.model.Customer;
 import com.example.backend.payload.Customer.CustomerDto;
 import com.example.backend.payload.Customer.NewCustomerDto;
 import com.example.backend.payload.Customer.ShortCustomerDto;
+import com.example.backend.payload.Customer.ShortCustomerWithoutCode;
 import com.example.backend.payload.mapper.CustomerMapper;
 import com.example.backend.repository.UserAddressRepository;
 import com.example.backend.repository.CustomerRepository;
@@ -45,14 +46,6 @@ public class CustomerServiceImpl implements CustomerService {
        Customer customer = customerRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("customer","id",id));
 
        return customerMapper.mapToCustomerDto(customer);
-    }
-
-    @Override
-    public CustomerDto getCustomerByAccessCode(String accessCode) {
-        Customer customer = customerRepository.findCustomerByAccessCode(accessCode).orElseThrow(()-> new CarRepairShopApiException(HttpStatus.BAD_REQUEST,"Invalid code"));
-
-        //todo tutaj wszystkie jego dane
-        return customerMapper.mapToCustomerDto(customer);
     }
 
     @Override
@@ -117,6 +110,14 @@ public class CustomerServiceImpl implements CustomerService {
             logger.error(e.getMessage());
             throw e;
         }
+    }
+
+    @Override
+    public ShortCustomerWithoutCode getCustomerByAccessCode(String accessCode) {
+        Customer customer = customerRepository.findCustomerByAccessCode(accessCode)
+                .orElseThrow(() -> new CarRepairShopApiException(HttpStatus.BAD_REQUEST, "Invalid code"));
+
+        return customerMapper.mapToShortCustomerWithoutCode(customer);
     }
 
 }

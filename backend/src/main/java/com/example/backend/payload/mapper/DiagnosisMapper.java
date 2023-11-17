@@ -4,10 +4,7 @@ import com.example.backend.model.Car;
 import com.example.backend.model.Diagnosis;
 import com.example.backend.model.constants.ClientApproval;
 import com.example.backend.payload.Car.CarWithoutDiag;
-import com.example.backend.payload.Diagnosis.DiagnosisDto;
-import com.example.backend.payload.Diagnosis.DiagnosisWithEmployee;
-import com.example.backend.payload.Diagnosis.NewDiagnosisDto;
-import com.example.backend.payload.Diagnosis.UpdatedDiagnosisDto;
+import com.example.backend.payload.Diagnosis.*;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -38,7 +35,9 @@ public interface DiagnosisMapper {
     DiagnosisDto mapCarWithoutDiagToDto(CarWithoutDiag carWithoutDiag);
     @Mapping(target = "fullNameOfEmployee",source = "employee.name")
     @Mapping(target = "registrationNumber",source = "car.registrationNumber")
-    DiagnosisWithEmployee maptoShortDiagnosisDto(Diagnosis diagnosis);
+    DiagnosisWithEmployee mapToDiagnosisWithEmployee(Diagnosis diagnosis);
+
+    ShortDiagnosisDto mapToShortDiagnosisDto(Diagnosis diagnosis);
 
     UpdatedDiagnosisDto mapToUpdatedDiagnosisDto(Diagnosis diagnosis);
     default String mapClientApproval(ClientApproval clientApproval) {

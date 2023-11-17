@@ -1,10 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.model.constants.ClientApproval;
-import com.example.backend.payload.Diagnosis.DiagnosisDto;
-import com.example.backend.payload.Diagnosis.DiagnosisWithEmployee;
-import com.example.backend.payload.Diagnosis.NewDiagnosisDto;
-import com.example.backend.payload.Diagnosis.UpdatedDiagnosisDto;
+import com.example.backend.payload.Diagnosis.*;
 
 import java.util.List;
 
@@ -19,7 +16,9 @@ public interface DiagnosisService {
     UpdatedDiagnosisDto updateDiagnosis(UpdatedDiagnosisDto updatedDiagnosisDto, Long diagnosisId);
 
     //todo update diagnozy po statusie po stronie usera
-    UpdatedDiagnosisDto updateDiagnosisByStatus(ClientApproval clientApproval);
+    UpdatedDiagnosisDto updateDiagnosisStatus(Long diagnosisId ,ClientApproval clientApproval);
+
+    List<ShortDiagnosisDto> getCustomerDiagnosesWithWaitingStatus(Long customerId);
 
 
 }

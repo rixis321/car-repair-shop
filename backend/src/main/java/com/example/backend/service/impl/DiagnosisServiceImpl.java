@@ -4,15 +4,14 @@ import com.example.backend.exception.CarRepairShopApiException;
 import com.example.backend.exception.ResourceNotFoundException;
 import com.example.backend.exception.ValidationException;
 import com.example.backend.model.Car;
+import com.example.backend.model.Customer;
 import com.example.backend.model.Diagnosis;
 import com.example.backend.model.Employee;
 import com.example.backend.model.constants.ClientApproval;
-import com.example.backend.payload.Diagnosis.DiagnosisDto;
-import com.example.backend.payload.Diagnosis.DiagnosisWithEmployee;
-import com.example.backend.payload.Diagnosis.NewDiagnosisDto;
-import com.example.backend.payload.Diagnosis.UpdatedDiagnosisDto;
+import com.example.backend.payload.Diagnosis.*;
 import com.example.backend.payload.mapper.DiagnosisMapper;
 import com.example.backend.repository.CarRepository;
+import com.example.backend.repository.CustomerRepository;
 import com.example.backend.repository.DiagnosisRepository;
 import com.example.backend.repository.EmployeeRepository;
 import com.example.backend.service.DiagnosisService;
@@ -34,12 +33,14 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     private final DiagnosisMapper diagnosisMapper;
     private final DiagnosisRepository diagnosisRepository;
 
+    private final CustomerRepository customerRepository;
     private final SMSService smsService;
-    public DiagnosisServiceImpl(EmployeeRepository employeeRepository, CarRepository carRepository, DiagnosisMapper diagnosisMapper, DiagnosisRepository diagnosisRepository, SMSService smsService) {
+    public DiagnosisServiceImpl(EmployeeRepository employeeRepository, CarRepository carRepository, DiagnosisMapper diagnosisMapper, DiagnosisRepository diagnosisRepository, CustomerRepository customerRepository, SMSService smsService) {
         this.employeeRepository = employeeRepository;
         this.carRepository = carRepository;
         this.diagnosisMapper = diagnosisMapper;
         this.diagnosisRepository = diagnosisRepository;
+        this.customerRepository = customerRepository;
         this.smsService = smsService;
     }
 
@@ -86,7 +87,7 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     public List<DiagnosisWithEmployee> getAllDiagnosis() {
         return diagnosisRepository.findAll()
                 .stream()
-                .map(diagnosisMapper::maptoShortDiagnosisDto)
+                .map(diagnosisMapper::mapToDiagnosisWithEmployee)
                 .toList();
     }
 
@@ -123,6 +124,29 @@ public class DiagnosisServiceImpl implements DiagnosisService {
         }
 
 
+    }
+
+    @Override
+    public UpdatedDiagnosisDto updateDiagnosisStatus(Long diagnosisId, ClientApproval clientApproval) {
+        Diagnosis diagnosis = diagnosisRepository.findById(diagnosisId)
+                .orElseThrow(() -> new ResourceNotFoundException("diagnosis", "id", diagnosisId));
+
+        diagnosis.setClientApproval(clientApproval);
+        diagnosis = diagnosisRepository.save(diagnosis);
+        return diagnosisMapper.mapToUpdatedDiagnosisDto(diagnosis);
+    }
+
+    @Override
+    public List<ShortDiagnosisDto> getCustomerDiagnosesWithWaitingStatus(Long customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer","id",customerId));
+
+        return customer.getCars()
+                .stream()
+                .flatMap(car -> car.getDiagnoses().stream())
+                .filter(diagnosis -> diagnosis.getClientApproval() == ClientApproval.OCZEKUJE)
+                .map(diagnosisMapper::mapToShortDiagnosisDto)
+                .toList();
     }
 
     private boolean checkIfStringIsNumber(String str){
