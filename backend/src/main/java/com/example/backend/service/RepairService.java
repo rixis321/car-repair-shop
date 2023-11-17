@@ -21,4 +21,6 @@ public interface RepairService {
    // ServiceWithoutInvoices getServiceWithoutInvoices(Long serviceId);
 
     ShortServiceDto updateService(ShortServiceDto shortServiceDto, Long serviceId);
+
+    List<ShortServiceDto> getCustomerServices(Long customerId);
 }

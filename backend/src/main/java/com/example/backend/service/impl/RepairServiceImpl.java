@@ -3,10 +3,7 @@ package com.example.backend.service.impl;
 import com.example.backend.exception.CarRepairShopApiException;
 import com.example.backend.exception.ResourceNotFoundException;
 import com.example.backend.exception.ValidationException;
-import com.example.backend.model.Diagnosis;
-import com.example.backend.model.Employee;
-import com.example.backend.model.Invoice;
-import com.example.backend.model.ServiceHistory;
+import com.example.backend.model.*;
 import com.example.backend.model.constants.ClientApproval;
 import com.example.backend.model.constants.ServiceStatus;
 import com.example.backend.payload.Service.ServiceDto;
@@ -15,7 +12,6 @@ import com.example.backend.payload.mapper.ServiceMapper;
 import com.example.backend.repository.*;
 import com.example.backend.service.RepairService;
 import com.example.backend.utils.InvoiceNumberGenerator;
-import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -30,14 +26,16 @@ public class RepairServiceImpl implements RepairService {
     private final ServiceMapper serviceMapper;
     private final ServiceRepository serviceRepository;
     private final InvoiceRepository invoiceRepository;
+    private final CustomerRepository customerRepository;
 
-    public RepairServiceImpl(EmployeeRepository employeeRepository, DiagnosisRepository diagnosisRepository, ServiceHistoryRepository serviceHistoryRepository, ServiceMapper serviceMapper, ServiceRepository serviceRepository, InvoiceRepository invoiceRepository) {
+    public RepairServiceImpl(EmployeeRepository employeeRepository, DiagnosisRepository diagnosisRepository, ServiceHistoryRepository serviceHistoryRepository, ServiceMapper serviceMapper, ServiceRepository serviceRepository, InvoiceRepository invoiceRepository, CustomerRepository customerRepository) {
         this.employeeRepository = employeeRepository;
         this.diagnosisRepository = diagnosisRepository;
         this.serviceHistoryRepository = serviceHistoryRepository;
         this.serviceMapper = serviceMapper;
         this.serviceRepository = serviceRepository;
         this.invoiceRepository = invoiceRepository;
+        this.customerRepository = customerRepository;
     }
 
     @Override
@@ -148,6 +146,26 @@ public class RepairServiceImpl implements RepairService {
             }
         }
 
+    }
+
+    @Override
+    public List<ShortServiceDto> getCustomerServices(Long customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(()->new ResourceNotFoundException("Customer","id",customerId));
+
+        return customer.getCars()
+                .stream()
+                .flatMap(car -> car.getDiagnoses().stream())
+                .filter(diagnosis -> diagnosis.getService() != null)
+                .filter(diagnosis -> isDesiredStatus(diagnosis.getService().getServiceStatus()))
+                .map(diagnosis -> serviceMapper.mapToShortServiceDto(diagnosis.getService()))
+                .toList();
+
+    }
+    private boolean isDesiredStatus(ServiceStatus status) {
+        return status == ServiceStatus.ROZPOCZETO
+                || status == ServiceStatus.W_TRAKCIE
+                || status == ServiceStatus.OCZEKUJE_NA_KLIENTA;
     }
 
     private boolean checkIfStringIsNumber(String str){
