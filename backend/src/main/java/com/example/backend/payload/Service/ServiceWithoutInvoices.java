@@ -1,6 +1,7 @@
 package com.example.backend.payload.Service;
 
 import com.example.backend.model.constants.ServiceStatus;
+import com.example.backend.payload.History.NewServiceHistoryDto;
 import com.example.backend.payload.History.ServiceHistoryDto;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -22,5 +23,5 @@ public class ServiceWithoutInvoices {
     @NotEmpty(message = "service status should not be empty")
     private ServiceStatus serviceStatus;
 
-    private List<ServiceHistoryDto> serviceHistory;
+    private List<NewServiceHistoryDto> serviceHistory;
 }

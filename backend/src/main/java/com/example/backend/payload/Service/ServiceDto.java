@@ -2,7 +2,7 @@ package com.example.backend.payload.Service;
 
 import com.example.backend.model.constants.ServiceStatus;
 import com.example.backend.payload.History.ServiceHistoryDto;
-import com.example.backend.payload.Invoice.InvoiceDto;
+import com.example.backend.payload.Invoice.ShortInvoiceDto;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,5 +25,5 @@ public class ServiceDto {
 
     private List<ServiceHistoryDto> serviceHistory;
 
-    private List<InvoiceDto> invoices;
+    private List<ShortInvoiceDto> invoices;
 }

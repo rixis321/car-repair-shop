@@ -1,6 +1,7 @@
 package com.example.backend.payload.mapper;
 
 import com.example.backend.model.Diagnosis;
+import com.example.backend.model.Invoice;
 import com.example.backend.model.Service;
 import com.example.backend.model.ServiceHistory;
 import com.example.backend.model.constants.CarType;
@@ -9,6 +10,7 @@ import com.example.backend.payload.Diagnosis.DiagnosisWithEmployee;
 import com.example.backend.payload.History.NewServiceHistoryDto;
 import com.example.backend.payload.History.ServiceHistoryDto;
 import com.example.backend.payload.Service.ServiceDto;
+import com.example.backend.payload.Service.ServiceWithoutInvoices;
 import com.example.backend.payload.Service.ShortServiceDto;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
@@ -24,7 +26,6 @@ public interface ServiceMapper {
     @Mapping(target = "serviceHistories",ignore = true)
     @Mapping(target = "invoices",ignore = true)
     Service mapToService(ShortServiceDto shortServiceDto);
-
     @Mapping(target = "serviceHistory",source = "serviceHistories")
     ServiceDto mapToServiceDto(Service service);
     ShortServiceDto mapToShortServiceDto(Service service);
@@ -33,6 +34,9 @@ public interface ServiceMapper {
     ServiceHistory mapToServiceHistory(NewServiceHistoryDto newServiceHistoryDto);
 
     NewServiceHistoryDto mapToNewServiceHistoryDto(ServiceHistory serviceHistory);
+
+    @Mapping(target = "serviceHistory",source = "serviceHistories")
+    ServiceWithoutInvoices mapToServiceWithoutInvoices(Service service);
 
     @Mapping(target = "fullEmployeeName",source = "employee.name")
     ServiceHistoryDto mapToServiceHistoryDto(ServiceHistory serviceHistory);
