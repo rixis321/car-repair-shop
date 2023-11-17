@@ -8,7 +8,9 @@ import com.example.backend.model.Customer;
 import com.example.backend.payload.Car.CarDto;
 import com.example.backend.payload.Car.NewCarDto;
 import com.example.backend.payload.Car.ShortCarDto;
+import com.example.backend.payload.Service.ShortServiceDto;
 import com.example.backend.payload.mapper.CarMapper;
+import com.example.backend.payload.mapper.ServiceMapper;
 import com.example.backend.repository.CarInfoRepository;
 import com.example.backend.repository.CarRepository;
 import com.example.backend.repository.CustomerRepository;
@@ -21,6 +23,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @Service
@@ -31,12 +35,15 @@ public class CarServiceImpl implements CarService {
     private final CarInfoRepository carInfoRepository;
     private final CarMapper carMapper;
 
-    public CarServiceImpl(CarDataValidator carDataValidator, CustomerRepository customerRepository, CarRepository carRepository, CarInfoRepository carInfoRepository, CarMapper carMapper) {
+    private final ServiceMapper serviceMapper;
+
+    public CarServiceImpl(CarDataValidator carDataValidator, CustomerRepository customerRepository, CarRepository carRepository, CarInfoRepository carInfoRepository, CarMapper carMapper, ServiceMapper serviceMapper) {
         this.carDataValidator = carDataValidator;
         this.customerRepository = customerRepository;
         this.carRepository = carRepository;
         this.carInfoRepository = carInfoRepository;
         this.carMapper = carMapper;
+        this.serviceMapper = serviceMapper;
     }
 
     @Override
@@ -132,6 +139,12 @@ public class CarServiceImpl implements CarService {
         Car car = carRepository.findById(carId).orElseThrow(()-> new ResourceNotFoundException("Car","id",carId));
         CarDto carDto = carMapper.toCarDto(car);
         carDto.setCarInfoDto(carMapper.toCarInfoDto(car.getCarInfo()));
+        List<ShortServiceDto> services = car.getDiagnoses().stream()
+                .flatMap(diagnosis -> Stream.ofNullable(diagnosis.getService()))
+                .map(serviceMapper::mapToShortServiceDto)
+                .collect(Collectors.toList());
+
+        carDto.setServices(services);
        return carDto;
     }
 }
