@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 public interface EmployeeMapper {
     EmployeeMapper INSTANCE = Mappers.getMapper(EmployeeMapper.class);
     @Mapping(target = "userAddressDto", source = "userAddress")
-    @Mapping(target = "diagnoses", ignore = true)
-    @Mapping(target = "services", ignore = true)
     EmployeeDto mapToEmployeeDto(Employee employee);
 
     ShortEmployeeDto mapToShortEmployeeDto(Employee employee);

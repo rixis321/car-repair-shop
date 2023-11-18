@@ -4,6 +4,9 @@ import com.example.backend.model.Diagnosis;
 import com.example.backend.model.Role;
 import com.example.backend.model.Service;
 import com.example.backend.model.UserAddress;
+import com.example.backend.payload.Diagnosis.ShortDiagnosisDto;
+import com.example.backend.payload.Service.ServiceWithoutInvoices;
+import com.example.backend.payload.Service.ShortServiceDto;
 import com.example.backend.payload.UserAddressDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,7 +33,7 @@ public class EmployeeDto {
     @Column(nullable = false)
     private String password;
     private UserAddressDto userAddressDto;
-    private List<Diagnosis> diagnoses;
-    private List<Service> services;
+    private List<ShortDiagnosisDto> diagnoses;
+    private List<ServiceWithoutInvoices> services;
     private Set<Role> roles;
 }

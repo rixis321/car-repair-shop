@@ -8,7 +8,9 @@ import com.example.backend.payload.Employee.EmployeeDto;
 import com.example.backend.payload.Employee.NewEmployeeDto;
 import com.example.backend.payload.Employee.ShortEmployeeDto;
 import com.example.backend.payload.mapper.EmployeeMapper;
+import com.example.backend.payload.mapper.ServiceMapper;
 import com.example.backend.repository.EmployeeRepository;
+import com.example.backend.repository.ServiceHistoryRepository;
 import com.example.backend.service.EmployeeService;
 import com.example.backend.validator.UserDataValidator;
 import org.slf4j.Logger;
@@ -22,11 +24,14 @@ public class EmployeeServiceImpl  implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
     private final UserDataValidator userDataValidator;
-
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, UserDataValidator userDataValidator) {
+    private final ServiceHistoryRepository serviceHistoryRepository;
+    private final ServiceMapper serviceMapper;
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, UserDataValidator userDataValidator, ServiceHistoryRepository serviceHistoryRepository, ServiceMapper serviceMapper) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
         this.userDataValidator = userDataValidator;
+        this.serviceHistoryRepository = serviceHistoryRepository;
+        this.serviceMapper = serviceMapper;
     }
 
     @Override
@@ -34,7 +39,12 @@ public class EmployeeServiceImpl  implements EmployeeService {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Employee","id",id));
 
-        return employeeMapper.mapToEmployeeDto(employee);
+        EmployeeDto employeeDto = employeeMapper.mapToEmployeeDto(employee);
+        employeeDto.setServices(employee.getServices()
+                .stream()
+                .map(serviceMapper::mapToServiceWithoutInvoices)
+                .toList());
+        return employeeDto;
     }
 
     @Override
