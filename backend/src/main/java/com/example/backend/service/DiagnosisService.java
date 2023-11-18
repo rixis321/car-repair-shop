@@ -14,10 +14,7 @@ public interface DiagnosisService {
     DiagnosisDto getDiagnosisById(Long diagnosisId);
 
     UpdatedDiagnosisDto updateDiagnosis(UpdatedDiagnosisDto updatedDiagnosisDto, Long diagnosisId);
-
-    //todo update diagnozy po statusie po stronie usera
     UpdatedDiagnosisDto updateDiagnosisStatus(Long diagnosisId ,ClientApproval clientApproval);
-
     List<ShortDiagnosisDto> getCustomerDiagnosesWithWaitingStatus(Long customerId);
 
 
