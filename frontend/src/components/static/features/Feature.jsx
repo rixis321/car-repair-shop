@@ -9,7 +9,7 @@ import image5 from  "../../../../assets/image5.jpg"
 import image6 from  "../../../../assets/image6.jpg"
 const Feature = () => {
     return (
-        <div className="feature">
+        <div className="feature" id={"about"}>
             <h1>Zalety naszego systemu</h1>
             <p>Nasze narzędzia pozwalają na efektywną prace warsztatu samochodowego
                 oraz poprawiają obsługę klienta. </p>

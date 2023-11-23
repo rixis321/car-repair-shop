@@ -51,7 +51,9 @@
 .nav-links:hover{
     filter: brightness(120%);
 }
-
+.NavbarItems li {
+    cursor: pointer;
+}
 .nav-links-mobile{
     display: none;
 }

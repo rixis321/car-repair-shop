@@ -2,7 +2,7 @@ import React from 'react';
 import "./footer-styles.css"
 const Footer = () => {
     return (
-        <div className="footer">
+        <div className="footer" id="contact">
             <div className="top">
                 <div>
                     <h1>Warsztat samochodowy</h1>
@@ -13,7 +13,7 @@ const Footer = () => {
                 <div className="row">
                     <div className="col-md-6">
                         <h4>Kontakt</h4>
-                        <p>nr. tel: +48 123-456-789</p>
+                        <p>nr. tel: 123-456-789</p>
                         <p>email: konrsyg825@student.polsl.pl</p>
                     </div>
                     <div className="col-md-6">

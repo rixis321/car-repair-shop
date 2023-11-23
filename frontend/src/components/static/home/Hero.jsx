@@ -3,7 +3,7 @@ import "./hero-styles.css"
 const Hero = (props) => {
     return (
         <>
-            <div className={props.cName}>
+            <div className={props.cName} id={"/"}>
                 <img src={props.heroImg} alt="HerpImg" />
 
                 <div className="hero-text">
