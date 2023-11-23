@@ -30,28 +30,27 @@
     color: #01959a;
 }
 
-.bottom{
-    padding-top: 2rem;
-    text-align: start;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+.container{
+    margin: 0;
 }
 
-.bottom div{
-    display: flex;
-    flex-direction: column;
-}
-
-.bottom h4{
-    font-size: 1.2rem;
+.container h4{
+    font-size: 1.5rem;
     padding: 1rem 0 .8rem 0;
     color:  #957C3D;
 
 
 }
+.row{
+    margin-top: 20px;
+    margin-left: 180px;
+}
 
-.bottom a{
+.container p{
+    font-size: 1.1rem;
+}
+
+.container a{
     text-decoration: none;
     color:  #957C3D;
     padding-bottom: 0.4rem;

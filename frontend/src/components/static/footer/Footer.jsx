@@ -8,49 +8,22 @@ const Footer = () => {
                     <h1>Warsztat samochodowy</h1>
                     <p>Profesjonalne podejście i zadowolenie klienta</p>
                 </div>
-                <div>
-                    <a href="/">
-                        <i className="fa-brands fa-facebook-square"></i>
-                    </a>
-                    <a href="/">
-                        <i className="fa-brands fa-instagram-square"></i>
-                    </a>
-                    <a href="/">
-                        <i className="fa-brands fa-github-square"></i>
-                    </a>
-                    <a href="/">
-                        <i className="fa-brands fa-twitter-square"></i>
-                    </a>
+            </div>
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-6">
+                        <h4>Kontakt</h4>
+                        <p>nr. tel: +48 123-456-789</p>
+                        <p>email: konrsyg825@student.polsl.pl</p>
+                    </div>
+                    <div className="col-md-6">
+                        <h4>Nasz profil</h4>
+                        <p><a href="https://www.linkedin.com/in/konrad-sygut-9aa95126a/">Linkedin</a></p>
+                        <p><a href="https://github.com/rixis321">Github</a></p>
+                    </div>
                 </div>
             </div>
-            <div className="bottom">
-                <div>
-                    <h4>Project</h4>
-                    <a href="/">Changelog</a>
-                    <a href="/">Status</a>
-                    <a href="/">Licence</a>
-                    <a href="/">All Versions</a>
-                </div>
-                <div>
-                    <h4>Community</h4>
-                    <a href="/">GitHub</a>
-                    <a href="/">Issues</a>
-                    <a href="/">Project</a>
-                    <a href="/">Twitter</a>
-                </div>
-                <div>
-                    <h4>Help</h4>
-                    <a href="/">Support</a>
-                    <a href="/">Troubleshooting</a>
-                    <a href="/">Contact us</a>
-                </div>
-                <div>
-                    <h4>Others</h4>
-                    <a href="/">Terms of Service</a>
-                    <a href="/">Privacy Policy</a>
-                    <a href="/">Licence</a>
-                </div>
-            </div>
+
         </div>
     );
 };
