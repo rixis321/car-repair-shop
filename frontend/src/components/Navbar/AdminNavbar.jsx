@@ -17,7 +17,7 @@ const AdminNavbar = () => {
         <header id="header" className={`header fixed-top d-flex align-items-center ${isDropdownVisible ? 'dropdown-open' : ''}`}>
             <div className="d-flex align-items-center justify-content-between">
                 <a  className="logo d-flex align-items-center">
-                    <span className="d-none d-lg-block">Warsztat samochodowy</span>
+                    <span className="d-sm-flex d-lg-block">Warsztat samochodowy</span>
                 </a>
             </div>
             <nav className="header-nav ms-auto">
