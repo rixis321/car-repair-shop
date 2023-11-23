@@ -1,0 +1,95 @@
+:root {
+    scroll-behavior: smooth;
+
+}
+a {
+    color: #4154f1;
+    text-decoration: none;
+}
+
+a:hover {
+    filter: brightness(120%);
+    text-decoration: none;
+}
+.logo span {
+    font-size: 26px;
+    font-weight: 700;
+    color: #957C3D;
+    font-family: "Nunito", sans-serif;
+}
+.logo span:hover{
+    filter: brightness(120%);
+}
+.header .toggle-sidebar-btn {
+    font-size: 32px;
+    padding-left: 10px;
+    cursor: pointer;
+    color: #957C3D;
+    margin-top: 4px;
+}
+.header .toggle-sidebar-btn:hover{
+    filter: brightness(120%);
+}
+.header {
+    transition: all 0.5s;
+    z-index: 997;
+    height: 60px;
+    box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
+    background-color: #002349;
+    padding-left: 0px;
+}
+.header-nav ul {
+    list-style: none;
+}
+.header-nav>ul {
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #957C3D;
+}
+@media (max-width: 991px) {
+    .nav-profile .dropdown-toggle {
+        display: inline !important;
+    }
+    .logo {
+        padding: 0;
+    }
+}
+.header.dropdown-open .dropdown-menu {
+    display: block;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow.profile.animated-dropdown li h6 {
+    font-size: 20px; /* Dostosuj rozmiar tekstu pierwszego elementu */
+    text-align: center; /* Wycentruj tekst */
+}
+.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow.profile.animated-dropdown li:first-child {
+    font-size: 17px; /* Dostosuj rozmiar tekstu pierwszego elementu */
+    text-align: center; /* Wycentruj tekst */
+}
+.animated-dropdown {
+    animation: fadeIn 0.4s ease-out;
+    margin-left: -50px;
+}
+.header-nav .profile .dropdown-item {
+    line-height: 1; /* Dostosuj wartość, jeśli to konieczne */
+    font-size: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+.header-nav .profile .dropdown-item i {
+    margin-right: 10px;
+    font-size: 20px;
+    line-height: 0;
+}
