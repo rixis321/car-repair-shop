@@ -1,0 +1,38 @@
+.main{
+    background-color:  #002349;
+    max-height: 670px;
+    width: 100%;
+}
+.card{
+    background-color: #001c2d;
+}
+.container .box{
+    margin-left: 270px;
+    margin-bottom: 120px;
+}
+.card-title{
+    color: #957C3D;
+    margin-bottom: 40px;
+}
+.form-label{
+    color: #957C3D;
+
+}
+.row{
+    margin-left: 0;
+}
+.col-12 label{
+    margin-right: 290px;
+    margin-bottom: 15px;
+}
+
+.col-lg-4 {
+    margin-bottom: 200px;
+}
+.btn {
+    margin-top: 20px;
+}
+.logo{
+    margin-left: 10px;
+}
+

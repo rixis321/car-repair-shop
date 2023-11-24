@@ -29,6 +29,12 @@
 .top i:hover {
     color: #01959a;
 }
+.top h1{
+    margin-left: -30px;
+}
+.top p {
+    margin-left: -10px;
+}
 
 .container{
     margin: 0;
