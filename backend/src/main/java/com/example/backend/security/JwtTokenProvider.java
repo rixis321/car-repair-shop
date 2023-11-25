@@ -23,13 +23,14 @@ public class JwtTokenProvider {
     @Value("${app-jwt-expiration-milliseconds}")
     private long jwtExpirationDate;
 
-    public String generateToken(Authentication authentication, Long employeeId,String role){
+    public String generateToken(Authentication authentication, Long employeeId,String role,String name){
         String email = authentication.getName();
         Date currentDate = new Date();
         Date expiredDate = new Date(currentDate.getTime() + jwtExpirationDate);
         Map<String, Object> claims = new HashMap<>();
         claims.put("id",employeeId);
         claims.put("role",role);
+        claims.put("name",name);
         return Jwts.builder()
                 .setSubject(email)
                 .claims(claims)
