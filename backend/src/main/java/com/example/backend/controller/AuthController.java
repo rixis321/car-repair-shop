@@ -7,10 +7,7 @@ import com.example.backend.service.AuthService;
 import com.example.backend.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -29,8 +26,7 @@ public class AuthController {
         jwtAuthResponse.setAccessToken(token);
 
         return ResponseEntity.ok()
-                .header("Authorization","Bearer " + jwtAuthResponse.getAccessToken())
-                .body("Login successful");
+                .body("Bearer "+ jwtAuthResponse.getAccessToken());
     }
 
     @PostMapping("/register")

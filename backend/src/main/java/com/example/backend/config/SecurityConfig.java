@@ -2,6 +2,10 @@ package com.example.backend.config;
 
 import com.example.backend.security.JwtAuthenticationEntryPoint;
 import com.example.backend.security.JwtAuthenticationFilter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,6 +21,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -46,7 +59,7 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
-         httpSecurity.csrf(AbstractHttpConfigurer::disable)
+         httpSecurity.cors().and().csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize)->
                         authorize.requestMatchers(HttpMethod.POST,"/api/**").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/api/**").permitAll()
@@ -64,5 +77,21 @@ public class SecurityConfig {
 
         return httpSecurity.build();
     }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        final CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowedMethods((List.of("GET", "POST", "PUT", "DELETE")));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders((List.of("Authorization", "Cache-Control", "Content-Type")));
+
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
+
+
 }
 
