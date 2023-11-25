@@ -36,3 +36,11 @@
     margin-left: 10px;
 }
 
+.nameWorkspace p{
+    margin-bottom: 0;
+    font-size: 1.1rem;
+}
+.nameWorkspace h5{
+    margin-bottom: 15px;
+}
+
