@@ -1,6 +1,7 @@
 package com.example.backend.security;
 
 import com.example.backend.exception.CarRepairShopApiException;
+import com.example.backend.model.Employee;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -23,14 +24,15 @@ public class JwtTokenProvider {
     @Value("${app-jwt-expiration-milliseconds}")
     private long jwtExpirationDate;
 
-    public String generateToken(Authentication authentication, Long employeeId,String role,String name){
+    public String generateToken(Authentication authentication, Employee employee,String role){
         String email = authentication.getName();
         Date currentDate = new Date();
         Date expiredDate = new Date(currentDate.getTime() + jwtExpirationDate);
         Map<String, Object> claims = new HashMap<>();
-        claims.put("id",employeeId);
+        claims.put("id",employee.getId());
         claims.put("role",role);
-        claims.put("name",name);
+        claims.put("name",employee.getName());
+        claims.put("lastName",employee.getLastname());
         return Jwts.builder()
                 .setSubject(email)
                 .claims(claims)

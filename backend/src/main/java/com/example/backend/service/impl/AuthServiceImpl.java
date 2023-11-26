@@ -68,7 +68,7 @@ public class AuthServiceImpl implements AuthService {
                 .stream()
                 .findFirst()
                 .orElseThrow(()-> new CarRepairShopApiException(HttpStatus.NOT_FOUND,"Role not found"));
-        return jwtTokenProvider.generateToken(authentication,employee.getId(),role.getName(),employee.getName());
+        return jwtTokenProvider.generateToken(authentication,employee,role.getName());
     }
 
     @Override
