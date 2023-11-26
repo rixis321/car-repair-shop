@@ -12,10 +12,17 @@ const Login = () => {
     const [email,setEmail] = useState("");
     const [password,setPassword]= useState("");
     const [errorMessage,setErrorMessage]= useState("");
-    const {setAuth} = useContext(AuthContext)
+    const {auth,setAuth} = useContext(AuthContext)
+
     useEffect(()=>{
         setErrorMessage("")
     },[email,password]);
+
+    useEffect(() => {
+        if (auth.accessToken) {
+            navigate("/dashboard");
+        }
+    }, [auth.accessToken]);
 
     const handleSubmit = async(e) =>{
         e.preventDefault();
