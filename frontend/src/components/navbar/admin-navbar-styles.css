@@ -93,3 +93,22 @@ a:hover {
     font-size: 20px;
     line-height: 0;
 }
+.dropdown-header h6{
+    color: #957C3D;
+}
+.workspace-row a,i{
+    color: #957C3D;
+}
+.workspace-row a:hover{
+    filter: brightness(120%);
+}
+.workspace-container{
+    background-color: #002349;
+}
+.dropdown-header span{
+    color: #957C3D;
+}
+.dropdown-item:hover{
+    background-color: hsl(206, 100%, 20%);
+}
+
