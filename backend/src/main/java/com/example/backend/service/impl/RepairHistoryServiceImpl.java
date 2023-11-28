@@ -67,4 +67,34 @@ public class RepairHistoryServiceImpl implements RepairHistoryService {
 
 
     }
+
+
+    @Override
+    public List<ServiceHistoryDto> getLastServiceRepairHistoryByEmployeeId(Long employeeId) {
+      Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(()-> new ResourceNotFoundException("Employee","id",employeeId));
+      if(
+              employee.getRoles()
+                      .stream()
+                      .findFirst()
+                      .filter(role -> role.getName().equals("ADMIN"))
+                      .isPresent()
+      )
+        {
+          return serviceHistoryRepository.findAll()
+                  .stream()
+                  .sorted((a,b)-> b.getDate().compareTo(a.getDate()))
+                  .limit(10)
+                  .map(serviceMapper::mapToServiceHistoryDto)
+                  .toList();
+        }
+      else{
+          return employee.getServiceHistories()
+                  .stream()
+                  .sorted((a,b)-> b.getDate().compareTo(a.getDate()))
+                  .limit(10)
+                  .map(serviceMapper::mapToServiceHistoryDto)
+                  .toList();
+      }
+    }
 }

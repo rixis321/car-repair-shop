@@ -35,6 +35,7 @@ public class ServiceHistoryController {
         List<ServiceHistoryDto> historyDtoList = repairHistoryService.getServiceRepairHistory(serviceId);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         if(isAuthorizedUser(authentication)){
             return new ResponseEntity<>(historyDtoList, HttpStatus.CREATED);
         }else{
@@ -53,4 +54,5 @@ public class ServiceHistoryController {
     private boolean isAuthorizedUser(Authentication authentication) {
         return hasAnyRole(authentication, "ADMIN", "RECEPCJONISTA", "MECHANIK");
     }
+
 }
