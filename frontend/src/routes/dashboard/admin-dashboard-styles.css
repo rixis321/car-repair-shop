@@ -10,7 +10,7 @@
 }
 
 .sidebar-wrapper {
-    width: 250px; /* Ustaw szerokość AdminSidebar */
+    width: 250px;
 }
 
 .content-wrapper {
@@ -21,4 +21,49 @@
     border-radius: 5px;
     margin-top: 60px;
     overflow: auto;
+
+}
+.example-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.example-content .card {
+    width: 380px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.example-content .card-title.titleEmp{
+    font-size: 1.5rem;
+    margin-bottom: 25px;
+}
+
+.example-content .icon {
+    font-size: 2.5rem;
+    margin-right: 10px;
+}
+
+.example-content .card-number {
+    color: #957C3D;
+    font-size: 2.6rem;
+    margin-top: -5px;
+}
+.example-content .icon-number {
+    text-align: center;
+}
+.example-content{
+    margin-left: 15px;
+}
+.content-wrapper h2{
+    text-align: left;
+    margin-left: 32px;
+    padding: 20px;
+    border: solid black;
+    border-radius: 10px;
+}
+.activity{
+    margin-top: 25px;
 }
