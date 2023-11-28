@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface ServiceRepository extends JpaRepository<Service,Long> {
     Optional<Service> findByServiceStatus(ServiceStatus serviceStatus);
+    long countByServiceStatus(ServiceStatus serviceStatus);
 }

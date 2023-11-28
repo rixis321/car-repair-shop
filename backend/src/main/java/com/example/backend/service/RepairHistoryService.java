@@ -9,4 +9,5 @@ public interface RepairHistoryService {
 
     NewServiceHistoryDto addRepairStage(NewServiceHistoryDto newServiceHistoryDto,Long serviceId,Long employeeId);
     List<ServiceHistoryDto> getServiceRepairHistory(Long serviceId);
+    List<ServiceHistoryDto> getLastServiceRepairHistoryByEmployeeId(Long employeeId);
 }
