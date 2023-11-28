@@ -3,21 +3,21 @@ import "./admin-navbar-styles.css"
 import {Link} from "react-router-dom";
 import {jwtDecode} from "jwt-decode";
 import AuthContext from "../../security/AuthProvider.jsx";
+import {useNavigate} from "react-router";
 
 const AdminNavbar = () => {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
     const {auth,setAuth} = useContext(AuthContext)
+    let navigate = useNavigate();
     const toggleDropdown = () => {
         setDropdownVisible(!isDropdownVisible);
     };
     const handleLogout = () =>{
         sessionStorage.clear();
         setAuth({accessToken:null})
-    }
+        navigate("/")
 
-    const closeDropdown = () => {
-        setDropdownVisible(false);
-    };
+    }
     const token = jwtDecode(auth.accessToken)
 
     return (
@@ -59,7 +59,7 @@ const AdminNavbar = () => {
                                 <li>
                                     <a className="dropdown-item d-flex align-items-center workspace-row" href="">
                                         <i className="bi bi-person "></i>
-                                        <Link className={"logout"} to={"/"} onClick={handleLogout}>
+                                        <Link className={"logout"}  onClick={handleLogout}>
                                             <span>Mój profil</span>
                                         </Link>
                                     </a>

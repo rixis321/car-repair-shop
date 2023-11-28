@@ -1,41 +1,8 @@
-const sidebarData = [
+const mechanicSidebarData = [
     {
         label: 'Panel główny',
         icon: 'bi-grid',
         to: '/dashboard',
-    },
-    {
-        label: 'Pracownicy',
-        icon: 'bi-person-vcard',
-        subitems: [
-            {
-                label: 'Lista pracowników',
-                icon: 'bi-circle',
-                to: '/employees',
-            },
-            {
-                label: 'Dodaj pracownika',
-                icon: 'bi-circle',
-                to: '/employees/add',
-            },
-        ],
-    },
-    {
-        label: 'Klienci',
-        icon: 'bi bi-building-fill',
-        subitems: [
-            {
-                label: 'Lista klientów',
-                icon: 'bi-circle',
-                to: '/customers',
-            },
-            {
-                label: 'Dodaj klienta',
-                icon: 'bi-circle',
-                to: '/customers/add',
-            },
-
-        ],
     },
     {
         label: 'Samochody',
@@ -87,11 +54,6 @@ const sidebarData = [
 
         ],
     },
-    {
-        label: 'Faktury',
-        icon: 'bi bi-pass-fill',
-        to: "/invoices"
-    },
 
 ];
-export default sidebarData;
+export default mechanicSidebarData;
