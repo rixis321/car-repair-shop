@@ -4,13 +4,13 @@ import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import AuthContext from "../../security/AuthProvider.jsx";
 import {Navigate, useNavigate} from "react-router";
 import { Container, Row } from "react-bootstrap";
-import "./admin-dashboard-styles.css";
+import "./dashboard-styles.css";
 import DashboardCard from "../../components/dashboard/DashboardCard.jsx";
 import { jwtDecode } from "jwt-decode";
 import api from "../../api/axiosConfig.js";
 import dateFormat from "../../utils/DateFormat.jsx";
 
-const AdminDashboard = () => {
+const Dashboard = () => {
     const { auth } = useContext(AuthContext);
     let navigate = useNavigate();
     const [responseData, setResponseData] = useState(null);
@@ -96,4 +96,4 @@ const AdminDashboard = () => {
     );
 };
 
-export default AdminDashboard;
+export default Dashboard;

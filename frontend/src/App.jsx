@@ -3,10 +3,12 @@ import './App.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 import {Routes} from "react-router";
 import {Route} from "react-router-dom";
-import AdminDashboard from "./routes/dashboard/AdminDashboard.jsx";
+import Dashboard from "./routes/dashboard/Dashboard.jsx";
 import Home from "./routes/static/Home.jsx";
 import LoginPage from "./routes/login/LoginPage.jsx";
 import {AuthProvider} from "./security/AuthProvider.jsx";
+import Employees from "./routes/employees/Employees.jsx";
+import EmployeeDetails from "./routes/employees/EmployeeDetails.jsx";
 
 function App() {
 
@@ -14,7 +16,9 @@ function App() {
       <AuthProvider>
           <Routes>
               <Route path={"/"} element={<Home/>}/>
-              <Route path={"/dashboard/*"} element={<AdminDashboard/>}/>
+              <Route path={"/dashboard/*"} element={<Dashboard/>}/>
+              <Route path={"/employees"} element={<Employees/>}/>
+              <Route path={"/employees/:id"} element={<EmployeeDetails/>}/>
               <Route path={"/login"} element={<LoginPage/>}/>
           </Routes>
       </AuthProvider>

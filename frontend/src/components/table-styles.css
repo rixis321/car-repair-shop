@@ -1,0 +1,23 @@
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-span{
+    cursor: pointer;
+    color: blue;
+    margin-bottom: 5px;
+}
+
+.delete-span {
+    cursor: pointer;
+    color: red;
+}
+.pagination-container {
+    display: flex;
+    justify-content: center;
+
+}
+th {
+    cursor: pointer;
+}
