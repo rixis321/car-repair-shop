@@ -1,19 +1,20 @@
-// Employees.jsx
-import React, { useContext } from 'react';
-import { Navigate, Link } from 'react-router-dom';
+import React from 'react';
+import {useContext, useEffect, useState} from  "react"
+import AuthContext from "../../security/AuthProvider.jsx";
+import {Link, Navigate} from "react-router-dom";
+import api from "../../api/axiosConfig.js";
 import AdminNavbar from "../../components/navbar/AdminNavbar.jsx";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
+import {Button, Container} from "react-bootstrap";
 import GenericTable from "../../components/GenericTable.jsx";
-import { Button, Container, Row } from "react-bootstrap";
-import AuthContext from "../../security/AuthProvider.jsx";
-import api from "../../api/axiosConfig.js";
-import { useState, useEffect } from "react";
 
-const Employees = () => {
+
+const Cars = () => {
+
     const { auth } = useContext(AuthContext);
     const [responseData, setResponseData] = useState(null);
 
-    const [employeesPerPage] = useState(7);
+    const [carsPerPage] = useState(7);
     const [currentPage, setCurrentPage] = useState(1);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
@@ -28,15 +29,16 @@ const Employees = () => {
 
     const fetchData = async () => {
         try {
-            const response = await api.get("/employees", {
+            const response = await api.get("/cars", {
                 headers: { "Content-Type": "Application/json", "Authorization": auth.accessToken }
             });
+
             setResponseData(response.data);
         } catch (err) {
             console.log(err);
         }
     };
-
+    console.log(responseData)
     // zmiana strony
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -44,11 +46,9 @@ const Employees = () => {
     const handleSort = (key) => {
         setSortConfig({ key, direction: sortConfig.direction === 'asc' ? 'desc' : 'asc' });
     };
-    const handleDetailsClick = (employeeId) => {
-        return <Link to={`/employees/${employeeId}`}>Szczegóły</Link>;
+    const handleDetailsClick = (carId) => {
+        return <Link to={`/cars/${carId}`}>Szczegóły</Link>;
     };
-
-    console.log(responseData)
     return (
         <>
             <div className="admin-container">
@@ -58,24 +58,23 @@ const Employees = () => {
                         <Sidebar />
                     </div>
                     <div className="content-wrapper">
-                        <h2>Pracownicy</h2>
+                        <h2>Samochody</h2>
                         <Container fluid>
                             <GenericTable
                                 data={responseData}
                                 columns={[
-                                    { key: 'name', label: 'Imię' },
-                                    { key: 'lastname', label: 'Nazwisko' },
-                                    { key: 'phone', label: 'Telefon' },
-                                    { key: 'email', label: 'Email' },
-                                    { key: 'roles[0].name', label: 'Rola' },
+                                    { key: 'brand', label: 'Marka' },
+                                    { key: 'model', label: 'Model' },
+                                    { key: 'fullOwnerName', label: 'Właściciel' },
+                                    { key: 'registrationNumber', label: 'Nr.rejestracyjny' },
                                 ]}
-                                onDelete={(employeeId) => handleDelete(employeeId)}
+                                onDelete={(carId) => handleDelete(carId)}
                                 onPageChange={(pageNumber) => handlePageChange(pageNumber)}
                                 sortConfig={sortConfig}
                                 onSort={(key) => handleSort(key)}
                                 currentPage={currentPage}
-                                itemsPerPage={employeesPerPage}
-                                onDetailsClick={(employeeId) => handleDetailsClick(employeeId)}
+                                itemsPerPage={carsPerPage}
+                                onDetailsClick={(carId) => handleDetailsClick(carId)}
                             />
                         </Container>
                     </div>
@@ -85,4 +84,4 @@ const Employees = () => {
     );
 };
 
-export default Employees;
+export default Cars;

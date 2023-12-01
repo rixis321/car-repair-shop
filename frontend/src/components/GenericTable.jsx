@@ -61,14 +61,13 @@ const GenericTable = ({
         if (roles && roles.length > 0 && roles[0].name) {
             return roles[0].name;
         } else {
-            return 'No Role'; // Or any default value you prefer
+            return 'No Role';
         }
     };
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = data ? sortedData().slice(indexOfFirstItem, indexOfLastItem) : [];
-//                    const cellValue = column.key === 'roles[0].name' ? getFirstRoleName(item.roles) : item[column.key];
-//                     console.log(`Column Key: ${column.key}, Cell Value: ${cellValue}`);
+
     return (
         <>
         <Container fluid>

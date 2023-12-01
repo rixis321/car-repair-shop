@@ -9,6 +9,9 @@ import LoginPage from "./routes/login/LoginPage.jsx";
 import {AuthProvider} from "./security/AuthProvider.jsx";
 import Employees from "./routes/employees/Employees.jsx";
 import EmployeeDetails from "./routes/employees/EmployeeDetails.jsx";
+import Diagnoses from "./routes/diagnosis/Diagnoses.jsx";
+import Customers from "./routes/customers/Customers.jsx";
+import Cars from "./routes/cars/Cars.jsx";
 
 function App() {
 
@@ -19,6 +22,9 @@ function App() {
               <Route path={"/dashboard/*"} element={<Dashboard/>}/>
               <Route path={"/employees"} element={<Employees/>}/>
               <Route path={"/employees/:id"} element={<EmployeeDetails/>}/>
+              <Route path={"/diagnosis"} element={<Diagnoses/>}/>
+              <Route path={"/customers"} element={<Customers/>}/>
+              <Route path={"/cars"} element={<Cars/>}/>
               <Route path={"/login"} element={<LoginPage/>}/>
           </Routes>
       </AuthProvider>

@@ -1,0 +1,7 @@
+.filter-buttons{
+    display: block;
+    display: flex;
+    padding: 12px;
+    margin-left: 10px;
+    gap: 1rem;
+}
