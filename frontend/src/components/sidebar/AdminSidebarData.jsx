@@ -1,4 +1,4 @@
-const sidebarData = [
+const adminSidebarData = [
     {
         label: 'Panel główny',
         icon: 'bi-grid',
@@ -44,12 +44,12 @@ const sidebarData = [
             {
                 label: 'Lista samochodów',
                 icon: 'bi-circle',
-                to: '/customers/cars',
+                to: '/cars',
             },
             {
                 label: 'Dodaj samochód',
                 icon: 'bi-circle',
-                to: '/customers/cars/add',
+                to: '/cars/add',
             },
 
         ],
@@ -61,12 +61,12 @@ const sidebarData = [
             {
                 label: 'Lista diagnoz',
                 icon: 'bi-circle',
-                to: '/diagnoses',
+                to: '/diagnosis',
             },
             {
                 label: 'Dodaj diagnoze',
                 icon: 'bi-circle',
-                to: '/diagnoses/add',
+                to: '/diagnosis/add',
             },
         ],
     },
@@ -94,4 +94,4 @@ const sidebarData = [
     },
 
 ];
-export default sidebarData;
+export default adminSidebarData;

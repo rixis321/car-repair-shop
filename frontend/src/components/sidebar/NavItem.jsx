@@ -1,7 +1,7 @@
 import React from 'react';
 import {Route, Link } from 'react-router-dom';
 import {Routes} from "react-router";
-import "./admin-sidebar-styless.css"
+import "./sidebar-styless.css"
 const NavItemWithSubitems = ({ icon, label, subitems }) => {
     const [isOpen, setIsOpen] = React.useState(false);
 
