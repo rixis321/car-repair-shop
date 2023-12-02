@@ -13,6 +13,8 @@ import Diagnoses from "./routes/diagnosis/Diagnoses.jsx";
 import Customers from "./routes/customers/Customers.jsx";
 import Cars from "./routes/cars/Cars.jsx";
 import EmployeesAdd from "./routes/employees/EmployeesAdd.jsx";
+import CustomersAdd from "./routes/customers/CustomersAdd.jsx";
+import CarsAdd from "./routes/cars/CarsAdd.jsx";
 
 function App() {
 
@@ -26,7 +28,9 @@ function App() {
               <Route path={"/employees/add"} element={<EmployeesAdd/>}/>
               <Route path={"/diagnosis"} element={<Diagnoses/>}/>
               <Route path={"/customers"} element={<Customers/>}/>
+              <Route path={"/customers/add"} element={<CustomersAdd/>}/>
               <Route path={"/cars"} element={<Cars/>}/>
+              <Route path={"/cars/add"} element={<CarsAdd/>}/>
               <Route path={"/login"} element={<LoginPage/>}/>
           </Routes>
       </AuthProvider>
