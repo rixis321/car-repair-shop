@@ -6,19 +6,27 @@ import com.example.backend.exception.ValidationException;
 import com.example.backend.model.*;
 import com.example.backend.model.constants.ClientApproval;
 import com.example.backend.model.constants.ServiceStatus;
+import com.example.backend.payload.History.ServiceHistoryDto;
+import com.example.backend.payload.Invoice.ShortInvoiceDto;
 import com.example.backend.payload.Service.ServiceDto;
 import com.example.backend.payload.Service.ShortServiceDto;
+import com.example.backend.payload.mapper.InvoiceMapper;
 import com.example.backend.payload.mapper.ServiceMapper;
 import com.example.backend.repository.*;
 import com.example.backend.service.RepairService;
 import com.example.backend.utils.InvoiceNumberGenerator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class RepairServiceImpl implements RepairService {
     private final EmployeeRepository employeeRepository;
     private final DiagnosisRepository diagnosisRepository;
@@ -27,8 +35,9 @@ public class RepairServiceImpl implements RepairService {
     private final ServiceRepository serviceRepository;
     private final InvoiceRepository invoiceRepository;
     private final CustomerRepository customerRepository;
+    private final InvoiceMapper invoiceMapper;
 
-    public RepairServiceImpl(EmployeeRepository employeeRepository, DiagnosisRepository diagnosisRepository, ServiceHistoryRepository serviceHistoryRepository, ServiceMapper serviceMapper, ServiceRepository serviceRepository, InvoiceRepository invoiceRepository, CustomerRepository customerRepository) {
+    public RepairServiceImpl(EmployeeRepository employeeRepository, DiagnosisRepository diagnosisRepository, ServiceHistoryRepository serviceHistoryRepository, ServiceMapper serviceMapper, ServiceRepository serviceRepository, InvoiceRepository invoiceRepository, CustomerRepository customerRepository, InvoiceMapper invoiceMapper) {
         this.employeeRepository = employeeRepository;
         this.diagnosisRepository = diagnosisRepository;
         this.serviceHistoryRepository = serviceHistoryRepository;
@@ -36,6 +45,7 @@ public class RepairServiceImpl implements RepairService {
         this.serviceRepository = serviceRepository;
         this.invoiceRepository = invoiceRepository;
         this.customerRepository = customerRepository;
+        this.invoiceMapper = invoiceMapper;
     }
 
     @Override
@@ -96,7 +106,24 @@ public class RepairServiceImpl implements RepairService {
                .findById(serviceId)
                .orElseThrow(()->new ResourceNotFoundException("Service","id",serviceId));
 
-       return serviceMapper.mapToServiceDto(service);
+        Set<ShortInvoiceDto> invoices = invoiceRepository.findByServiceId(serviceId)
+                .stream().map(invoiceMapper::mapToShortInvoiceDto).collect(Collectors.toSet());
+
+
+        ServiceDto serviceDto = new ServiceDto();
+        serviceDto.setInvoices(invoices);
+        serviceDto.setCarId(service.getDiagnosis().getCar().getId());
+        serviceDto.setServiceStatus(service.getServiceStatus());
+
+      List<ServiceHistoryDto> history = service.getServiceHistories()
+              .stream()
+              .map(serviceMapper::mapToServiceHistoryDto)
+              .toList();
+         serviceDto.setServiceHistory(history);
+         serviceDto.setDescription(service.getDescription());
+         serviceDto.setId(service.getId());
+         serviceDto.setCost(service.getCost());
+          return serviceDto;
 
 
     }

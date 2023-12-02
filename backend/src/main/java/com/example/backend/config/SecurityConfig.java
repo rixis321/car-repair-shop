@@ -61,7 +61,11 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
          httpSecurity.cors().and().csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authorize)->
-                        authorize.requestMatchers(HttpMethod.POST,"/api/**").permitAll()
+                        authorize
+                                //TODO ENDPOINT z tabelami
+                                .requestMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/dashboard/**").authenticated()
+                                .requestMatchers(HttpMethod.POST,"/api/**").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/api/**").permitAll()
                                 .requestMatchers(HttpMethod.PUT,"/api/**").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/swagger-ui/**").permitAll()

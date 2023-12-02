@@ -9,12 +9,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ServiceDto {
     private long id;
+
+    private long carId;
     @NotEmpty(message = "description should not be empty")
     private String description;
 
@@ -25,5 +28,5 @@ public class ServiceDto {
 
     private List<ServiceHistoryDto> serviceHistory;
 
-    private List<ShortInvoiceDto> invoices;
+    private Set<ShortInvoiceDto> invoices;
 }
