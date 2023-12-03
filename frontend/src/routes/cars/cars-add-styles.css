@@ -24,3 +24,33 @@ h3{
     color: #dc3545; /* Kolor czerwony */
     font-size: 0.875rem; /* Rozmiar czcionki 14px */
 }
+
+/* Przykładowe style CSS dla scrollowanego kontenera z wyborem klienta */
+.customer-container {
+    display: block;
+    justify-content: center;
+    width: 60%;
+    max-height: 200px; /* Maksymalna wysokość kontenera przed pojawieniem się paska przewijania */
+    overflow-y: auto; /* Włącz przewijanie pionowe */
+    border: 1px solid #bc4a4a; /* Dodaj obramowanie dla lepszego efektu */
+    border-radius: 10px;
+    padding: 10px; /* Dodaj padding, aby zachować odstęp od innych elementów */
+}
+
+.customer-item {
+    margin-bottom: 10px; /* Dodaj odstęp między poszczególnymi elementami klienta */
+}
+.customer-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+
+.customer-container::-webkit-scrollbar-thumb:vertical {
+    background-color: rgb(130, 123, 58);
+    border-radius: 3px;
+}
+
+
+.customer-container::-webkit-scrollbar-thumb:vertical :hover {
+    background-color: #444;
+}
