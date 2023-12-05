@@ -13,6 +13,7 @@ import java.time.Instant;
 @NoArgsConstructor
 public class NewServiceHistoryDto {
     private long id;
+    private long serviceId;
     @NotEmpty(message = "description should not be empty")
     private String description;
     private Instant date;

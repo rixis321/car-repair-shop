@@ -29,6 +29,10 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.getAllEmployees(),HttpStatus.OK);
 
     }
+    @PostMapping("/employees/{employeeId}/reset")
+    public ResponseEntity<String> updateEmployeePassword(@PathVariable long employeeId,@RequestBody String password){
+        return new ResponseEntity<>(employeeService.updateEmployeePassword(employeeId,password),HttpStatus.OK);
+    }
     @GetMapping("/employees/{id}")
     public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable Long id){
         return new ResponseEntity<>(employeeService.getEmployeeById(id),HttpStatus.OK);
