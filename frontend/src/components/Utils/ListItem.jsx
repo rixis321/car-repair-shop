@@ -3,7 +3,8 @@ import React, { useState } from 'react';
 import { ListGroup, Spinner, Pagination } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import "./list-item.css"
-const ListItem = ({ items, template, loading, detailsLinkPath, itemsPerPage }) => {
+
+const ListItem = ({ items, template, loading, detailsLinkBuilder, itemsPerPage }) => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -23,7 +24,7 @@ const ListItem = ({ items, template, loading, detailsLinkPath, itemsPerPage }) =
                     currentItems.map((item) => (
                         <ListGroup.Item className={"item"} key={item.id}>
                             {template(item)}
-                            <Link to={`${detailsLinkPath.replace(':id', item.id)}`}>
+                            <Link to={detailsLinkBuilder(item)}>
                                 Szczegóły
                             </Link>
                         </ListGroup.Item>
