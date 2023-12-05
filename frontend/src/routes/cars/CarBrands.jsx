@@ -1,0 +1,40 @@
+import React from 'react';
+
+const CarBrands = [
+    "AUDI",
+    "ALFA ROMEO",
+    "ASTON MARTIN",
+    "BENTLEY",
+    "BMW",
+    "CADILLAC",
+    "CHEVROLET",
+    "CHRYSLER",
+    "CITROEN",
+    "DACIA",
+    "FERRARI",
+    "FORD",
+    "FIAT",
+    "HONDA",
+    "HYUNDAI",
+    "JAGUAR",
+    "JEEP",
+    "KIA",
+    "LAND ROVER",
+    "LEXUS",
+    "MAZDA",
+    "MERCEDES-BENZ",
+    "MITSUBISHI",
+    "NISSAN",
+    "OPEL",
+    "PEUGEOT",
+    "PORSCHE",
+    "RENAULT",
+    "SEAT",
+    "SUZUKI",
+    "SKODA",
+    "TOYOTA",
+    "VOLKSWAGEN",
+    "VOLVO"
+]
+
+export default CarBrands;

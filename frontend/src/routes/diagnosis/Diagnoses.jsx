@@ -6,7 +6,7 @@ import api from "../../api/axiosConfig.js";
 import AdminNavbar from "../../components/navbar/AdminNavbar.jsx";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import {Button, Container} from "react-bootstrap";
-import GenericTable from "../../components/GenericTable.jsx";
+import GenericTable from "../../components/Utils/GenericTable.jsx";
 import dateFormat from "../../utils/DateFormat.jsx";
 import "./diagnoses-styles.css"
 

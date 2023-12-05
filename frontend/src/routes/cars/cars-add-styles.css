@@ -1,0 +1,56 @@
+.custom-label {
+    display: block;
+    text-align: left;
+    margin-left: 0.5rem;
+    font-weight: bold;
+}
+h3{
+    color: #957C3D;
+}
+.custom-dropdown {
+    background-color: #fff; /* Kolor tła */
+    color: #000; /* Kolor tekstu */
+    border: 1px solid #ced4da; /* Kolor obramowania */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Cień */
+    transition: box-shadow 0.7s ease; /* Animacja cienia */
+}
+.custom-dropdown:focus {
+    outline: none; /* Usunięcie obramowania po kliknięciu */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Efekt po kliknięciu */
+}
+.text-danger{
+    display: block;
+    margin-top: 5px;
+    color: #dc3545; /* Kolor czerwony */
+    font-size: 0.875rem; /* Rozmiar czcionki 14px */
+}
+
+/* Przykładowe style CSS dla scrollowanego kontenera z wyborem klienta */
+.customer-container {
+    display: block;
+    justify-content: center;
+    width: 60%;
+    max-height: 200px; /* Maksymalna wysokość kontenera przed pojawieniem się paska przewijania */
+    overflow-y: auto; /* Włącz przewijanie pionowe */
+    border: 1px solid #bc4a4a; /* Dodaj obramowanie dla lepszego efektu */
+    border-radius: 10px;
+    padding: 10px; /* Dodaj padding, aby zachować odstęp od innych elementów */
+}
+
+.customer-item {
+    margin-bottom: 10px; /* Dodaj odstęp między poszczególnymi elementami klienta */
+}
+.customer-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+
+.customer-container::-webkit-scrollbar-thumb:vertical {
+    background-color: rgb(130, 123, 58);
+    border-radius: 3px;
+}
+
+
+.customer-container::-webkit-scrollbar-thumb:vertical :hover {
+    background-color: #444;
+}
