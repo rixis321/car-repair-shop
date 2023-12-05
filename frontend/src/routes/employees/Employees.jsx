@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { Navigate, Link } from 'react-router-dom';
 import AdminNavbar from "../../components/navbar/AdminNavbar.jsx";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
-import GenericTable from "../../components/GenericTable.jsx";
+import GenericTable from "../../components/Utils/GenericTable.jsx";
 import { Button, Container, Row } from "react-bootstrap";
 import AuthContext from "../../security/AuthProvider.jsx";
 import api from "../../api/axiosConfig.js";
