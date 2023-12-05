@@ -18,6 +18,7 @@ import com.example.backend.validator.UserDataValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,13 +32,16 @@ public class EmployeeServiceImpl  implements EmployeeService {
     private final ServiceHistoryRepository serviceHistoryRepository;
     private final ServiceRepository serviceRepository;
     private final ServiceMapper serviceMapper;
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, UserDataValidator userDataValidator, ServiceHistoryRepository serviceHistoryRepository, ServiceRepository serviceRepository, ServiceMapper serviceMapper) {
+
+    private final PasswordEncoder passwordEncoder;
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, UserDataValidator userDataValidator, ServiceHistoryRepository serviceHistoryRepository, ServiceRepository serviceRepository, ServiceMapper serviceMapper, PasswordEncoder passwordEncoder) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
         this.userDataValidator = userDataValidator;
         this.serviceHistoryRepository = serviceHistoryRepository;
         this.serviceRepository = serviceRepository;
         this.serviceMapper = serviceMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -119,5 +123,20 @@ public class EmployeeServiceImpl  implements EmployeeService {
                 .orElseThrow(()-> new ResourceNotFoundException("Employee","id",employeeId));
 
         return "Employee deleted successfully";
+    }
+
+    @Override
+    public String updateEmployeePassword(long employeeId,String password) {
+        log.info(password);
+        Employee employee = employeeRepository
+                .findById(employeeId).orElseThrow(()-> new ResourceNotFoundException("employee","id",employeeId));
+
+        employee.setPassword(passwordEncoder.encode(password));
+        employee = employeeRepository.save(employee);
+
+        String storedPassword = employee.getPassword();
+        boolean passwordMatch = passwordEncoder.matches(password,storedPassword);
+        log.info(String.valueOf(passwordMatch));
+        return "Password changed successfully";
     }
 }
