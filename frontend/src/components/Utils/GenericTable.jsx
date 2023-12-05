@@ -71,7 +71,7 @@ const GenericTable = ({
     return (
         <>
         <Container fluid>
-            <Table striped bordered hover>
+            <Table striped bordered hover className={"table-data"}>
                 <thead>
                 <tr>
                     {columns.map((column) => (

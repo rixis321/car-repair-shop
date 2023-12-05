@@ -18,6 +18,17 @@
     justify-content: center;
 
 }
-th {
+.table-data th {
     cursor: pointer;
+    background-color:#052548 ;
+    color: #957C3D;
+}
+.table-data td {
+    background-color:#052548 ;
+    color: #957C3D;
+}
+.table-data{
+    border: #957C3D;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+    margin-left: 10px;
 }
