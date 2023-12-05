@@ -7,12 +7,15 @@ import com.example.backend.model.Employee;
 import com.example.backend.payload.Employee.EmployeeDto;
 import com.example.backend.payload.Employee.NewEmployeeDto;
 import com.example.backend.payload.Employee.ShortEmployeeDto;
+import com.example.backend.payload.History.NewServiceHistoryDto;
 import com.example.backend.payload.mapper.EmployeeMapper;
 import com.example.backend.payload.mapper.ServiceMapper;
 import com.example.backend.repository.EmployeeRepository;
 import com.example.backend.repository.ServiceHistoryRepository;
+import com.example.backend.repository.ServiceRepository;
 import com.example.backend.service.EmployeeService;
 import com.example.backend.validator.UserDataValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,17 +23,20 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@Slf4j
 public class EmployeeServiceImpl  implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
     private final UserDataValidator userDataValidator;
     private final ServiceHistoryRepository serviceHistoryRepository;
+    private final ServiceRepository serviceRepository;
     private final ServiceMapper serviceMapper;
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, UserDataValidator userDataValidator, ServiceHistoryRepository serviceHistoryRepository, ServiceMapper serviceMapper) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, UserDataValidator userDataValidator, ServiceHistoryRepository serviceHistoryRepository, ServiceRepository serviceRepository, ServiceMapper serviceMapper) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
         this.userDataValidator = userDataValidator;
         this.serviceHistoryRepository = serviceHistoryRepository;
+        this.serviceRepository = serviceRepository;
         this.serviceMapper = serviceMapper;
     }
 
@@ -40,10 +46,21 @@ public class EmployeeServiceImpl  implements EmployeeService {
                 .orElseThrow(()-> new ResourceNotFoundException("Employee","id",id));
 
         EmployeeDto employeeDto = employeeMapper.mapToEmployeeDto(employee);
-        employeeDto.setServices(employee.getServices()
+       List<NewServiceHistoryDto> history = employee.getServiceHistories()
                 .stream()
-                .map(serviceMapper::mapToServiceWithoutInvoices)
-                .toList());
+                .map(serviceHistory ->{
+                            NewServiceHistoryDto serviceHistoryDto = serviceMapper.mapToNewServiceHistoryDto(serviceHistory);
+                            Long serviceId = serviceRepository.findServiceIdByServiceHistoryId(serviceHistory.getId())
+                                    .orElseThrow(()->new ResourceNotFoundException("Service history","id", serviceHistory.getId()));
+                            serviceHistoryDto.setServiceId(serviceId);
+                            return serviceHistoryDto;
+                        }
+
+                        )
+               .toList();
+
+
+        employeeDto.setServiceHistory(history);
         return employeeDto;
     }
 

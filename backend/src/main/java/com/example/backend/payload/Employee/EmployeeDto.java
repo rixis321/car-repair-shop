@@ -5,6 +5,7 @@ import com.example.backend.model.Role;
 import com.example.backend.model.Service;
 import com.example.backend.model.UserAddress;
 import com.example.backend.payload.Diagnosis.ShortDiagnosisDto;
+import com.example.backend.payload.History.NewServiceHistoryDto;
 import com.example.backend.payload.Service.ServiceWithoutInvoices;
 import com.example.backend.payload.Service.ShortServiceDto;
 import com.example.backend.payload.UserAddressDto;
@@ -34,6 +35,6 @@ public class EmployeeDto {
     private String password;
     private UserAddressDto userAddressDto;
     private List<ShortDiagnosisDto> diagnoses;
-    private List<ServiceWithoutInvoices> services;
+    private List<NewServiceHistoryDto> serviceHistory;
     private Set<Role> roles;
 }
