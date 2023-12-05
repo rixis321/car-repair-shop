@@ -108,12 +108,12 @@ const EmployeeDetails = () => {
                                 template={(diagnosis) => (
                                     <>
                                         <strong>Opis:</strong> {diagnosis.description}<br />
-                                        <strong>Szacowany koszt:</strong> {diagnosis.estimatedCost}<br />
+                                        <strong>Szacowany koszt:</strong> {diagnosis.estimatedCost + "zł"}<br />
                                         <strong>Data:</strong> {new Date(diagnosis.diagnosisDate).toLocaleString()}<br />
                                     </>
                                 )}
                                 loading={loading}
-                                detailsLinkPath="/diagnosis/:id"
+                                detailsLinkBuilder={(diagnosis) => `/diagnosis/${diagnosis.id}`}
                                 itemsPerPage={4}
                             />
                                 ):(
@@ -122,17 +122,17 @@ const EmployeeDetails = () => {
                         </Container>
                         <h2>Przeprowadzone prace serwisowe</h2>
                         <Container fluid>
-                            {employeeData?.services && employeeData.services.length > 0 ? (
+                            {employeeData?.serviceHistory && employeeData.serviceHistory.length > 0 ? (
                             <ListItem
-                                items={employeeData?.services?.flatMap((service) => service.serviceHistory) || []}
-                                template={(historyEntry) => (
+                                items={employeeData?.serviceHistory || []}
+                                template={(history) => (
                                     <>
-                                        <strong>Data:</strong> {new Date(historyEntry.date).toLocaleString()}<br />
-                                        <strong>Opis:</strong> {historyEntry.description}<br />
+                                        <strong>Data:</strong> {dateFormat(history.date)}<br />
+                                        <strong>Opis:</strong> {history.description}<br />
                                     </>
                                 )}
                                 loading={loading}
-                                detailsLinkPath="/services/:id"
+                                detailsLinkBuilder={(history) => `/services/${history.serviceId}`}
                                 itemsPerPage={4}
                                 />
                                 ):(
