@@ -42,8 +42,7 @@ public class UserDataValidator {
     }
 
     public boolean validateEmployeeUpdatedData(NewEmployeeDto newEmployeeDto){
-        return  validatePassword(newEmployeeDto.getPassword()) &&
-                validateString(newEmployeeDto.getName()) && validateString(newEmployeeDto.getLastname())
+        return  validateString(newEmployeeDto.getName()) && validateString(newEmployeeDto.getLastname())
                 && validateString(newEmployeeDto.getUserAddressDto().getCity())
                 && validateString(newEmployeeDto.getUserAddressDto().getStreetName())
                 && validateStreetNumber(newEmployeeDto.getUserAddressDto().getStreetNumber())
