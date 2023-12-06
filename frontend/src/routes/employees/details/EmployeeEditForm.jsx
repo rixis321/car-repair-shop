@@ -35,7 +35,7 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,employeeId }) => {
         }
 
     };
-    const handleSave = () => {
+    const handleSave = async  () => {
         // Sprawdzanie poprawności danych przed wysłaniem
         const validationErrors = {};
         if (!validateEmail(formData.email)) {
@@ -75,12 +75,17 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,employeeId }) => {
             return;
         }
         try {
-            console.log("DATA TUTAJ")
-            console.log(formData)
-            const response = api.put(`/employees/${employeeId}`,formData,{
+            const response = await api.put(`/employees/${employeeId}`,formData,{
                 headers: {"Content-Type": "Application/json", "Authorization": auth.accessToken}
             })
-        }catch (err){
+            console.log(response)
+            if (response.status !== 200) {
+                return;
+            }
+            onSave(formData)
+        }
+        catch (err){
+            console.log("TUTAJ JEST ERROR")
             console.log(err)
             if (err.response && err.response.data) {
                 setResponseError(err.response.data.message);
@@ -88,7 +93,7 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,employeeId }) => {
                 setResponseError('Wystąpił błąd podczas resetowania hasła.');
             }
         }
-        onSave(formData)
+
     };
     return (
         <Form>
