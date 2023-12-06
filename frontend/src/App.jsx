@@ -8,7 +8,7 @@ import Home from "./routes/static/Home.jsx";
 import LoginPage from "./routes/login/LoginPage.jsx";
 import {AuthProvider} from "./security/AuthProvider.jsx";
 import Employees from "./routes/employees/Employees.jsx";
-import EmployeeDetails from "./routes/employees/EmployeeDetails.jsx";
+import EmployeeDetails from "./routes/employees/details/EmployeeDetails.jsx";
 import Diagnoses from "./routes/diagnosis/Diagnoses.jsx";
 import Customers from "./routes/customers/Customers.jsx";
 import Cars from "./routes/cars/Cars.jsx";

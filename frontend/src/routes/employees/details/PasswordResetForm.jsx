@@ -1,12 +1,11 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Form, Button, Col, Alert} from 'react-bootstrap';
-import api from "../../api/axiosConfig.js";
+import {Form, Button, Col, Alert, Row} from 'react-bootstrap';
+import api from "../../../api/axiosConfig.js";
 import {useContext} from "react";
-import AuthContext from "../../security/AuthProvider.jsx";
+import AuthContext from "../../../security/AuthProvider.jsx";
 import {Navigate} from "react-router";
-import hashPassword from "../../utils/PasswordHash.jsx";
 
-const PasswordResetForm = ({ onPasswordReset,employeeId }) => {
+const PasswordResetForm = ({ onPasswordReset,employeeId,onCancel }) => {
     const { auth } = useContext(AuthContext);
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -34,21 +33,21 @@ const PasswordResetForm = ({ onPasswordReset,employeeId }) => {
             setValidationError('Podane hasła różnią się od siebie.');
             return;
         }
-       // const cryptedPassword = hashPassword(newPassword)
         try {
 
-            const response = await api.post(`/employees/${employeeId}/reset`,JSON.stringify(
-                `${newPassword}`
-            ),{
+            const response = await api.post(`/employees/${employeeId}/reset`,newPassword,{
                 headers: {"Content-Type": "Application/json", "Authorization": auth.accessToken}
             } );
-
-            onPasswordReset(newPassword);
+            if(response.status === 200){
+                onPasswordReset(newPassword);
+            }
         } catch (err) {
-            console.log(err)
+            if (err.response && err.response.data) {
+                setValidationError(err.response.data.message);
+            } else {
+                setValidationError('Wystąpił błąd podczas resetowania hasła.');
+            }
         }
-//
-
     };
 
     return (
@@ -64,7 +63,7 @@ const PasswordResetForm = ({ onPasswordReset,employeeId }) => {
             </Form.Group>
 
             <Form.Group controlId="confirmPassword">
-                <Form.Label>Powtórz hasło</Form.Label>
+                <Form.Label style={{marginTop: '5px'}}>Powtórz hasło</Form.Label>
                 <Form.Control
                     type="password"
                     placeholder="Powtórz nowe hasło"
@@ -74,11 +73,21 @@ const PasswordResetForm = ({ onPasswordReset,employeeId }) => {
                 />
             </Form.Group>
 
-            {validationError && <Alert variant="danger">{validationError}</Alert>}
+            {validationError && <Alert className={"mt-2"} variant="danger">{validationError}</Alert>}
 
-            <Button variant="primary" onClick={handlePasswordReset}>
-                Zresetuj hasło
-            </Button>
+            <Row className="mt-3">
+                <Col>
+                    <Button variant="primary" onClick={onCancel}>
+                        Anuluj
+                    </Button>
+                </Col>
+                <Col className="text-end">
+                    <Button variant="primary" onClick={handlePasswordReset}>
+                        Zresetuj hasło
+                    </Button>
+                </Col>
+            </Row>
+
         </Form>
     );
 };
