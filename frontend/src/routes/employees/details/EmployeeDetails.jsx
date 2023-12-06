@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
-import AdminNavbar from "../../components/navbar/AdminNavbar.jsx";
-import Sidebar from "../../components/sidebar/Sidebar.jsx";
+import AdminNavbar from "../../../components/navbar/AdminNavbar.jsx";
+import Sidebar from "../../../components/sidebar/Sidebar.jsx";
 import {Alert, Button, Col, Container, ListGroup, Modal, Row, Spinner} from "react-bootstrap";
-import api from "../../api/axiosConfig.js";
+import api from "../../../api/axiosConfig.js";
 import {useContext, useEffect} from "react"
-import AuthContext from "../../security/AuthProvider.jsx";
+import AuthContext from "../../../security/AuthProvider.jsx";
 import {useNavigate, useParams} from "react-router";
 import "./employee-details.css"
-import dateFormat from "../../utils/DateFormat.jsx";
-import ListItem from "../../components/Utils/ListItem.jsx";
+import dateFormat from "../../../utils/DateFormat.jsx";
+import ListItem from "../../../components/Utils/ListItem.jsx";
 import PasswordResetForm from "./PasswordResetForm.jsx";
 
 
@@ -100,10 +100,10 @@ const EmployeeDetails = () => {
                                         <Button block onClick={() => setShowPasswordResetModal(true)}>Zresetuj hasło</Button>
                                     </Col>
                                     <Modal show={showPasswordResetModal} onHide={() => setShowPasswordResetModal(false)}>
-                                        <Modal.Header closeButton>
-                                            <Modal.Title>Zresetuj hasło</Modal.Title>
+                                        <Modal.Header className={"reset-password modal-header"} closeButton>
+                                            <Modal.Title className={"modal-title"}>Zresetuj hasło</Modal.Title>
                                         </Modal.Header>
-                                        <Modal.Body>
+                                        <Modal.Body className={"reset-password"}>
                                             <PasswordResetForm
                                                 employeeId={id}
                                                 onPasswordReset={(newPassword) => {

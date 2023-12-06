@@ -1,10 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Form, Button, Col, Alert} from 'react-bootstrap';
-import api from "../../api/axiosConfig.js";
+import api from "../../../api/axiosConfig.js";
 import {useContext} from "react";
-import AuthContext from "../../security/AuthProvider.jsx";
+import AuthContext from "../../../security/AuthProvider.jsx";
 import {Navigate} from "react-router";
-import hashPassword from "../../utils/PasswordHash.jsx";
 
 const PasswordResetForm = ({ onPasswordReset,employeeId }) => {
     const { auth } = useContext(AuthContext);
@@ -34,18 +33,19 @@ const PasswordResetForm = ({ onPasswordReset,employeeId }) => {
             setValidationError('Podane hasła różnią się od siebie.');
             return;
         }
-       // const cryptedPassword = hashPassword(newPassword)
         try {
 
-            const response = await api.post(`/employees/${employeeId}/reset`,JSON.stringify(
-                `${newPassword}`
-            ),{
+            const response = await api.post(`/employees/${employeeId}/reset`,newPassword,{
                 headers: {"Content-Type": "Application/json", "Authorization": auth.accessToken}
             } );
 
             onPasswordReset(newPassword);
         } catch (err) {
-            console.log(err)
+            if (err.response && err.response.data) {
+                setValidationError(err.response.data.message);
+            } else {
+                setValidationError('Wystąpił błąd podczas resetowania hasła.');
+            }
         }
 //
 
@@ -74,7 +74,7 @@ const PasswordResetForm = ({ onPasswordReset,employeeId }) => {
                 />
             </Form.Group>
 
-            {validationError && <Alert variant="danger">{validationError}</Alert>}
+            {validationError && <Alert className={"mt-2"} variant="danger">{validationError}</Alert>}
 
             <Button variant="primary" onClick={handlePasswordReset}>
                 Zresetuj hasło
