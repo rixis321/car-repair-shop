@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import AdminNavbar from "../../components/navbar/AdminNavbar.jsx";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
-import {Alert, Button, Col, Container, ListGroup, Row, Spinner} from "react-bootstrap";
+import {Alert, Button, Col, Container, ListGroup, Modal, Row, Spinner} from "react-bootstrap";
 import api from "../../api/axiosConfig.js";
 import {useContext, useEffect} from "react"
 import AuthContext from "../../security/AuthProvider.jsx";
@@ -9,6 +9,7 @@ import {useNavigate, useParams} from "react-router";
 import "./employee-details.css"
 import dateFormat from "../../utils/DateFormat.jsx";
 import ListItem from "../../components/Utils/ListItem.jsx";
+import PasswordResetForm from "./PasswordResetForm.jsx";
 
 
 const EmployeeDetails = () => {
@@ -18,6 +19,7 @@ const EmployeeDetails = () => {
 
     const [employeeData, setEmployeeData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [showPasswordResetModal, setShowPasswordResetModal] = useState(false);
 
     //sprawdzenie czy token istnieje jesli nie to przekieruj na /login
     if (!auth.accessToken) {
@@ -95,8 +97,23 @@ const EmployeeDetails = () => {
                                         <Button block>Edytuj dane pracownika</Button>
                                     </Col>
                                     <Col md={3} className="mb-3">
-                                        <Button block>Zresetuj hasło</Button>
+                                        <Button block onClick={() => setShowPasswordResetModal(true)}>Zresetuj hasło</Button>
                                     </Col>
+                                    <Modal show={showPasswordResetModal} onHide={() => setShowPasswordResetModal(false)}>
+                                        <Modal.Header closeButton>
+                                            <Modal.Title>Zresetuj hasło</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                            <PasswordResetForm
+                                                employeeId={id}
+                                                onPasswordReset={(newPassword) => {
+                                                    // Handle the password reset logic here (e.g., send a request to the server)
+                                                    console.log('Password reset:', newPassword);
+                                                    setShowPasswordResetModal(false); // Hide the modal after successful password reset
+                                                }}
+                                            />
+                                        </Modal.Body>
+                                    </Modal>
                                 </div>
                             </Row>
                         </Container>
