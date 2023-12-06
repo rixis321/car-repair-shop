@@ -10,6 +10,7 @@ import "./employee-details.css"
 import dateFormat from "../../../utils/DateFormat.jsx";
 import ListItem from "../../../components/Utils/ListItem.jsx";
 import PasswordResetForm from "./PasswordResetForm.jsx";
+import EmployeeEditForm from "./EmployeeEditForm.jsx";
 
 
 const EmployeeDetails = () => {
@@ -20,12 +21,21 @@ const EmployeeDetails = () => {
     const [employeeData, setEmployeeData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [showPasswordResetModal, setShowPasswordResetModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
 
     //sprawdzenie czy token istnieje jesli nie to przekieruj na /login
     if (!auth.accessToken) {
         return <Navigate to='/login' />;
     }
+    const handleEditButtonClick = () => {
+        setShowEditModal(!showEditModal);
+    };
 
+    const handleEditButtonOnSave= (updatedData) => {
+        console.log("wowalelm sie tutaj")
+        setEmployeeData(updatedData);
+        handleEditButtonClick()
+    };
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -45,6 +55,7 @@ const EmployeeDetails = () => {
     }, []);
     useEffect(() => {
     }, [auth.accessToken]);
+
     console.log(employeeData)
     return (
         <>
@@ -93,23 +104,39 @@ const EmployeeDetails = () => {
                             </div>
                             <Row className={"mt-0"}>
                                 <div className="d-flex mb-3 option-buttons">
-                                    <Col md={1} className="mb-1">
-                                        <Button block>Edytuj dane pracownika</Button>
+                                    <Col  className="mb-1">
+                                        <Button block onClick={handleEditButtonClick}>Edytuj dane pracownika</Button>
                                     </Col>
-                                    <Col md={3} className="mb-3">
+                                    <Col  className="mb-3">
                                         <Button block onClick={() => setShowPasswordResetModal(true)}>Zresetuj hasło</Button>
                                     </Col>
+                                    <Col  className="mb-3">
+                                        <Button block>Zmień uprawnienia</Button>
+                                    </Col>
+                                    <Modal show={showEditModal} onHide={handleEditButtonClick}>
+                                        <Modal.Header className={"reset modal-header"} closeButton>
+                                            <Modal.Title>Edytuj dane pracownika</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body className={"reset"}>
+                                            <EmployeeEditForm
+                                                employeeId={id}
+                                                initialData={employeeData}
+                                                onSave={handleEditButtonOnSave}
+                                                onCancel={handleEditButtonClick}
+                                            />
+                                        </Modal.Body>
+                                    </Modal>
                                     <Modal show={showPasswordResetModal} onHide={() => setShowPasswordResetModal(false)}>
-                                        <Modal.Header className={"reset-password modal-header"} closeButton>
+                                        <Modal.Header className={"reset modal-header"} closeButton>
                                             <Modal.Title className={"modal-title"}>Zresetuj hasło</Modal.Title>
                                         </Modal.Header>
-                                        <Modal.Body className={"reset-password"}>
+                                        <Modal.Body className={"reset"}>
                                             <PasswordResetForm
                                                 employeeId={id}
+                                                onCancel={()=>setShowPasswordResetModal(!showPasswordResetModal)}
                                                 onPasswordReset={(newPassword) => {
-                                                    // Handle the password reset logic here (e.g., send a request to the server)
                                                     console.log('Password reset:', newPassword);
-                                                    setShowPasswordResetModal(false); // Hide the modal after successful password reset
+                                                    setShowPasswordResetModal(false);
                                                 }}
                                             />
                                         </Modal.Body>
@@ -134,7 +161,7 @@ const EmployeeDetails = () => {
                                 itemsPerPage={4}
                             />
                                 ):(
-                                <Alert variant="info">Brak postawionych diagnoz.</Alert>
+                                <Alert className={"alert-info"} variant="info">Brak postawionych diagnoz.</Alert>
                             )}
                         </Container>
                         <h2>Przeprowadzone prace serwisowe</h2>
@@ -153,7 +180,7 @@ const EmployeeDetails = () => {
                                 itemsPerPage={4}
                                 />
                                 ):(
-                                <Alert variant="info">Brak aktualnie przeprowadzonych prac.</Alert>
+                                <Alert className={"alert-info"} variant="info">Brak aktualnie przeprowadzonych prac.</Alert>
                                 )}
                             />
                         </Container>
