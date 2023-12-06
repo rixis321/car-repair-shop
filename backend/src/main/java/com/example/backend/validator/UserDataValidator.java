@@ -147,7 +147,7 @@ public class UserDataValidator {
         }
 
     }
-    private boolean validatePassword(String password){
+    public boolean validatePassword(String password){
         String regex = "^(?=.*[A-Z])(?=.*\\d.*\\d.*\\d)[A-Za-z\\d]{8,}$";
         Pattern pattern = Pattern.compile(regex);
         if(password != null){
