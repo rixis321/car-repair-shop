@@ -7,7 +7,13 @@ import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import {Alert, Button, Col, Container, Form, Row} from "react-bootstrap";
 import "./customers-add-styles.css"
 import api from "../../api/axiosConfig.js";
-
+import {
+    validateName,
+    validateCity,
+    validateStreetName,
+    validateStreetNumber,
+    validateZipCode,
+    validatePhone,} from "../../utils/UserValidation.jsx"
 const CustomersAdd = () => {
     const { auth } = useContext(AuthContext);
     let navigate = useNavigate();
@@ -33,39 +39,6 @@ const CustomersAdd = () => {
     const [alertVariant, setAlertVariant] = useState("success");
     const [alertMessage, setAlertMessage] = useState("");
 
-
-    const validateName = (name) => {
-        const nameRegex = /^[A-Za-z]+$/;
-        return nameRegex.test(name);
-    };
-
-    const validateCity = (city) => {
-        const cityRegex = /^[A-Za-z]+$/;
-        return cityRegex.test(city);
-    };
-
-    const validateStreetName = (streetName) => {
-
-        const streetNameRegex = /^[A-Za-z]+$/;
-        return streetNameRegex.test(streetName);
-    };
-
-    const validateStreetNumber = (streetNumber) => {
-
-        const streetNumberRegex = /^\d+$/;
-        return streetNumberRegex.test(streetNumber);
-    };
-
-    const validateZipCode = (zipCode) => {
-
-        const zipCodeRegex = /^\d{2}-?\d{3}$/;
-        return zipCodeRegex.test(zipCode);
-    };
-
-    const validatePhone = (phone) => {
-        const phoneRegex = /^\d{9}$/;
-        return phoneRegex.test(phone);
-    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
