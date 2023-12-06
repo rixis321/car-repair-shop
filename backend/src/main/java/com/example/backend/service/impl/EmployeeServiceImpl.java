@@ -101,6 +101,7 @@ public class EmployeeServiceImpl  implements EmployeeService {
             updatedEmployee.setServices(employee.getServices());
             updatedEmployee.setDiagnoses(employee.getDiagnoses());
             updatedEmployee.setRoles(employee.getRoles());
+            updatedEmployee.setServiceHistories(employee.getServiceHistories());
 
             updatedEmployee.getUserAddress().setId(employee.getUserAddress().getId());
             updatedEmployee.getUserAddress().setEmployee(employee);
