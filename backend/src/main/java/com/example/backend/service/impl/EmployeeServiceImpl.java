@@ -131,12 +131,24 @@ public class EmployeeServiceImpl  implements EmployeeService {
         Employee employee = employeeRepository
                 .findById(employeeId).orElseThrow(()-> new ResourceNotFoundException("employee","id",employeeId));
 
-        employee.setPassword(passwordEncoder.encode(password));
-        employee = employeeRepository.save(employee);
+        try{
+            userDataValidator.validatePassword(password);
+            employee.setPassword(password);
+            employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+            employee = employeeRepository.save(employee);
 
-        String storedPassword = employee.getPassword();
-        boolean passwordMatch = passwordEncoder.matches(password,storedPassword);
-        log.info(String.valueOf(passwordMatch));
-        return "Password changed successfully";
+            String storedPassword = employee.getPassword();
+            boolean passwordMatch = passwordEncoder.matches(password,storedPassword);
+            log.info(String.valueOf(passwordMatch));
+            return "Password changed successfully";
+        }catch (CarRepairShopApiException | ValidationException e){
+            log.error(e.getMessage());
+            throw e;
+        }
+
+//        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+//        employee = employeeRepository.save(employee);
+       // employee.setPassword(passwordEncoder.encode(password));
+
     }
 }
