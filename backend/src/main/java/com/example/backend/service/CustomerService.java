@@ -15,5 +15,7 @@ public interface CustomerService {
     String deleteCustomer(Long customerId);
     NewCustomerDto createCustomer(NewCustomerDto customerDto);
 
+    String resetCustomerAccessCode(long customerId);
+
     ShortCustomerWithoutCode getCustomerByAccessCode(String accessCode);
 }

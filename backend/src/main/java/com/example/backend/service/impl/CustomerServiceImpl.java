@@ -113,6 +113,18 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public String resetCustomerAccessCode(long customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(()-> new ResourceNotFoundException("Customer","id",customerId));
+
+        customer.setAccessCode(AccessCodeGenerator.generateCode());
+
+       customer = customerRepository.save(customer);
+
+        return customer.getAccessCode();
+    }
+
+    @Override
     public ShortCustomerWithoutCode getCustomerByAccessCode(String accessCode) {
         Customer customer = customerRepository.findCustomerByAccessCode(accessCode)
                 .orElseThrow(() -> new CarRepairShopApiException(HttpStatus.BAD_REQUEST, "Invalid code"));
