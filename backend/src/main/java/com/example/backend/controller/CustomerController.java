@@ -56,6 +56,10 @@ public class CustomerController {
     public ResponseEntity<NewCustomerDto> updateCustomer(@RequestBody NewCustomerDto customerDto, @PathVariable Long id){
         return new ResponseEntity<>(customerService.updateCustomer(customerDto,id),HttpStatus.OK);
     }
+    @PutMapping("/customers/{customerId}/reset")
+    public ResponseEntity<String> resetCustomerAccessCode(@PathVariable long customerId){
+        return new ResponseEntity<>(customerService.resetCustomerAccessCode(customerId),HttpStatus.OK);
+    }
 
     //todo request param do zmiany
     @GetMapping("/customers/access")

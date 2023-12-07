@@ -33,6 +33,11 @@ public class EmployeeController {
     public ResponseEntity<String> updateEmployeePassword(@PathVariable long employeeId,@RequestBody String password){
         return new ResponseEntity<>(employeeService.updateEmployeePassword(employeeId,password),HttpStatus.OK);
     }
+
+    @PutMapping("/employees/{employeeId}/role")
+    public ResponseEntity<String> updateEmployeeRole(@PathVariable long employeeId, @RequestBody String roleName){
+        return new ResponseEntity<>(employeeService.updateEmployeeRole(employeeId,roleName),HttpStatus.OK);
+    }
     @GetMapping("/employees/{id}")
     public ResponseEntity<EmployeeDto> getEmployeeById(@PathVariable Long id){
         return new ResponseEntity<>(employeeService.getEmployeeById(id),HttpStatus.OK);

@@ -16,5 +16,6 @@ public interface EmployeeService {
     String deleteEmployee(Long employeeId);
 
     String updateEmployeePassword(long employeeId,String password);
+    String updateEmployeeRole(long employeeId,String roleName);
 
 }

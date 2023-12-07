@@ -4,6 +4,7 @@ import com.example.backend.exception.CarRepairShopApiException;
 import com.example.backend.exception.ResourceNotFoundException;
 import com.example.backend.exception.ValidationException;
 import com.example.backend.model.Employee;
+import com.example.backend.model.Role;
 import com.example.backend.payload.Employee.EmployeeDto;
 import com.example.backend.payload.Employee.NewEmployeeDto;
 import com.example.backend.payload.Employee.ShortEmployeeDto;
@@ -11,6 +12,7 @@ import com.example.backend.payload.History.NewServiceHistoryDto;
 import com.example.backend.payload.mapper.EmployeeMapper;
 import com.example.backend.payload.mapper.ServiceMapper;
 import com.example.backend.repository.EmployeeRepository;
+import com.example.backend.repository.RoleRepository;
 import com.example.backend.repository.ServiceHistoryRepository;
 import com.example.backend.repository.ServiceRepository;
 import com.example.backend.service.EmployeeService;
@@ -18,10 +20,13 @@ import com.example.backend.validator.UserDataValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -33,14 +38,16 @@ public class EmployeeServiceImpl  implements EmployeeService {
     private final ServiceRepository serviceRepository;
     private final ServiceMapper serviceMapper;
 
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, UserDataValidator userDataValidator, ServiceHistoryRepository serviceHistoryRepository, ServiceRepository serviceRepository, ServiceMapper serviceMapper, PasswordEncoder passwordEncoder) {
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, UserDataValidator userDataValidator, ServiceHistoryRepository serviceHistoryRepository, ServiceRepository serviceRepository, ServiceMapper serviceMapper, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
         this.userDataValidator = userDataValidator;
         this.serviceHistoryRepository = serviceHistoryRepository;
         this.serviceRepository = serviceRepository;
         this.serviceMapper = serviceMapper;
+        this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -92,9 +99,9 @@ public class EmployeeServiceImpl  implements EmployeeService {
             userDataValidator.validateEmployeeUpdatedData(employeeDto);
             if(!employeeDto.getPhone().equals(employee.getPhone())){
                 userDataValidator.validatePhoneNumber(employeeDto.getPhone(),"employee");
-                if(!employeeDto.getEmail().equals(employee.getEmail())){
-                    userDataValidator.validateEmail(employeeDto.getEmail());
-                }
+            }
+            if(!employeeDto.getEmail().equals(employee.getEmail())){
+                userDataValidator.validateEmail(employeeDto.getEmail());
             }
             updatedEmployee = employeeMapper.mapToEmployee(employeeDto);
             updatedEmployee.setId(employee.getId());
@@ -129,8 +136,8 @@ public class EmployeeServiceImpl  implements EmployeeService {
     @Override
     public String updateEmployeePassword(long employeeId,String password) {
         log.info(password);
-        Employee employee = employeeRepository
-                .findById(employeeId).orElseThrow(()-> new ResourceNotFoundException("employee","id",employeeId));
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(()-> new ResourceNotFoundException("employee","id",employeeId));
 
         try{
             userDataValidator.validatePassword(password);
@@ -147,9 +154,19 @@ public class EmployeeServiceImpl  implements EmployeeService {
             throw e;
         }
 
-//        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
-//        employee = employeeRepository.save(employee);
-       // employee.setPassword(passwordEncoder.encode(password));
+    }
 
+    @Override
+    public String updateEmployeeRole(long employeeId, String roleName) {
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(()-> new ResourceNotFoundException("employee","id",employeeId));
+        Role role = roleRepository.findByName(roleName)
+                .orElseThrow(()-> new CarRepairShopApiException(HttpStatus.NOT_FOUND,"Role not found"));
+
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        employee.setRoles(roles);
+        employeeRepository.save(employee);
+        return "Role updated successfully";
     }
 }
