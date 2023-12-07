@@ -34,7 +34,7 @@ export const validateStreetNumber = (streetNumber) => {
 
 export const validateZipCode = (zipCode) => {
 
-    const zipCodeRegex = /^\d{2}-?\d{3}$/;
+    const zipCodeRegex = /^\d{2}-\d{3}$/;
     return zipCodeRegex.test(zipCode);
 };
 

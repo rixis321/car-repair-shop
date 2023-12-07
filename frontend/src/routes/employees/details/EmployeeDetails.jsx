@@ -5,24 +5,24 @@ import {Alert, Button, Col, Container, ListGroup, Modal, Row, Spinner} from "rea
 import api from "../../../api/axiosConfig.js";
 import {useContext, useEffect} from "react"
 import AuthContext from "../../../security/AuthProvider.jsx";
-import {useNavigate, useParams} from "react-router";
+import {Navigate, useNavigate, useParams} from "react-router";
 import "./employee-details.css"
 import dateFormat from "../../../utils/DateFormat.jsx";
 import ListItem from "../../../components/Utils/ListItem.jsx";
 import PasswordResetForm from "./PasswordResetForm.jsx";
 import EmployeeEditForm from "./EmployeeEditForm.jsx";
+import RoleForm from "./RoleForm";
 
 
 const EmployeeDetails = () => {
     const { auth } = useContext(AuthContext);
     let navigate = useNavigate();
     const { id } = useParams();
-
     const [employeeData, setEmployeeData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [showPasswordResetModal, setShowPasswordResetModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
-
+    const [showChangeRoleModal, setShowChangeRoleModal] = useState(false);
     //sprawdzenie czy token istnieje jesli nie to przekieruj na /login
     if (!auth.accessToken) {
         return <Navigate to='/login' />;
@@ -30,11 +30,16 @@ const EmployeeDetails = () => {
     const handleEditButtonClick = () => {
         setShowEditModal(!showEditModal);
     };
-
+    const handleRoleChangeButtonClick = () => {
+        setShowChangeRoleModal(!showChangeRoleModal);
+    };
     const handleEditButtonOnSave= (updatedData) => {
-        console.log("wowalelm sie tutaj")
         setEmployeeData(updatedData);
         handleEditButtonClick()
+    };
+    const handleRoleChangeSave = (updatedData) => {
+        setEmployeeData(updatedData)
+        handleRoleChangeButtonClick()
     };
     useEffect(() => {
         const fetchData = async () => {
@@ -43,7 +48,6 @@ const EmployeeDetails = () => {
                     headers: { "Content-Type": "Application/json", "Authorization": auth.accessToken }
                 });
                 setEmployeeData(response.data);
-
             } catch (error) {
                 console.error('Error fetching data:', error);
             }finally {
@@ -82,6 +86,7 @@ const EmployeeDetails = () => {
                                         <li><strong>Nr. telefonu</strong>{employeeData.phone}</li>
                                         <li><strong>Email</strong> {employeeData.email}</li>
                                         <li><strong>Hasło</strong>********</li>
+                                        <li><strong>Rola</strong>{employeeData.roles[0].name}</li>
                                     </ul>
                                     )}
                                 </div>
@@ -110,9 +115,22 @@ const EmployeeDetails = () => {
                                     <Col  className="mb-3">
                                         <Button block onClick={() => setShowPasswordResetModal(true)}>Zresetuj hasło</Button>
                                     </Col>
-                                    <Col  className="mb-3">
+                                    <Col  className="mb-3" onClick={handleRoleChangeButtonClick}>
                                         <Button block>Zmień uprawnienia</Button>
+
                                     </Col>
+                                    <Modal show={showChangeRoleModal} onHide={handleRoleChangeButtonClick}>
+                                        <Modal.Header className={"reset modal-header"} closeButton>
+                                            <Modal.Title className={"modal-title"}>Edytuj uprawnienia pracownika</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body className={"reset"}>
+                                            <RoleForm
+                                                employeeId={id}
+                                                initialData={employeeData}
+                                                onSave={handleRoleChangeSave}
+                                                onCancel={() => setShowChangeRoleModal(false)} />
+                                        </Modal.Body>
+                                    </Modal>
                                     <Modal show={showEditModal} onHide={handleEditButtonClick}>
                                         <Modal.Header className={"reset modal-header"} closeButton>
                                             <Modal.Title>Edytuj dane pracownika</Modal.Title>

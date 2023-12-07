@@ -8,14 +8,16 @@ import {
     validateStreetNumber,
     validateZipCode,
     validatePhone,
-    validateEmail} from "../../../utils/UserValidation.jsx"
+    } from "../../../utils/UserValidation.jsx"
 import {useContext} from "react";
 import AuthContext from "../../../security/AuthProvider.jsx";
-const EmployeeEditForm = ({ initialData, onSave, onCancel,employeeId }) => {
+
+const EmployeeEditForm = ({ initialData, onSave, onCancel,customerId }) => {
     const [formData, setFormData] = useState(initialData);
     const [errors, setErrors] = useState({});
     const { auth } = useContext(AuthContext);
     const [responseError,setResponseError] = useState('')
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         if (name === "phone" && value.length <= 9) {
@@ -38,9 +40,6 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,employeeId }) => {
     const handleSave = async  () => {
         // Sprawdzanie poprawności danych przed wysłaniem
         const validationErrors = {};
-        if (!validateEmail(formData.email)) {
-            validationErrors.email = "Wprowadź poprawny adres email";
-        }
 
         if (!validateName(formData.name)) {
             validationErrors.name = "Wprowadź poprawne imię";
@@ -75,7 +74,7 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,employeeId }) => {
             return;
         }
         try {
-            const response = await api.put(`/employees/${employeeId}`,formData,{
+            const response = await api.put(`/customers/${customerId}`,formData,{
                 headers: {"Content-Type": "Application/json", "Authorization": auth.accessToken}
             })
             console.log(response)
@@ -143,22 +142,6 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,employeeId }) => {
 
                 </Col>
                 <Col md={6}>
-                    <Form.Group controlId="formEmail">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </Form.Group>
-                    {errors.email && <small className="text-danger">{errors.email}</small>}
-                </Col>
-            </Row>
-
-            <Row>
-                <Col md={6}>
                     <Form.Group controlId="formZipcode">
                         <Form.Label>Kod pocztowy</Form.Label>
                         <Form.Control
@@ -171,6 +154,8 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,employeeId }) => {
                     </Form.Group>
                     {errors.zipcode && <small className="text-danger">{errors.zipcode}</small>}
                 </Col>
+            </Row>
+            <Row>
                 <Col md={6}>
                     <Form.Group controlId="formCity">
                         <Form.Label>Miasto</Form.Label>
@@ -184,9 +169,6 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,employeeId }) => {
                     </Form.Group>
                     {errors.city && <small className="text-danger">{errors.city}</small>}
                 </Col>
-            </Row>
-
-            <Row>
                 <Col md={6}>
                     <Form.Group controlId="formStreetName">
                         <Form.Label>Nazwa ulicy</Form.Label>
@@ -200,6 +182,10 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,employeeId }) => {
                     </Form.Group>
                     {errors.streetName && <small className="text-danger">{errors.streetName}</small>}
                 </Col>
+            </Row>
+
+            <Row>
+
                 <Col md={6}>
                     <Form.Group controlId="formStreetNumber">
                         <Form.Label>Numer ulicy</Form.Label>
