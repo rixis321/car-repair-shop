@@ -90,7 +90,7 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,employeeId }) => {
             if (err.response && err.response.data) {
                 setResponseError(err.response.data.message);
             } else {
-                setResponseError('Wystąpił błąd podczas resetowania hasła.');
+                setResponseError('Wystąpił błąd podczas edytowania danych.');
             }
         }
 
