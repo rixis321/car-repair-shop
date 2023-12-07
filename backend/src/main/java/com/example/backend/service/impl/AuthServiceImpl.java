@@ -83,7 +83,8 @@ public class AuthServiceImpl implements AuthService {
 
             Employee employee = employeeMapper.mapToEmployee(newEmployeeDto);
             Set<Role> roles = new HashSet<>();
-            Role employeeRole = roleRepository.findByName(newEmployeeDto.getRole());
+            Role employeeRole = roleRepository.findByName(newEmployeeDto.getRole())
+                    .orElseThrow(()-> new CarRepairShopApiException(HttpStatus.NOT_FOUND,"Role not found"));
             roles.add(employeeRole);
             employee.setRoles(roles);
             employee.setPassword(passwordEncoder.encode(employee.getPassword()));
