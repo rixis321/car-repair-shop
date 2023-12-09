@@ -2,6 +2,7 @@ package com.example.backend.payload.Diagnosis;
 
 import com.example.backend.model.constants.ClientApproval;
 import com.example.backend.payload.Car.CarWithoutDiag;
+import com.example.backend.payload.Service.ShortServiceDto;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -25,5 +26,6 @@ public class DiagnosisDto {
 
     private CarWithoutDiag car;
 
-    //todo dodac serwis dto
+    private ShortServiceDto service;
+
 }
