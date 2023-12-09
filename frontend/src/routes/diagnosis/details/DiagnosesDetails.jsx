@@ -10,6 +10,7 @@ import {Alert, Button, Col, Container, Modal, Row, Spinner} from "react-bootstra
 import "./diagnoses-details.css"
 import DateFormat from "../../../utils/DateFormat.jsx";
 import DiagnosesEditForm from "./DiagnosesEditForm.jsx";
+import {Link} from "react-router-dom";
 
 const DiagnosesDetails = () => {
     const { auth } = useContext(AuthContext);
@@ -111,6 +112,7 @@ const DiagnosesDetails = () => {
                                     <li>
                                         <strong>Rodzaj nadwozia:</strong> { diagnosisData.car.type}
                                     </li>
+                                    <Link to={`/cars/${diagnosisData.car.id}`}>Szczegóły</Link>
                                 </ul>
                             ) : (
                                 <Alert className={"alert-info"} variant="info">Brak samochodu.</Alert>
@@ -129,6 +131,7 @@ const DiagnosesDetails = () => {
                                     <li>
                                         <strong>Koszt:</strong> {diagnosisData.service.cost}
                                     </li>
+                                    <Link to={`/services/${diagnosisData.service.id}`}>Szczegóły</Link>
                                 </ul>
                             ) : (
                                 <Alert className={"alert-info"} variant="info">Brak przypisanego serwisu.</Alert>
