@@ -149,6 +149,17 @@ public class DiagnosisServiceImpl implements DiagnosisService {
                 .toList();
     }
 
+    @Override
+    public List<DiagnosisDto> getAllDiagnosisByStatus(ClientApproval clientApproval) {
+
+        List<Diagnosis> diagnoses = diagnosisRepository.findAllByClientApproval(clientApproval);
+
+        return diagnoses.
+                stream()
+                .map(diagnosisMapper::mapToDiagnosisDto)
+                .toList();
+    }
+
     private boolean checkIfStringIsNumber(String str){
         if(str == null || str.length() == 0){
             return false;

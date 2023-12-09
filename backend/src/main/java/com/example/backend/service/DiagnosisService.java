@@ -17,5 +17,6 @@ public interface DiagnosisService {
     UpdatedDiagnosisDto updateDiagnosisStatus(Long diagnosisId ,ClientApproval clientApproval);
     List<ShortDiagnosisDto> getCustomerDiagnosesWithWaitingStatus(Long customerId);
 
+    List<DiagnosisDto> getAllDiagnosisByStatus(ClientApproval clientApproval);
 
 }
