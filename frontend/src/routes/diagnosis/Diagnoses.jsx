@@ -74,7 +74,7 @@ const Diagnoses = () => {
                     </div>
                     <div className="content-wrapper">
                         <h2>Diagnozy</h2>
-                        <div className="filter-buttons">
+                        <div className="filter-buttons ">
                             <Button variant="primary" onClick={() => handleFilter('')}>Wszystkie</Button>
                             <Button variant="primary" onClick={() => handleFilter('OCZEKUJE')}>Oczekujace</Button>
                             <Button variant="primary" onClick={() => handleFilter('ZATWIERDZONO')}>Zatwierdzone</Button>

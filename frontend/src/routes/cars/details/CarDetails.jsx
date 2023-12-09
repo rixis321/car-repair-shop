@@ -18,7 +18,9 @@ const CarDetails = () => {
     const [carData, setCarData] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
 
-
+    if (!auth.accessToken) {
+        return <Navigate to='/login' />;
+    }
 
     const handleEditButtonClick = () => {
         setShowEditModal(!showEditModal);
@@ -45,9 +47,6 @@ const CarDetails = () => {
     }, []);
     useEffect(() => {
     }, [auth.accessToken]);
-    if (!auth.accessToken) {
-        return <Navigate to='/login' />;
-    }
     return (
         <>
             <div className="admin-container">
@@ -148,7 +147,7 @@ const CarDetails = () => {
                                         </>
                                     )}
                                     loading={loading}
-                                    detailsLinkBuilder={(car) => `/services/${service.id}`}
+                                    detailsLinkBuilder={(service) => `/services/${service.id}`}
                                     itemsPerPage={4}
                                 />
                             ):(

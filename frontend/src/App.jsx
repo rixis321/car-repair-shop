@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import "bootstrap-icons/font/bootstrap-icons.css";
 import {Routes} from "react-router";
@@ -18,6 +17,7 @@ import CarsAdd from "./routes/cars/CarsAdd.jsx";
 import CustomerDetails from "./routes/customers/details/CustomerDetails.jsx";
 import CarDetails from "./routes/cars/details/CarDetails.jsx";
 import DiagnosesAdd from "./routes/diagnosis/DiagnosesAdd.jsx";
+import DiagnosesDetails from "./routes/diagnosis/details/DiagnosesDetails.jsx";
 
 function App() {
 
@@ -31,6 +31,7 @@ function App() {
               <Route path={"/employees/add"} element={<EmployeesAdd/>}/>
               <Route path={"/diagnosis"} element={<Diagnoses/>}/>
               <Route path={"/diagnosis/add"} element={<DiagnosesAdd/>}/>
+              <Route path={"/diagnosis/:id"} element={<DiagnosesDetails/>}/>
               <Route path={"/customers"} element={<Customers/>}/>
               <Route path={"/customers/:id"} element={<CustomerDetails/>}/>
               <Route path={"/customers/add"} element={<CustomersAdd/>}/>
