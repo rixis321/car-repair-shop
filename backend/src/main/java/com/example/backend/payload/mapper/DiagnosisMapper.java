@@ -24,6 +24,7 @@ public interface DiagnosisMapper {
     @Mapping(target = "employeeId",source = "employee.id")
     NewDiagnosisDto mapToNewDiagnosisDto(Diagnosis diagnosis);
 
+    @Mapping(target = "service", source = "service")
     DiagnosisDto mapToDiagnosisDto(Diagnosis diagnosis);
 
     @Mapping(target = "car", ignore = true)
