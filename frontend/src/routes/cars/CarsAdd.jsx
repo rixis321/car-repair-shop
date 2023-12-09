@@ -9,6 +9,7 @@ import {Alert, Button, Col, Container, Form, Row} from "react-bootstrap";
 import "./cars-add-styles.css"
 import api from "../../api/axiosConfig.js";
 import CarBrands from "./CarBrands.jsx";
+import {validateRegistrationNumber, validateVinNumber} from "../../utils/CarValidation.jsx";
 
 const CarsAdd = () => {
     const { auth } = useContext(AuthContext);
@@ -53,14 +54,6 @@ const CarsAdd = () => {
         }
         fetchData();
     },[])
-    const validateRegistrationNumber = (registrationNumber) => {
-        const registrationNumberRegex =  /^[A-Z]{2}\d{5}$|^[A-Z]{2}\d{4}[A-Z]$/;
-        return registrationNumberRegex.test(registrationNumber);
-    };
-    const validateVinNumber = (vin) => {
-        const vinRegex = /^[A-HJ-NPR-Z0-9]{17}$/;
-        return vinRegex.test(vin);
-    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -215,13 +208,13 @@ const CarsAdd = () => {
                                                 value={carData.type}
                                                 onChange={handleInputChange}
                                             >
-                                                <option value="RECEPCJONISTA">SEDAN</option>
-                                                <option value="MECHANIK">KOMBI</option>
-                                                <option value="MECHANIK">HATCHBACK</option>
-                                                <option value="MECHANIK">MINIVAN</option>
-                                                <option value="MECHANIK">SUV</option>
-                                                <option value="MECHANIK">KABRIOLET</option>
-                                                <option value="MECHANIK">LIMUZYNA</option>
+                                                <option value="SEDAN">SEDAN</option>
+                                                <option value="KOMBI">KOMBI</option>
+                                                <option value="HATCHBACK">HATCHBACK</option>
+                                                <option value="MINIVAN">MINIVAN</option>
+                                                <option value="SUV">SUV</option>
+                                                <option value="KABRIOLET">KABRIOLET</option>
+                                                <option value="LIMUZYNA">LIMUZYNA</option>
                                             </Form.Control>
                                         </Form.Group>
                                     </Col>
@@ -251,9 +244,9 @@ const CarsAdd = () => {
                                                 value={carData.productionYear}
                                                 onChange={handleInputChange}
                                             >
-                                                {Array.from({ length: 70 }, (_, index) => (
-                                                    <option key={index} value={2023 - index}>
-                                                        {2023 - index}
+                                                {Array.from({ length: 73 }, (_, index) => (
+                                                    <option key={index} value={2024 - index}>
+                                                        {2024 - index}
                                                     </option>
                                                 ))}
                                             </Form.Control>
@@ -269,11 +262,11 @@ const CarsAdd = () => {
                                                 value={carData.gearboxType}
                                                 onChange={handleInputChange}
                                             >
-                                                <option value="RECEPCJONISTA">MANUALNA</option>
-                                                <option value="MECHANIK">AUTOMATYCZNA</option>
-                                                <option value="MECHANIK">POLAUTOMATYCZNA</option>
-                                                <option value="MECHANIK">DWUSPRZEGLOWA</option>
-                                                <option value="MECHANIK">DWUSTOPNIOWA</option>
+                                                <option value="MANUALNA">MANUALNA</option>
+                                                <option value="AUTOMATYCZNA">AUTOMATYCZNA</option>
+                                                <option value="POLAUTOMATYCZNA">POLAUTOMATYCZNA</option>
+                                                <option value="DWUSPRZEGLOWA">DWUSPRZEGLOWA</option>
+                                                <option value="DWUSTOPNIOWA">DWUSTOPNIOWA</option>
                                             </Form.Control>
                                         </Form.Group>
                                     </Col>
@@ -290,16 +283,15 @@ const CarsAdd = () => {
                                                 value={carData.fuelType}
                                                 onChange={handleInputChange}
                                             >
-                                                <option value="RECEPCJONISTA">BENZYNA</option>
-                                                <option value="MECHANIK">DIESEL</option>
-                                                <option value="MECHANIK">LPG</option>
-                                                <option value="MECHANIK">ELEKTRYCZNY</option>
-                                                <option value="MECHANIK">HYBRYDOWY</option>
+                                                <option value="BENZYNA">BENZYNA</option>
+                                                <option value="DIESEL">DIESEL</option>
+                                                <option value="LPG">LPG</option>
+                                                <option value="ELEKTRYCZNY">ELEKTRYCZNY</option>
+                                                <option value="HYBRYDOWY">HYBRYDOWY</option>
                                             </Form.Control>
                                         </Form.Group>
                                     </Col>
                                     <Col md={3}>
-                                        {/* Input dla numeru ulicy */}
                                         <Form.Group controlId="engine">
                                             <Form.Label className="custom-label">Pojemność silnika</Form.Label>
                                             <Form.Control
@@ -316,12 +308,11 @@ const CarsAdd = () => {
                                 </Row>
                                 <Row className={"justify-content-center align-items-center"} >
                                     <Col md={4}>
-                                        {/* Input dla numeru ulicy */}
                                         <Form.Group controlId="vinNumber">
                                             <Form.Label className="custom-label">Numer VIN samochodu</Form.Label>
                                             <Form.Control
                                                 type="text"
-                                                placeholder="Wprowadź numer ulicy"
+                                                placeholder="Wprowadź numer VIN"
                                                 name="vinNumber"
                                                 value={carData.vinNumber}
                                                 onChange={handleInputChange}
@@ -331,8 +322,6 @@ const CarsAdd = () => {
                                         </Form.Group>
                                     </Col>
                                 </Row>
-
-                                {/* Przycisk do wysłania formularza */}
                                 <Button variant="primary" type="submit">
                                     Zarejestruj samochod
                                 </Button>

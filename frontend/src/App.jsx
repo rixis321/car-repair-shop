@@ -16,6 +16,7 @@ import EmployeesAdd from "./routes/employees/EmployeesAdd.jsx";
 import CustomersAdd from "./routes/customers/CustomersAdd.jsx";
 import CarsAdd from "./routes/cars/CarsAdd.jsx";
 import CustomerDetails from "./routes/customers/details/CustomerDetails.jsx";
+import CarDetails from "./routes/cars/details/CarDetails.jsx";
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
               <Route path={"/customers/:id"} element={<CustomerDetails/>}/>
               <Route path={"/customers/add"} element={<CustomersAdd/>}/>
               <Route path={"/cars"} element={<Cars/>}/>
+              <Route path={"/cars/:id"} element={<CarDetails/>}/>
               <Route path={"/cars/add"} element={<CarsAdd/>}/>
               <Route path={"/login"} element={<LoginPage/>}/>
           </Routes>
