@@ -1,0 +1,58 @@
+/* employee-details.css */
+
+.custom-list {
+    list-style: none;
+    background-color: #052548;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    color: #957C3D;
+}
+
+.custom-list li {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; /
+}
+
+.custom-list li strong {
+    min-width: 60px;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+.custom-list.personal-data{
+    height: 80%;
+}
+.custom-list.address-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80%;
+}
+.option-buttons{
+    margin-left: 20px;
+}
+
+.reset{
+    background-color:  rgba(0, 35, 73, 0.93);
+}
+
+.modal-title{
+    color: #957C3D;
+}
+
+.modal-header{
+    border-bottom: 2px solid #957C3D;
+}
+
+.alert-info{
+    margin-left: 30px;
+    background-color: #052548;
+    border-radius: 5px;
+    border: 2px #052548;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    color: #957C3D;
+}

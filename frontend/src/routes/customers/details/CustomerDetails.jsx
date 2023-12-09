@@ -162,18 +162,6 @@ const CustomerDetails = () => {
 
 
                                         </Modal.Body>
-                                        {/*<Row className="mt-3">*/}
-                                        {/*    <Col>*/}
-                                        {/*        <Button variant="primary" onClick={onCancel}>*/}
-                                        {/*            Anuluj*/}
-                                        {/*        </Button>*/}
-                                        {/*    </Col>*/}
-                                        {/*    <Col className="text-end">*/}
-                                        {/*        <Button variant="primary" onClick={handleSave}>*/}
-                                        {/*            Zapisz zmiany*/}
-                                        {/*        </Button>*/}
-                                        {/*    </Col>*/}
-                                        {/*</Row>*/}
                                     </Modal>
                                 </div>
                             </Row>
