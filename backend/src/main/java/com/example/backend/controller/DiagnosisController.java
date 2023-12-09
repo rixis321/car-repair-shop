@@ -29,6 +29,12 @@ public class DiagnosisController {
 
         return new ResponseEntity<>(diagnosisService.getAllDiagnosis(), HttpStatus.OK);
     }
+
+    @GetMapping("/diagnosis/status")
+    public ResponseEntity<List<DiagnosisDto>> getAllDiagnosisByStatus(@RequestParam ClientApproval status){
+
+        return new ResponseEntity<>(diagnosisService.getAllDiagnosisByStatus(status), HttpStatus.OK);
+    }
     @GetMapping("/diagnosis/{diagnosisId}")
     public ResponseEntity<DiagnosisDto> getDiagnosisById(@PathVariable Long diagnosisId){
 

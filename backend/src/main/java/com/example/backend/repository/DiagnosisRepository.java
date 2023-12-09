@@ -10,4 +10,6 @@ import java.util.List;
 public interface DiagnosisRepository extends JpaRepository<Diagnosis,Long> {
     long countByServiceIsNull();
     long countByClientApproval(ClientApproval clientApproval);
+
+    List<Diagnosis> findAllByClientApproval(ClientApproval clientApproval);
 }
