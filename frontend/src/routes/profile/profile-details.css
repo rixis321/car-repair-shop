@@ -1,0 +1,50 @@
+.title {
+    margin-bottom: 10px;
+    display: flex;
+    margin-left: 30px;
+}
+
+.title h1 {
+    font-size: 24px;
+
+    font-weight: 600;
+    color: #957C3D;
+
+}
+.card-profile{
+    width: 25rem;
+    height: 18rem;
+    margin-left: 20px;
+    border: 10px #052548;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    background-color: #052548;
+    border-radius: 5px;
+}
+.card-profile h2 {
+    font-size: 20px; /* Nowy rozmiar dla h2 */
+    font-weight: 600;
+    border: none;
+    margin-top: 20px;
+    margin-left: -10px;
+    padding: 0;
+}
+
+.card-profile h3 {
+    font-size: 16px; /* Nowy rozmiar dla h3 */
+    color: #957C3D; /* Kolor dla h3 */
+    font-weight: 600;
+    padding: 10px;
+    margin-left: -20px;
+}
+.card-profile .avatar-icon {
+    font-size: 100px; /* Zwiększ rozmiar ikony na przykład do 40px */
+    margin-right: 15px; /* Dodaj odstęp między ikoną a tekstem */
+    color: #957C3D;
+}
+
+.profile-data{
+    border: 10px #052548;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    background-color: #052548;
+    border-radius: 5px;
+}
