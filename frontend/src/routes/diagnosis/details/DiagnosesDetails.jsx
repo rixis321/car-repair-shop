@@ -9,7 +9,7 @@ import Sidebar from "../../../components/sidebar/Sidebar.jsx";
 import {Alert, Button, Col, Container, Modal, Row, Spinner} from "react-bootstrap";
 import "./diagnoses-details.css"
 import DateFormat from "../../../utils/DateFormat.jsx";
-import DiagnosesEditForm from "./DiagnosesEditForm.jsx";
+import DiagnosesEditForm from "../../../components/diagnosis/DiagnosesEditForm.jsx";
 import {Link} from "react-router-dom";
 
 const DiagnosesDetails = () => {

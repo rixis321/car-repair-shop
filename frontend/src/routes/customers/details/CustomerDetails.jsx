@@ -8,7 +8,7 @@ import Sidebar from "../../../components/sidebar/Sidebar.jsx";
 import {Alert, Button, Col, Container, Modal, Row, Spinner} from "react-bootstrap";
 import ListItem from "../../../components/Utils/ListItem.jsx";
 import "./customer-details.css"
-import CustomerEditForm from "./CustomerEditForm";
+import CustomerEditForm from "../../../components/customer/CustomerEditForm.jsx";
 
 const CustomerDetails = () => {
     const { auth } = useContext(AuthContext);

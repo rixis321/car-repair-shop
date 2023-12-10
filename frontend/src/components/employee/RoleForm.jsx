@@ -2,8 +2,8 @@
 import React, {useEffect, useState} from 'react';
 import {Form, Button, Row, Col, Alert} from 'react-bootstrap';
 import {useContext} from "react";
-import api from "../../../api/axiosConfig.js";
-import AuthContext from "../../../security/AuthProvider.jsx";
+import api from "../../api/axiosConfig.js";
+import AuthContext from "../../security/AuthProvider.jsx";
 
 const ChangeRoleForm = ({ onSave, onCancel,employeeId,initialData }) => {
     const [selectedRole, setSelectedRole] = useState();

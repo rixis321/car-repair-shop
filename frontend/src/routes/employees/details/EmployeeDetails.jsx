@@ -9,9 +9,9 @@ import {Navigate, useNavigate, useParams} from "react-router";
 import "./employee-details.css"
 import dateFormat from "../../../utils/DateFormat.jsx";
 import ListItem from "../../../components/Utils/ListItem.jsx";
-import PasswordResetForm from "./PasswordResetForm.jsx";
-import EmployeeEditForm from "./EmployeeEditForm.jsx";
-import RoleForm from "./RoleForm";
+import PasswordResetForm from "../../../components/employee/PasswordResetForm.jsx";
+import EmployeeEditForm from "../../../components/employee/EmployeeEditForm.jsx";
+import RoleForm from "../../../components/employee/RoleForm.jsx";
 
 
 const EmployeeDetails = () => {
@@ -138,6 +138,7 @@ const EmployeeDetails = () => {
                                         <Modal.Body className={"reset"}>
                                             <EmployeeEditForm
                                                 employeeId={id}
+                                                profileMode={false}
                                                 initialData={employeeData}
                                                 onSave={handleEditButtonOnSave}
                                                 onCancel={handleEditButtonClick}
@@ -150,6 +151,7 @@ const EmployeeDetails = () => {
                                         </Modal.Header>
                                         <Modal.Body className={"reset"}>
                                             <PasswordResetForm
+                                                profileMode={false}
                                                 employeeId={id}
                                                 onCancel={()=>setShowPasswordResetModal(!showPasswordResetModal)}
                                                 onPasswordReset={(newPassword) => {

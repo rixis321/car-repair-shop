@@ -1,8 +1,8 @@
 import React from 'react';
 import {useContext, useState} from "react";
-import AuthContext from "../../../security/AuthProvider.jsx";
+import AuthContext from "../../security/AuthProvider.jsx";
 import {Alert, Button, Col, Form, Row} from "react-bootstrap";
-import api from "../../../api/axiosConfig.js";
+import api from "../../api/axiosConfig.js";
 
 const DiagnosesEditForm = ({diagnosisId, initialData, onSave, onCancel}) => {
     const [formData, setFormData] = useState(initialData);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {Form, Button, Col, Row, Alert} from 'react-bootstrap';
-import api from "../../../api/axiosConfig.js";
+import api from "../../api/axiosConfig.js";
 import {
     validateName,
     validateCity,
@@ -8,15 +8,17 @@ import {
     validateStreetNumber,
     validateZipCode,
     validatePhone,
-    } from "../../../utils/UserValidation.jsx"
+    validateEmail} from "../../utils/UserValidation.jsx"
 import {useContext} from "react";
-import AuthContext from "../../../security/AuthProvider.jsx";
+import AuthContext from "../../security/AuthProvider.jsx";
+const EmployeeEditForm = ({ initialData, onSave, onCancel,employeeId,profileMode }) => {
 
-const EmployeeEditForm = ({ initialData, onSave, onCancel,customerId }) => {
     const [formData, setFormData] = useState(initialData);
     const [errors, setErrors] = useState({});
     const { auth } = useContext(AuthContext);
     const [responseError,setResponseError] = useState('')
+    const [saveSuccess, setSaveSuccess] = useState(false);
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -40,6 +42,9 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,customerId }) => {
     const handleSave = async  () => {
         // Sprawdzanie poprawności danych przed wysłaniem
         const validationErrors = {};
+        if (!validateEmail(formData.email)) {
+            validationErrors.email = "Wprowadź poprawny adres email";
+        }
 
         if (!validateName(formData.name)) {
             validationErrors.name = "Wprowadź poprawne imię";
@@ -74,13 +79,14 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,customerId }) => {
             return;
         }
         try {
-            const response = await api.put(`/customers/${customerId}`,formData,{
+            const response = await api.put(`/employees/${employeeId}`,formData,{
                 headers: {"Content-Type": "Application/json", "Authorization": auth.accessToken}
             })
             console.log(response)
             if (response.status !== 200) {
                 return;
             }
+            setSaveSuccess(true);
             onSave(formData)
         }
         catch (err){
@@ -142,6 +148,22 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,customerId }) => {
 
                 </Col>
                 <Col md={6}>
+                    <Form.Group controlId="formEmail">
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control
+                            type="text"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            required
+                        />
+                    </Form.Group>
+                    {errors.email && <small className="text-danger">{errors.email}</small>}
+                </Col>
+            </Row>
+
+            <Row>
+                <Col md={6}>
                     <Form.Group controlId="formZipcode">
                         <Form.Label>Kod pocztowy</Form.Label>
                         <Form.Control
@@ -154,8 +176,6 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,customerId }) => {
                     </Form.Group>
                     {errors.zipcode && <small className="text-danger">{errors.zipcode}</small>}
                 </Col>
-            </Row>
-            <Row>
                 <Col md={6}>
                     <Form.Group controlId="formCity">
                         <Form.Label>Miasto</Form.Label>
@@ -169,6 +189,9 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,customerId }) => {
                     </Form.Group>
                     {errors.city && <small className="text-danger">{errors.city}</small>}
                 </Col>
+            </Row>
+
+            <Row>
                 <Col md={6}>
                     <Form.Group controlId="formStreetName">
                         <Form.Label>Nazwa ulicy</Form.Label>
@@ -182,10 +205,6 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,customerId }) => {
                     </Form.Group>
                     {errors.streetName && <small className="text-danger">{errors.streetName}</small>}
                 </Col>
-            </Row>
-
-            <Row>
-
                 <Col md={6}>
                     <Form.Group controlId="formStreetNumber">
                         <Form.Label>Numer ulicy</Form.Label>
@@ -202,16 +221,28 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,customerId }) => {
             {responseError && <Alert className={"mt-2"} variant="danger">{responseError}</Alert>}
 
             <Row className="mt-3">
-                <Col>
-                    <Button variant="primary" onClick={onCancel}>
-                        Anuluj
-                    </Button>
-                </Col>
-                <Col className="text-end">
-                    <Button variant="primary" onClick={handleSave}>
-                        Zapisz zmiany
-                    </Button>
-                </Col>
+                    {!profileMode && (
+                        <>
+                        <Col>
+                            <Button variant="primary" onClick={onCancel}>
+                                Anuluj
+                            </Button>
+                        </Col>
+                        <Col className="text-end">
+                            <Button variant="primary" onClick={handleSave}>
+                                Zapisz zmiany
+                            </Button>
+                        </Col>
+                        </>
+                    )}
+                    {profileMode && saveSuccess && <Alert className={"mt-2"} variant="success">Zmiany zostały zapisane pomyślnie!</Alert>}
+                    {profileMode && (
+                        <div className="d-flex justify-content-center">
+                            <Button variant="primary" onClick={handleSave}>
+                                Zapisz zmiany
+                            </Button>
+                        </div>
+                    )}
             </Row>
         </Form>
     );

@@ -1,22 +1,21 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Form, Button, Col, Alert, Row} from 'react-bootstrap';
-import api from "../../../api/axiosConfig.js";
+import api from "../../api/axiosConfig.js";
 import {useContext} from "react";
-import AuthContext from "../../../security/AuthProvider.jsx";
+import AuthContext from "../../security/AuthProvider.jsx";
 import {Navigate} from "react-router";
 
-const PasswordResetForm = ({ onPasswordReset,employeeId,onCancel }) => {
+const PasswordResetForm = ({ onPasswordReset,employeeId,onCancel,profileMode }) => {
     const { auth } = useContext(AuthContext);
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [validationError, setValidationError] = useState('');
-
+    const [saveSuccess, setSaveSuccess] = useState(false);
     if (!auth.accessToken) {
         return <Navigate to='/login' />;
     }
     const newPasswordRef = useRef(null);
     useEffect(() => {
-        // Check if the ref is not null before using it
         if (newPasswordRef.current) {
             newPasswordRef.current.focus();
         }
@@ -39,13 +38,12 @@ const PasswordResetForm = ({ onPasswordReset,employeeId,onCancel }) => {
                 headers: {"Content-Type": "Application/json", "Authorization": auth.accessToken}
             } );
             if(response.status === 200){
+                setSaveSuccess(true)
                 onPasswordReset(newPassword);
             }
         } catch (err) {
             if (err.response && err.response.data) {
                 setValidationError(err.response.data.message);
-            } else {
-                setValidationError('Wystąpił błąd podczas resetowania hasła.');
             }
         }
     };
@@ -76,16 +74,28 @@ const PasswordResetForm = ({ onPasswordReset,employeeId,onCancel }) => {
             {validationError && <Alert className={"mt-2"} variant="danger">{validationError}</Alert>}
 
             <Row className="mt-3">
-                <Col>
-                    <Button variant="primary" onClick={onCancel}>
-                        Anuluj
-                    </Button>
-                </Col>
-                <Col className="text-end">
-                    <Button variant="primary" onClick={handlePasswordReset}>
-                        Zresetuj hasło
-                    </Button>
-                </Col>
+                {!profileMode &&(
+                    <>
+                        <Col>
+                            <Button variant="primary" onClick={onCancel}>
+                                Anuluj
+                            </Button>
+                        </Col>
+                        <Col className="text-end">
+                            <Button variant="primary" onClick={handlePasswordReset}>
+                                Zresetuj hasło
+                            </Button>
+                        </Col>
+                    </>
+                )}
+                {profileMode && saveSuccess && <Alert className={"mt-2"} variant="success">Hasło zostało zmodyfikowane!</Alert>}
+                {profileMode && (
+                    <div className="d-flex justify-content-center">
+                        <Button variant="primary" onClick={handlePasswordReset}>
+                            Zapisz zmiany
+                        </Button>
+                    </div>
+                )}
             </Row>
 
         </Form>
