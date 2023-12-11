@@ -152,58 +152,37 @@ const ServiceDetails = () => {
                             </Row>
                         </Container>
                         <h2>Przebieg pracy</h2>
-                        <Container fluid>
-                            {currentServiceHistory.length > 0 ? (
-                                <div className="custom-list history">
-                                    {currentServiceHistory.map((history, index) => (
-                                        <Row key={index} className="work-history-item">
-                                            <Row>
-                                                <Col>
-                                                    <strong>Opis:</strong> {history.description}
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col>
-                                                    <strong style={{ marginLeft: '10px' }}>
-                                                        Nazwa pracownika:
-                                                    </strong>{' '}
-                                                    {history.fullEmployeeName}
-                                                </Col>
-                                            </Row>
-                                            <Row>
-                                                <Col>
-                                                    <strong>Data dodania:</strong> {DateFormat(history.date)}
-                                                </Col>
-                                            </Row>
-                                        </Row>
-                                    ))}
-                                </div>
-                            ) : (
-                                <Alert className={'alert-info'} variant="info">
-                                    Brak przeprowadzonych prac.
-                                </Alert>
-                            )}
-                            {totalPages > 1 && (
-                                <Pagination className="justify-content-center mt-3">
-                                    {[...Array(totalPages).keys()].map((page) => (
-                                        <Pagination.Item
-                                            key={page + 1}
-                                            active={page + 1 === currentPage}
-                                            onClick={() => handlePageChange(page + 1)}
-                                        >
-                                            {page + 1}
-                                        </Pagination.Item>
-                                    ))}
-                                </Pagination>
-                            )}
-                        </Container>
-                        <h2>Wystawione faktury</h2>
                         <ServiceHistoryList currentServiceHistory={currentServiceHistory} />
                         <ServiceHistoryPagination
                             totalPages={totalPages}
                             currentPage={currentPage}
                             handlePageChange={handlePageChange}
                         />
+                        <h2>Wystawione faktury</h2>
+                        <Container fluid>
+                            {serviceData?.invoices && serviceData.invoices.length > 0 ? (
+                                <div className="custom-list history">
+                                    {serviceData.invoices.map((invoice, index) => (
+                                        <Row key={index} className="work-history-item">
+                                            <Row>
+                                                <Col>
+                                                    <strong>Numer faktury:</strong> {invoice.invoiceNumber}
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col>
+                                                    <strong>Data wydania:</strong> {DateFormat(invoice.issueDate)}
+                                                </Col>
+                                            </Row>
+                                        </Row>
+                                    ))}
+                                </div>
+                            ) : (
+                                <Alert className={"alert-info"} variant="info">
+                                    Brak wystawionych faktur
+                                </Alert>
+                            )}
+                        </Container>
                     </div>
                 </div>
             </div>
