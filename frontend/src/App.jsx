@@ -21,6 +21,7 @@ import DiagnosesDetails from "./routes/diagnosis/details/DiagnosesDetails.jsx";
 import ProfileDetails from "./routes/profile/ProfileDetails.jsx";
 import Services from "./routes/service/Services.jsx";
 import ServiceAdd from "./routes/service/ServiceAdd";
+import ServiceDetails from "./routes/service/details/ServiceDetails.jsx";
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
               <Route path={"/employees/add"} element={<EmployeesAdd/>}/>
               <Route path={"/services"} element={<Services/>}/>
               <Route path={"/services/add"} element={<ServiceAdd/>}/>
+              <Route path={"/services/:id"} element={<ServiceDetails/>}/>
               <Route path={"/diagnosis"} element={<Diagnoses/>}/>
               <Route path={"/diagnosis/add"} element={<DiagnosesAdd/>}/>
               <Route path={"/diagnosis/:id"} element={<DiagnosesDetails/>}/>
