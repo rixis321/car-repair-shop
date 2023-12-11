@@ -87,8 +87,8 @@ const DiagnosesEditForm = ({diagnosisId, initialData, onSave, onCancel}) => {
                     {errors.estimatedCost && <small className="text-danger">{errors.estimatedCost}</small>}
                 </Col>
             </Row>
-            <Form.Group controlId="estimatedCost" className={"mt-4"} >
-                    <Form.Label>Typ nadowzia</Form.Label>
+            <Form.Group controlId="clientApproval" className={"mt-4"} >
+                    <Form.Label>Status</Form.Label>
                     <Form.Control
                         as="select"
                         name="type"

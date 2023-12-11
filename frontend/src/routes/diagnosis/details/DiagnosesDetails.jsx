@@ -68,7 +68,7 @@ const DiagnosesDetails = () => {
                                     ) : (
                                         <ul className="custom-list">
                                             <li><strong>Opis</strong> {diagnosisData.description}</li>
-                                            <li><strong>Szacowany koszt</strong> {diagnosisData.estimatedCost}</li>
+                                            <li><strong>Szacowany koszt</strong> {diagnosisData.estimatedCost +" zł"}</li>
                                             <li><strong>Status </strong>{diagnosisData.clientApproval}</li>
                                             <li><strong>Data dodania</strong> {DateFormat(diagnosisData.diagnosisDate)}</li>
                                         </ul>
@@ -129,7 +129,7 @@ const DiagnosesDetails = () => {
                                         <strong>Status:</strong> {diagnosisData.service.serviceStatus}
                                     </li>
                                     <li>
-                                        <strong>Koszt:</strong> {diagnosisData.service.cost}
+                                        <strong>Koszt:</strong> {diagnosisData.service.cost + " zł"}
                                     </li>
                                     <Link to={`/services/${diagnosisData.service.id}`}>Szczegóły</Link>
                                 </ul>

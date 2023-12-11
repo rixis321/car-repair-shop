@@ -21,7 +21,7 @@
     border-radius: 5px;
 }
 .card-profile h2 {
-    font-size: 20px; /* Nowy rozmiar dla h2 */
+    font-size: 20px;
     font-weight: 600;
     border: none;
     margin-top: 20px;
@@ -30,15 +30,15 @@
 }
 
 .card-profile h3 {
-    font-size: 16px; /* Nowy rozmiar dla h3 */
-    color: #957C3D; /* Kolor dla h3 */
+    font-size: 16px;
+    color: #957C3D;
     font-weight: 600;
     padding: 10px;
     margin-left: -20px;
 }
 .card-profile .avatar-icon {
-    font-size: 100px; /* Zwiększ rozmiar ikony na przykład do 40px */
-    margin-right: 15px; /* Dodaj odstęp między ikoną a tekstem */
+    font-size: 100px;
+    margin-right: 15px;
     color: #957C3D;
 }
 
