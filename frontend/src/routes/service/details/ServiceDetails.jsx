@@ -16,6 +16,7 @@ import ServiceHistoryPagination from "../../../components/service/ServiceHistory
 import ServiceEditModal from "../../../components/service/modal/ServiceEditModal.jsx";
 import ServiceProgressModal from "../../../components/service/modal/ServiceProgressModal.jsx";
 import ServiceStatusModal from "../../../components/service/modal/ServiceStatusModal";
+import DeleteConfirmationModal from "../../../components/Utils/DeleteConfirmModal.jsx";
 
 const ServiceDetails = () => {
     const { auth } = useContext(AuthContext);
@@ -26,6 +27,12 @@ const ServiceDetails = () => {
     const [showProgressServiceModal, setShowProgressServiceModal] = useState(false);
     const [showStatusModal, setShowStatusModal] = useState(false);
 
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deleteModalContent, setDeleteModalContent] = useState({
+        modalTitle: 'Usuwanie przebiegu pracy serwisowej',
+        modalBody: 'Czy na pewno chcesz usunać tą prace?',
+        apiLink: ''
+    });
 
     //paginacja
     const itemsPerPage = 4;
@@ -50,6 +57,48 @@ const ServiceDetails = () => {
     const handleProgressServiceClick = () =>{
         setShowProgressServiceModal(!showProgressServiceModal)
     }
+
+    const fetchData = async () => {
+        try {
+            const response = await api.get(`/services/${id}`, {
+                headers: { "Content-Type": "Application/json", "Authorization": auth.accessToken }
+            });
+            setServiceData(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }finally {
+            setLoading(false);
+        }
+    };
+    const handleDelete = (serviceHistoryId) => {
+        // Customize the modal content based on your needs
+        const { modalTitle, modalBody } = deleteModalContent;
+        const apiLink = `/services/${id}/history/${serviceHistoryId}`;
+
+        // Update the state with modal content
+        setDeleteModalContent({
+            modalTitle,
+            modalBody,
+            apiLink
+        });
+        setShowDeleteModal(true);
+    };
+    const handleDeleteConfirm = async () => {
+        try {
+
+            await api.delete(deleteModalContent.apiLink, {
+                headers: { "Authorization": auth.accessToken }
+            });
+
+            fetchData();
+        } catch (err) {
+            console.log(err);
+        } finally {
+            // Close the modal
+            setShowDeleteModal(false);
+        }
+    };
+
     const handleProgressServiceOnSave = (updatedData) =>{
         console.log("handleProgressServiceOnSave called with data:", updatedData);
         setServiceData(prevData => ({ ...prevData, ...updatedData }));
@@ -69,19 +118,6 @@ const ServiceDetails = () => {
         handleEditButtonClick();
     };
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await api.get(`/services/${id}`, {
-                    headers: { "Content-Type": "Application/json", "Authorization": auth.accessToken }
-                });
-                setServiceData(response.data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }finally {
-                setLoading(false);
-            }
-        };
-
         fetchData();
     }, []);
 
@@ -152,11 +188,21 @@ const ServiceDetails = () => {
                             </Row>
                         </Container>
                         <h2>Przebieg pracy</h2>
-                        <ServiceHistoryList currentServiceHistory={currentServiceHistory} />
+                        <ServiceHistoryList
+                            currentServiceHistory={currentServiceHistory}
+                            onDelete={handleDelete}/>
                         <ServiceHistoryPagination
                             totalPages={totalPages}
                             currentPage={currentPage}
                             handlePageChange={handlePageChange}
+                        />
+                        <DeleteConfirmationModal
+                            show={showDeleteModal}
+                            handleClose={() => setShowDeleteModal(false)}
+                            handleDeleteConfirm={handleDeleteConfirm}
+                            modalTitle={deleteModalContent.modalTitle}
+                            modalBody={deleteModalContent.modalBody}
+                            apiLink={deleteModalContent.apiLink}
                         />
                         <h2 className={"mt-5"}>Wystawione faktury</h2>
                         <Container fluid>

@@ -3,7 +3,7 @@ import { Row, Col, Alert } from 'react-bootstrap';
 import DateFormat from "../../utils/DateFormat.jsx";
 
 
-const ServiceHistoryList = ({ currentServiceHistory }) => {
+const ServiceHistoryList = ({ currentServiceHistory, onDelete }) => {
     return (
         <div className="custom-list history">
             {currentServiceHistory.map((history, index) => (
@@ -22,6 +22,13 @@ const ServiceHistoryList = ({ currentServiceHistory }) => {
                     <Row>
                         <Col>
                             <strong>Data dodania:</strong> {DateFormat(history.date)}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                             <span className="delete-span" onClick={() => onDelete(history.id)}>
+                                    Usuń
+                            </span>
                         </Col>
                     </Row>
                 </Row>
