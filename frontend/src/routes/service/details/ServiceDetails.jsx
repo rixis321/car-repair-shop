@@ -158,7 +158,7 @@ const ServiceDetails = () => {
                             currentPage={currentPage}
                             handlePageChange={handlePageChange}
                         />
-                        <h2>Wystawione faktury</h2>
+                        <h2 className={"mt-5"}>Wystawione faktury</h2>
                         <Container fluid>
                             {serviceData?.invoices && serviceData.invoices.length > 0 ? (
                                 <div className="custom-list history">

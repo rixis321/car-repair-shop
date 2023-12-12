@@ -104,7 +104,8 @@ const DiagnosesAdd = () => {
                     status: 'ZATWIERDZONO'
                 })
                 const response = await api.get(`/diagnosis/status?${queryParams}`);
-                setDiagnosisData(response.data);
+                const filteredCarData = response.data.filter(item => item.service === null);
+                setDiagnosisData(filteredCarData);
             } catch (error) {
                 setAlertMessage(error.message);
                 setAlertVariant("danger");
