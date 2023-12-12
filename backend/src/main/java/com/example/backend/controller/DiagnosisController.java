@@ -40,6 +40,11 @@ public class DiagnosisController {
 
         return new ResponseEntity<>(diagnosisService.getDiagnosisById(diagnosisId), HttpStatus.OK);
     }
+    @DeleteMapping("/diagnosis/{diagnosisId}")
+    public ResponseEntity<String> deleteDiagnosisById(@PathVariable Long diagnosisId){
+
+        return new ResponseEntity<>(diagnosisService.deleteDiagnosisById(diagnosisId), HttpStatus.OK);
+    }
     @PutMapping("/diagnosis/{diagnosisId}")
     public ResponseEntity<UpdatedDiagnosisDto> updateDiagnosis(@RequestBody UpdatedDiagnosisDto updatedDiagnosisDto,
                                                                @PathVariable Long diagnosisId){

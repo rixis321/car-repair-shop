@@ -99,6 +99,16 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     }
 
     @Override
+    public String deleteDiagnosisById(Long diagnosisId) {
+        Diagnosis diagnosis = diagnosisRepository.findById(diagnosisId)
+                .orElseThrow(()->new ResourceNotFoundException("diagnosis","id",diagnosisId));
+
+        diagnosisRepository.delete(diagnosis);
+
+        return "Diagnosis deleted successfully";
+    }
+
+    @Override
     public UpdatedDiagnosisDto updateDiagnosis(UpdatedDiagnosisDto updatedDiagnosisDto, Long diagnosisId) {
         Diagnosis diagnosis = diagnosisRepository.findById(diagnosisId)
                 .orElseThrow(() -> new ResourceNotFoundException("diagnosis", "id", diagnosisId));

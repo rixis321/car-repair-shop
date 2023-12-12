@@ -13,6 +13,8 @@ public interface DiagnosisService {
 
     DiagnosisDto getDiagnosisById(Long diagnosisId);
 
+    String deleteDiagnosisById(Long diagnosisId);
+
     UpdatedDiagnosisDto updateDiagnosis(UpdatedDiagnosisDto updatedDiagnosisDto, Long diagnosisId);
     UpdatedDiagnosisDto updateDiagnosisStatus(Long diagnosisId ,ClientApproval clientApproval);
     List<ShortDiagnosisDto> getCustomerDiagnosesWithWaitingStatus(Long customerId);

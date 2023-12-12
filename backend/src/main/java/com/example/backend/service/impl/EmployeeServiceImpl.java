@@ -130,6 +130,8 @@ public class EmployeeServiceImpl  implements EmployeeService {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(()-> new ResourceNotFoundException("Employee","id",employeeId));
 
+        employee.getRoles().clear();
+        employeeRepository.delete(employee);
         return "Employee deleted successfully";
     }
 

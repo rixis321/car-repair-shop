@@ -9,7 +9,6 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Entity
 @Table(name = "cars_info",uniqueConstraints = @UniqueConstraint(columnNames = {"vin_number"}))
 public class CarInfo {

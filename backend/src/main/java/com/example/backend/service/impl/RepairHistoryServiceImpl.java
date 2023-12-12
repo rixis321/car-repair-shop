@@ -3,6 +3,7 @@ package com.example.backend.service.impl;
 import com.example.backend.exception.ResourceNotFoundException;
 import com.example.backend.model.Employee;
 import com.example.backend.model.ServiceHistory;
+import com.example.backend.model.constants.ServiceStatus;
 import com.example.backend.payload.History.NewServiceHistoryDto;
 import com.example.backend.payload.History.ServiceHistoryDto;
 import com.example.backend.payload.mapper.ServiceMapper;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RepairHistoryServiceImpl implements RepairHistoryService {
@@ -48,6 +50,10 @@ public class RepairHistoryServiceImpl implements RepairHistoryService {
         serviceHistory.setDate(date);
         serviceHistory.setService(service);
 
+        if(service.getServiceHistories().size() > 1){
+            service.setServiceStatus(ServiceStatus.W_TRAKCIE);
+            service = serviceRepository.save(service);
+        }
         serviceHistory = serviceHistoryRepository.save(serviceHistory);
 
         return serviceMapper.mapToNewServiceHistoryDto(serviceHistory);
@@ -96,5 +102,23 @@ public class RepairHistoryServiceImpl implements RepairHistoryService {
                   .map(serviceMapper::mapToServiceHistoryDto)
                   .toList();
       }
+    }
+
+    @Override
+    public String deleteServiceHistoryElementById(Long serviceId, Long serviceHistoryElementId) {
+        com.example.backend.model.Service service = serviceRepository
+                .findById(serviceId)
+                .orElseThrow(()-> new ResourceNotFoundException("Service","id",serviceId));
+
+        List<ServiceHistory> updatedHistories = service.getServiceHistories().stream()
+                .filter(history -> history.getId() != serviceHistoryElementId)
+                .toList();
+
+        service.getServiceHistories().clear();
+        service.getServiceHistories().addAll(updatedHistories);
+
+        serviceRepository.save(service);
+
+        return "Service history element deleted successfully";
     }
 }
