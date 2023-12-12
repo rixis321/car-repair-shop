@@ -10,7 +10,8 @@ import {Alert, Button, Col, Container, Modal, Row, Spinner} from "react-bootstra
 import ListItem from "../../../components/Utils/ListItem.jsx";
 import dateFormat from "../../../utils/DateFormat.jsx";
 import "./car-details.css"
-import CarEditForm from "./CarEditForm.jsx";
+import CarEditForm from "../../../components/car/CarEditForm.jsx";
+import CarEditModal from "../../../components/car/modal/CarEditModal.jsx";
 const CarDetails = () => {
     const { auth } = useContext(AuthContext);
     const { id } = useParams();
@@ -97,19 +98,14 @@ const CarDetails = () => {
                                     <Col md={1}  className="mb-1">
                                         <Button block onClick={handleEditButtonClick} >Edytuj dane samochodu</Button>
                                     </Col>
-                                    <Modal show={showEditModal} onHide={handleEditButtonClick}>
-                                        <Modal.Header className={"reset modal-header"} closeButton>
-                                            <Modal.Title>Edytuj dane samochodu</Modal.Title>
-                                        </Modal.Header>
-                                        <Modal.Body className={"reset"}>
-                                            <CarEditForm
-                                                carId={id}
-                                                initialData={carData}
-                                                onSave={handleEditButtonOnSave}
-                                                onCancel={handleEditButtonClick}
-                                            />
-                                        </Modal.Body>
-                                    </Modal>
+                                    <CarEditModal
+                                        show={showEditModal}
+                                        handleClose={() => setShowEditModal(false)}
+                                        carId={id}
+                                        initialData={carData}
+                                        onSave={handleEditButtonOnSave}
+                                        onCancel={() => setShowEditModal(false)}
+                                    />
                                 </div>
                             </Row>
                         </Container>

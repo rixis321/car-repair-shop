@@ -9,6 +9,8 @@ import {Alert, Button, Col, Container, Modal, Row, Spinner} from "react-bootstra
 import ListItem from "../../../components/Utils/ListItem.jsx";
 import "./customer-details.css"
 import CustomerEditForm from "../../../components/customer/CustomerEditForm.jsx";
+import ResetCodeModal from "../../../components/customer/modal/ResetCodeModal.jsx";
+import EditCustomerModal from "../../../components/customer/modal/EditCustomerModal.jsx";
 
 const CustomerDetails = () => {
     const { auth } = useContext(AuthContext);
@@ -125,44 +127,19 @@ const CustomerDetails = () => {
                                     <Col md={3}  className="mb-3">
                                         <Button block onClick={handleShowResetCodeModal} >Zresetuj kod dostępu</Button>
                                     </Col>
-                                    <Modal show={showEditModal} onHide={handleEditButtonClick}>
-                                        <Modal.Header className={"reset modal-header"} closeButton>
-                                            <Modal.Title>Edytuj dane klienta</Modal.Title>
-                                        </Modal.Header>
-                                        <Modal.Body className={"reset"}>
-                                            <CustomerEditForm
-                                                customerId={id}
-                                                initialData={customerData}
-                                                onSave={handleEditButtonOnSave}
-                                                onCancel={handleEditButtonClick}
-                                            />
-                                        </Modal.Body>
-                                    </Modal>
-                                    <Modal show={showResetCodeModal} onHide={handleShowResetCodeModal}>
-                                        <Modal.Header className={"reset modal-header"} closeButton>
-                                            <Modal.Title>Czy na pewno chcesz zrestartować kod dostępu?</Modal.Title>
-                                        </Modal.Header>
-                                        <Modal.Body className={"reset"}>
-                                            <Row className="mt-3">
-                                                <Col>
-                                                    <Button variant="primary" onClick={handleShowResetCodeModal}>
-                                                        Anuluj
-                                                    </Button>
-                                                </Col>
-                                                <Col className="text-end">
-                                                    <Button
-                                                        variant="primary"
-                                                        onClick={handleResetCode}
-                                                    >
-                                                        Zresetuj
-                                                    </Button>
-                                                </Col>
-                                                {responseError && <Alert className={"mt-2"} variant="danger">{responseError}</Alert>}
-                                            </Row>
-
-
-                                        </Modal.Body>
-                                    </Modal>
+                                    <EditCustomerModal
+                                        show={showEditModal}
+                                        handleClose={handleEditButtonClick}
+                                        handleEditButtonOnSave={handleEditButtonOnSave}
+                                        customerId={id}
+                                        initialData={customerData}
+                                    />
+                                    <ResetCodeModal
+                                        show={showResetCodeModal}
+                                        handleClose={handleShowResetCodeModal}
+                                        handleResetCode={handleResetCode}
+                                        responseError={responseError}
+                                    />
                                 </div>
                             </Row>
                         </Container>

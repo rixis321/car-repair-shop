@@ -11,6 +11,7 @@ import "./diagnoses-details.css"
 import DateFormat from "../../../utils/DateFormat.jsx";
 import DiagnosesEditForm from "../../../components/diagnosis/DiagnosesEditForm.jsx";
 import {Link} from "react-router-dom";
+import DiagnosesEditModal from "../../../components/diagnosis/modal/DiagnosesEditModal.jsx";
 
 const DiagnosesDetails = () => {
     const { auth } = useContext(AuthContext);
@@ -80,19 +81,14 @@ const DiagnosesDetails = () => {
                                     <Col md={1}  className="mb-1">
                                         <Button block onClick={handleEditButtonClick} >Edytuj dane diagnozy</Button>
                                     </Col>
-                                    <Modal show={showEditModal} onHide={handleEditButtonClick} size={"lg"}>
-                                        <Modal.Header className={"reset modal-header"} closeButton>
-                                            <Modal.Title>Edytuj dane diagnozy</Modal.Title>
-                                        </Modal.Header>
-                                        <Modal.Body className={"reset"}>
-                                            <DiagnosesEditForm
-                                                diagnosisId={id}
-                                                initialData={diagnosisData}
-                                                onSave={handleEditButtonOnSave}
-                                                onCancel={handleEditButtonClick}
-                                            />
-                                        </Modal.Body>
-                                    </Modal>
+                                    <DiagnosesEditModal
+                                        show={showEditModal}
+                                        handleClose={() => setShowEditModal(false)}
+                                        diagnosisId={id}
+                                        initialData={diagnosisData}
+                                        onSave={handleEditButtonOnSave}
+                                        onCancel={() => setShowEditModal(false)}
+                                    />
                                 </div>
                             </Row>
                         </Container>
