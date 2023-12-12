@@ -49,10 +49,11 @@ public class RepairHistoryServiceImpl implements RepairHistoryService {
         Instant date = Instant.now();
         serviceHistory.setDate(date);
         serviceHistory.setService(service);
+        service = serviceRepository.save(service);
 
         if(service.getServiceHistories().size() > 1){
             service.setServiceStatus(ServiceStatus.W_TRAKCIE);
-            service = serviceRepository.save(service);
+
         }
         serviceHistory = serviceHistoryRepository.save(serviceHistory);
 
