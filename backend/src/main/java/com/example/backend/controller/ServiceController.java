@@ -47,6 +47,10 @@ public class ServiceController {
     public ResponseEntity<ServiceDto> getServiceById(@PathVariable Long serviceId){
         return new ResponseEntity<>(repairService.getServiceById(serviceId),HttpStatus.OK);
     }
+    @DeleteMapping("/services/{serviceId}")
+    public ResponseEntity<String> deleteServiceById(@PathVariable Long serviceId){
+        return new ResponseEntity<>(repairService.deleteServiceById(serviceId),HttpStatus.OK);
+    }
     @PutMapping("/services/{serviceId}/status")
     public ResponseEntity<ShortServiceDto> updateServiceStatus(@PathVariable Long serviceId,@RequestParam ServiceStatus status){
         return new ResponseEntity<>(repairService.updateServiceStatus(serviceId,status),HttpStatus.OK);

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -41,4 +42,17 @@ public class Service {
     @OneToMany(mappedBy = "service",cascade = CascadeType.ALL,orphanRemoval = true)
     private Set<Invoice> invoices;
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Service service = (Service) obj;
+        return id == service.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

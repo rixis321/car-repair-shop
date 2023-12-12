@@ -15,6 +15,7 @@ import com.example.backend.payload.mapper.ServiceMapper;
 import com.example.backend.repository.*;
 import com.example.backend.service.RepairService;
 import com.example.backend.utils.InvoiceNumberGenerator;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -145,6 +146,18 @@ public class RepairServiceImpl implements RepairService {
             invoice = invoiceRepository.save(invoice);
         }
         return serviceMapper.mapToShortServiceDto(service);
+    }
+
+    @Override
+    @Transactional
+    public String deleteServiceById(Long serviceId) {
+
+        com.example.backend.model.Service service = serviceRepository.findById(serviceId)
+                .orElseThrow(()->new ResourceNotFoundException("Service","id",serviceId));
+
+        serviceRepository.delete(service);
+
+        return "Service deleted successfully";
     }
 
 

@@ -28,8 +28,10 @@ public class ServiceHistoryController {
 
         return new ResponseEntity<>(repairHistoryService.addRepairStage(newServiceHistoryDto,serviceId,employeeId), HttpStatus.CREATED);
     }
-
-    //todo endpoint dziala do zmiany kod tutaj moze
+    @DeleteMapping("/services/{serviceId}/history/{repairStageId}")
+    public ResponseEntity<String> deleteRepairStageById(@PathVariable Long serviceId, @PathVariable Long repairStageId){
+        return new ResponseEntity<>(repairHistoryService.deleteServiceHistoryElementById(serviceId, repairStageId),HttpStatus.OK);
+    }
     @GetMapping("/services/{serviceId}/history")
     public ResponseEntity<List<ServiceHistoryDto>> getServiceRepairHistory(@PathVariable Long serviceId){
         List<ServiceHistoryDto> historyDtoList = repairHistoryService.getServiceRepairHistory(serviceId);

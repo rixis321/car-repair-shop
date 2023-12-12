@@ -3,11 +3,12 @@ package com.example.backend.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 @Entity
 @Table(name = "users_addresses")
 public class UserAddress {
@@ -28,4 +29,18 @@ public class UserAddress {
     private Employee employee;
     @OneToOne(mappedBy = "userAddress")
     private Customer customer;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        UserAddress userAddress = (UserAddress) obj;
+        return id == userAddress.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
