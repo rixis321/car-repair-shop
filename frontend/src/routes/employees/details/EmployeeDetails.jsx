@@ -26,6 +26,7 @@ const EmployeeDetails = () => {
     const [showPasswordResetModal, setShowPasswordResetModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showChangeRoleModal, setShowChangeRoleModal] = useState(false);
+
     //sprawdzenie czy token istnieje jesli nie to przekieruj na /login
     if (!auth.accessToken) {
         return <Navigate to='/login' />;

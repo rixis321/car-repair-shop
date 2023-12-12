@@ -8,11 +8,17 @@ import { Button, Container, Row } from "react-bootstrap";
 import AuthContext from "../../security/AuthProvider.jsx";
 import api from "../../api/axiosConfig.js";
 import { useState, useEffect } from "react";
+import DeleteConfirmationModal from "../../components/Utils/DeleteConfirmModal.jsx";
 
 const Employees = () => {
     const { auth } = useContext(AuthContext);
     const [responseData, setResponseData] = useState(null);
-
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deleteModalContent, setDeleteModalContent] = useState({
+        modalTitle: 'Usuwanie pracownika',
+        modalBody: 'Czy na pewno chcesz usunać tego pracownika? Będzie sie to wiązało z usunieciem jego calej historii pracy',
+        apiLink: ''
+    });
     const [employeesPerPage] = useState(7);
     const [currentPage, setCurrentPage] = useState(1);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
@@ -25,6 +31,35 @@ const Employees = () => {
     useEffect(() => {
         fetchData();
     }, [auth.accessToken]);
+
+    const handleDelete = (employeeId) => {
+        // Customize the modal content based on your needs
+        const { modalTitle, modalBody } = deleteModalContent;
+        const apiLink = `/employees/${employeeId}`;
+
+        // Update the state with modal content
+        setDeleteModalContent({
+            modalTitle,
+            modalBody,
+            apiLink
+        });
+        setShowDeleteModal(true);
+    };
+    const handleDeleteConfirm = async () => {
+        try {
+            // Call the API to delete the record using selectedEmployeeId
+            await api.delete(deleteModalContent.apiLink, {
+                headers: { "Authorization": auth.accessToken }
+            });
+
+            fetchData();
+        } catch (err) {
+            console.log(err);
+        } finally {
+            // Close the modal
+            setShowDeleteModal(false);
+        }
+    };
 
     const fetchData = async () => {
         try {
@@ -76,6 +111,14 @@ const Employees = () => {
                                 currentPage={currentPage}
                                 itemsPerPage={employeesPerPage}
                                 onDetailsClick={(employeeId) => handleDetailsClick(employeeId)}
+                            />
+                            <DeleteConfirmationModal
+                                show={showDeleteModal}
+                                handleClose={() => setShowDeleteModal(false)}
+                                handleDeleteConfirm={handleDeleteConfirm}
+                                modalTitle={deleteModalContent.modalTitle}
+                                modalBody={deleteModalContent.modalBody}
+                                apiLink={deleteModalContent.apiLink}
                             />
                         </Container>
                     </div>

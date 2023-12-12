@@ -13,20 +13,14 @@ const GenericTable = ({
                           onSort,
                           currentPage,
                           itemsPerPage,
-                          onDetailsClick
+                          onDetailsClick,
+                          onEndServiceClick,
                       }) => {
     const [isSortingEnabled, setSortingEnabled] = useState(true);
     const handleSort = (key) => {
         if (!isSortingEnabled) return;
         onSort(key);
     };
-    const handleDelete = (id) => {
-        const shouldDelete = window.confirm(`Czy na pewno chcesz usunąć element o ID: ${id}?`);
-        if (shouldDelete) {
-            onDelete(id);
-        }
-    };
-
 
 
     const sortedData = () => {
@@ -94,9 +88,14 @@ const GenericTable = ({
                             <div className="action-buttons">
                                 {onDetailsClick(item.id)}
                     <span className="detail-span" onClick={() => onDetailsClick(item.id)}>
+                         {item.serviceStatus === 'OCZEKUJE NA KLIENTA' && (
+                             <span className="end-service-span text-primary" onClick={() => onEndServiceClick(item.id)}>
+                        Zakończ serwis
+                      </span>
+                         )}
                     </span>
 
-                                <span className="delete-span" onClick={() => handleDelete(item.id)}>
+                                <span className="delete-span" onClick={() => onDelete(item.id)}>
                     Usuń
                   </span>
                             </div>
