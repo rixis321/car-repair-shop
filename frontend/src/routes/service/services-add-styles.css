@@ -1,0 +1,17 @@
+.diagnosis-card:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.diagnosis-card.selected {
+    border: 2px solid #007bff;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+.diagnosis-card{
+    border: 10px #052548;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.3);
+    background-color: #052548;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    height: 100%;
+}

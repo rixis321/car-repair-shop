@@ -9,9 +9,12 @@ import {Navigate, useNavigate, useParams} from "react-router";
 import "./employee-details.css"
 import dateFormat from "../../../utils/DateFormat.jsx";
 import ListItem from "../../../components/Utils/ListItem.jsx";
-import PasswordResetForm from "./PasswordResetForm.jsx";
-import EmployeeEditForm from "./EmployeeEditForm.jsx";
-import RoleForm from "./RoleForm";
+import PasswordResetForm from "../../../components/employee/PasswordResetForm.jsx";
+import EmployeeEditForm from "../../../components/employee/EmployeeEditForm.jsx";
+import RoleForm from "../../../components/employee/RoleForm.jsx";
+import RoleChangeModal from "../../../components/employee/modal/RoleChangeModal.jsx";
+import EmployeeEditModal from "../../../components/employee/modal/EmployeeEditModal.jsx";
+import PasswordResetModal from "../../../components/employee/modal/PasswordResetModal.jsx";
 
 
 const EmployeeDetails = () => {
@@ -119,46 +122,32 @@ const EmployeeDetails = () => {
                                         <Button block>Zmień uprawnienia</Button>
 
                                     </Col>
-                                    <Modal show={showChangeRoleModal} onHide={handleRoleChangeButtonClick}>
-                                        <Modal.Header className={"reset modal-header"} closeButton>
-                                            <Modal.Title className={"modal-title"}>Edytuj uprawnienia pracownika</Modal.Title>
-                                        </Modal.Header>
-                                        <Modal.Body className={"reset"}>
-                                            <RoleForm
-                                                employeeId={id}
-                                                initialData={employeeData}
-                                                onSave={handleRoleChangeSave}
-                                                onCancel={() => setShowChangeRoleModal(false)} />
-                                        </Modal.Body>
-                                    </Modal>
-                                    <Modal show={showEditModal} onHide={handleEditButtonClick}>
-                                        <Modal.Header className={"reset modal-header"} closeButton>
-                                            <Modal.Title>Edytuj dane pracownika</Modal.Title>
-                                        </Modal.Header>
-                                        <Modal.Body className={"reset"}>
-                                            <EmployeeEditForm
-                                                employeeId={id}
-                                                initialData={employeeData}
-                                                onSave={handleEditButtonOnSave}
-                                                onCancel={handleEditButtonClick}
-                                            />
-                                        </Modal.Body>
-                                    </Modal>
-                                    <Modal show={showPasswordResetModal} onHide={() => setShowPasswordResetModal(false)}>
-                                        <Modal.Header className={"reset modal-header"} closeButton>
-                                            <Modal.Title className={"modal-title"}>Zresetuj hasło</Modal.Title>
-                                        </Modal.Header>
-                                        <Modal.Body className={"reset"}>
-                                            <PasswordResetForm
-                                                employeeId={id}
-                                                onCancel={()=>setShowPasswordResetModal(!showPasswordResetModal)}
-                                                onPasswordReset={(newPassword) => {
-                                                    console.log('Password reset:', newPassword);
-                                                    setShowPasswordResetModal(false);
-                                                }}
-                                            />
-                                        </Modal.Body>
-                                    </Modal>
+                                    <RoleChangeModal
+                                        show={showChangeRoleModal}
+                                        handleClose={() => setShowChangeRoleModal(false)}
+                                        employeeId={id}
+                                        initialData={employeeData}
+                                        onSave={handleRoleChangeSave}
+                                        onCancel={() => setShowChangeRoleModal(false)}
+                                    />
+                                    <EmployeeEditModal
+                                        show={showEditModal}
+                                        handleClose={() => setShowEditModal(false)}
+                                        employeeId={id}
+                                        initialData={employeeData}
+                                        onSave={handleEditButtonOnSave}
+                                        onCancel={handleEditButtonClick}
+                                    />
+                                    <PasswordResetModal
+                                        show={showPasswordResetModal}
+                                        handleClose={() => setShowPasswordResetModal(false)}
+                                        employeeId={id}
+                                        onCancel={() => setShowPasswordResetModal(false)}
+                                        onPasswordReset={(newPassword) => {
+                                            console.log('Password reset:', newPassword);
+                                            setShowPasswordResetModal(false);
+                                        }}
+                                    />
                                 </div>
                             </Row>
                         </Container>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {Form, Button, Col, Row, Alert} from 'react-bootstrap';
-import api from "../../../api/axiosConfig.js";
+import api from "../../api/axiosConfig.js";
 import {
     validateName,
     validateCity,
@@ -8,11 +8,11 @@ import {
     validateStreetNumber,
     validateZipCode,
     validatePhone,
-    } from "../../../utils/UserValidation.jsx"
+    } from "../../utils/UserValidation.jsx"
 import {useContext} from "react";
-import AuthContext from "../../../security/AuthProvider.jsx";
+import AuthContext from "../../security/AuthProvider.jsx";
 
-const EmployeeEditForm = ({ initialData, onSave, onCancel,customerId }) => {
+const CustomerEditForm = ({ initialData, onSave, onCancel,customerId }) => {
     const [formData, setFormData] = useState(initialData);
     const [errors, setErrors] = useState({});
     const { auth } = useContext(AuthContext);
@@ -217,4 +217,4 @@ const EmployeeEditForm = ({ initialData, onSave, onCancel,customerId }) => {
     );
 };
 
-export default EmployeeEditForm;
+export default CustomerEditForm;

@@ -1,0 +1,31 @@
+.profile-section {
+    padding: 20px; /* Dodany odstęp wewnętrzny */
+    border-radius: 8px; /* Dodany zaokrąglony kształt */
+    margin-bottom: 20px; /* Dodany odstęp na dole */
+    margin-top: 10px;
+}
+
+.section-header {
+    text-align: left; /* Ustawienie tekstu na lewo */
+    font-size: 20px; /* Dodanie rozmiaru czcionki dla nagłówka */
+    color: #957C3D; /* Kolor tekstu */
+    margin-bottom: 15px; /* Dodany odstęp na dole nagłówka */
+    margin-top: 20px;
+}
+
+.details {
+    text-align: left; /* Ustawienie tekstu na lewo */
+
+}
+
+.details p {
+    margin-bottom: 10px; /* Dodany odstęp na dole dla każdego elementu */
+}
+
+.details strong {
+    margin-right: 10px; /* Dodany odstęp na prawo dla etykiety */
+    display: inline-block; /* Zapewnienie, że etykieta nie przełamie się */
+    width: 120px; /* Ustawienie szerokości etykiety */
+    font-weight: bold; /* Dodanie pogrubienia dla etykiety */
+    color: #555; /* Kolor etykiety */
+}

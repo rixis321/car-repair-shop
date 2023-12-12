@@ -10,7 +10,8 @@ import {Alert, Button, Col, Container, Modal, Row, Spinner} from "react-bootstra
 import ListItem from "../../../components/Utils/ListItem.jsx";
 import dateFormat from "../../../utils/DateFormat.jsx";
 import "./car-details.css"
-import CarEditForm from "./CarEditForm.jsx";
+import CarEditForm from "../../../components/car/CarEditForm.jsx";
+import CarEditModal from "../../../components/car/modal/CarEditModal.jsx";
 const CarDetails = () => {
     const { auth } = useContext(AuthContext);
     const { id } = useParams();
@@ -18,7 +19,9 @@ const CarDetails = () => {
     const [carData, setCarData] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
 
-
+    if (!auth.accessToken) {
+        return <Navigate to='/login' />;
+    }
 
     const handleEditButtonClick = () => {
         setShowEditModal(!showEditModal);
@@ -45,9 +48,6 @@ const CarDetails = () => {
     }, []);
     useEffect(() => {
     }, [auth.accessToken]);
-    if (!auth.accessToken) {
-        return <Navigate to='/login' />;
-    }
     return (
         <>
             <div className="admin-container">
@@ -98,19 +98,14 @@ const CarDetails = () => {
                                     <Col md={1}  className="mb-1">
                                         <Button block onClick={handleEditButtonClick} >Edytuj dane samochodu</Button>
                                     </Col>
-                                    <Modal show={showEditModal} onHide={handleEditButtonClick}>
-                                        <Modal.Header className={"reset modal-header"} closeButton>
-                                            <Modal.Title>Edytuj dane samochodu</Modal.Title>
-                                        </Modal.Header>
-                                        <Modal.Body className={"reset"}>
-                                            <CarEditForm
-                                                carId={id}
-                                                initialData={carData}
-                                                onSave={handleEditButtonOnSave}
-                                                onCancel={handleEditButtonClick}
-                                            />
-                                        </Modal.Body>
-                                    </Modal>
+                                    <CarEditModal
+                                        show={showEditModal}
+                                        handleClose={() => setShowEditModal(false)}
+                                        carId={id}
+                                        initialData={carData}
+                                        onSave={handleEditButtonOnSave}
+                                        onCancel={() => setShowEditModal(false)}
+                                    />
                                 </div>
                             </Row>
                         </Container>
@@ -148,7 +143,7 @@ const CarDetails = () => {
                                         </>
                                     )}
                                     loading={loading}
-                                    detailsLinkBuilder={(car) => `/services/${service.id}`}
+                                    detailsLinkBuilder={(service) => `/services/${service.id}`}
                                     itemsPerPage={4}
                                 />
                             ):(

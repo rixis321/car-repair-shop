@@ -7,7 +7,7 @@ import api from "../../api/axiosConfig.js";
 import AdminNavbar from "../../components/navbar/AdminNavbar.jsx";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import {Alert, Button, Col, Container, Form, Row} from "react-bootstrap";
-import CarBrands from "../cars/CarBrands.jsx";
+import CarBrands from "../../components/car/CarBrands.jsx";
 import {jwtDecode} from "jwt-decode";
 
 const DiagnosesAdd = () => {

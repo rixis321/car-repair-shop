@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 import {useContext, useState} from "react";
-import AuthContext from "../../../security/AuthProvider.jsx";
+import AuthContext from "../../security/AuthProvider.jsx";
 import {Alert, Button, Col, Form, Row} from "react-bootstrap";
-import CarBrands from "../CarBrands.jsx";
-import api from "../../../api/axiosConfig.js";
-import {validateRegistrationNumber, validateVinNumber} from "../../../utils/CarValidation.jsx";
+import CarBrands from "./CarBrands.jsx";
+import api from "../../api/axiosConfig.js";
+import {validateRegistrationNumber, validateVinNumber} from "../../utils/CarValidation.jsx";
 
 const CarEditForm = ({carId,initialData,onSave,onCancel}) => {
 

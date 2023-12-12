@@ -57,10 +57,10 @@ const AdminNavbar = () => {
                                     <hr className="dropdown-divider"/>
                                 </li>
                                 <li>
-                                    <a className="dropdown-item d-flex align-items-center workspace-row" href="">
-                                        <i className="bi bi-person "></i>
-                                        <Link className={"logout"}  onClick={handleLogout}>
-                                            <span>Mój profil</span>
+                                    <a className="dropdown-item d-flex align-items-center workspace-row">
+                                        <Link className={"logout"}  to={"/profile"}>
+                                             <i className="bi bi-person "></i>
+                                                 <span>Mój profil</span>
                                         </Link>
                                     </a>
                                 </li>
@@ -68,10 +68,10 @@ const AdminNavbar = () => {
                                     <hr className="dropdown-divider"/>
                                 </li>
                                 <li>
-                                    <a className="dropdown-item d-flex align-items-center workspace-row " href="#">
-                                        <i className="bi bi-box-arrow-right"></i>
+                                    <a className="dropdown-item d-flex align-items-center workspace-row ">
                                         <Link className={"logout"} to={"/"} onClick={handleLogout}>
-                                            <span>Wyloguj</span>
+                                              <i className="bi bi-box-arrow-right"></i>
+                                                  <span>Wyloguj</span>
                                         </Link>
 
                                     </a>

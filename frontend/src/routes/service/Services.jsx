@@ -7,16 +7,14 @@ import AdminNavbar from "../../components/navbar/AdminNavbar.jsx";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import {Button, Container} from "react-bootstrap";
 import GenericTable from "../../components/Utils/GenericTable.jsx";
-import dateFormat from "../../utils/DateFormat.jsx";
-import "./diagnoses-styles.css"
 
-const Diagnoses = () => {
+const Services = () => {
 
     const { auth } = useContext(AuthContext);
     const [responseData, setResponseData] = useState(null);
     const [filterState, setFilterState] = useState(null);
 
-    const [diagnosesPerPage] = useState(7);
+    const [servicesPerPage] = useState(7);
     const [currentPage, setCurrentPage] = useState(1);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
 
@@ -24,14 +22,33 @@ const Diagnoses = () => {
     if (!auth.accessToken) {
         return <Navigate to='/login' />;
     }
+
     const handleFilter = (state) => {
         setFilterState(state);
     };
+
+    const formatStatus = (status) => {
+        return status.replace(/_/g, " ");
+    };
+    const formatData = (data) => {
+        if (!data) {
+            return [];
+        }
+
+        return data.map((item) => {
+            return {
+                ...item,
+                serviceStatus: formatStatus(item.serviceStatus),
+            };
+        });
+    };
+
     const filterData = (data, filterState) => {
         if (!filterState) return data;
 
-        return data.filter(item => item.clientApproval === filterState);
+        return data.filter(item => item.serviceStatus === filterState);
     };
+
 
     useEffect(() => {
         fetchData();
@@ -39,16 +56,11 @@ const Diagnoses = () => {
 
     const fetchData = async () => {
         try {
-            const response = await api.get("/diagnosis", {
+            const response = await api.get("/services", {
                 headers: { "Content-Type": "Application/json", "Authorization": auth.accessToken }
             });
 
-            const formattedData = response.data.map(item => ({
-                ...item,
-                diagnosisDate: dateFormat(item.diagnosisDate)
-            }));
-
-            setResponseData(formattedData);
+            setResponseData(response.data);
         } catch (err) {
             console.log(err);
         }
@@ -61,8 +73,8 @@ const Diagnoses = () => {
     const handleSort = (key) => {
         setSortConfig({ key, direction: sortConfig.direction === 'asc' ? 'desc' : 'asc' });
     };
-    const handleDetailsClick = (diagnosisId) => {
-        return <Link to={`/diagnosis/${diagnosisId}`}>Szczegóły</Link>;
+    const handleDetailsClick = (serviceId) => {
+        return <Link to={`/services/${serviceId}`}>Szczegóły</Link>;
     };
     return (
         <>
@@ -73,29 +85,28 @@ const Diagnoses = () => {
                         <Sidebar />
                     </div>
                     <div className="content-wrapper">
-                        <h2>Diagnozy</h2>
+                        <h2>Prace serwisowe</h2>
                         <div className="filter-buttons ">
                             <Button variant="primary" onClick={() => handleFilter('')}>Wszystkie</Button>
-                            <Button variant="primary" onClick={() => handleFilter('OCZEKUJE')}>Oczekujace</Button>
-                            <Button variant="primary" onClick={() => handleFilter('ZATWIERDZONO')}>Zatwierdzone</Button>
-                            <Button variant="primary" onClick={() => handleFilter("ODRZUCONO")}>Odrzucone</Button>
+                            <Button variant="primary" onClick={() => handleFilter('ROZPOCZETO')}>Nowe</Button>
+                            <Button variant="primary" onClick={() => handleFilter('W TRAKCIE')}>W trakcie</Button>
+                            <Button variant="primary" onClick={() => handleFilter('OCZEKUJE NA KLIENTA')}>Oczekujące odbioru</Button>
+                            <Button variant="primary" onClick={() => handleFilter("ZAKONCZONE")}>Zakonczone</Button>
                         </div>
                         <Container fluid>
                             <GenericTable
-                                data={filterData(responseData,filterState)}
+                                data={filterData(formatData(responseData), filterState)}
                                 columns={[
-                                    { key: 'fullNameOfEmployee', label: 'Imie i nazwisko pracownika' },
-                                    { key: 'description', label: 'Postawiona diagnoza' },
-                                    { key: 'registrationNumber', label: 'Nr. rejestracyjny' },
-                                    { key: 'clientApproval', label: 'Status' },
-                                    { key: 'diagnosisDate', label: 'Data' },
+                                    { key: 'description', label: 'Opis pracy serwisowej' },
+                                    { key: 'cost', label: 'Koszt' },
+                                    { key: 'serviceStatus', label: 'Status serwisu' },
                                 ]}
                                 onDelete={(employeeId) => handleDelete(employeeId)}
                                 onPageChange={(pageNumber) => handlePageChange(pageNumber)}
                                 sortConfig={sortConfig}
                                 onSort={(key) => handleSort(key)}
                                 currentPage={currentPage}
-                                itemsPerPage={diagnosesPerPage}
+                                itemsPerPage={servicesPerPage}
                                 onDetailsClick={(diagnosisId) => handleDetailsClick(diagnosisId)}
                             />
                         </Container>
@@ -106,4 +117,4 @@ const Diagnoses = () => {
     );
 };
 
-export default Diagnoses;
+export default Services;

@@ -8,7 +8,7 @@ import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import {Alert, Button, Col, Container, Form, Row} from "react-bootstrap";
 import "./cars-add-styles.css"
 import api from "../../api/axiosConfig.js";
-import CarBrands from "./CarBrands.jsx";
+import CarBrands from "../../components/car/CarBrands.jsx";
 import {validateRegistrationNumber, validateVinNumber} from "../../utils/CarValidation.jsx";
 
 const CarsAdd = () => {
