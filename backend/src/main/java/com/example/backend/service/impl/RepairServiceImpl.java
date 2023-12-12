@@ -142,6 +142,15 @@ public class RepairServiceImpl implements RepairService {
             invoice.setInvoiceNumber(InvoiceNumberGenerator.generateInvoiceNumber());
             invoice.setIssueDate(Instant.now());
 
+            ServiceHistory serviceHistory = new ServiceHistory();
+            Instant instant = Instant.now();
+            serviceHistory.setDate(instant);
+            serviceHistory.setDescription("Zakonczenie pracy nad samochodem. Gotowy do obioru");
+            serviceHistory.setEmployee(service.getEmployee());
+            serviceHistory.setService(service);
+
+            serviceHistoryRepository.save(serviceHistory);
+
             invoice.setService(service);
             invoice = invoiceRepository.save(invoice);
         }

@@ -75,7 +75,7 @@ public class DiagnosisServiceImpl implements DiagnosisService {
             String customerNumber = "+48" + car.getCustomer().getPhone();
             log.info(customerNumber);
             String message = "Status twojej diagnozy samochodu wymaga zatwierdzenia. Kod dostepu: " + car.getCustomer().getAccessCode();
-            //smsService.sendSMS(customerNumber,message);
+           // smsService.sendSMS(customerNumber,message);
 
             return diagnosisMapper.mapToNewDiagnosisDto(diagnosis);
 
