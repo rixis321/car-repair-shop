@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { Container, Table, Pagination } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import "./table-styles.css";
+import {jwtDecode} from "jwt-decode";
+import {useContext} from "react";
+import AuthContext from "../../security/AuthProvider.jsx";
 
 const GenericTable = ({
                           data,
@@ -15,6 +18,7 @@ const GenericTable = ({
                           itemsPerPage,
                           onDetailsClick,
                           onEndServiceClick,
+                          invoiceMode
                       }) => {
     const [isSortingEnabled, setSortingEnabled] = useState(true);
     const handleSort = (key) => {
@@ -22,6 +26,8 @@ const GenericTable = ({
         onSort(key);
     };
 
+    const { auth } = useContext(AuthContext);
+    const token = jwtDecode(auth.accessToken)
 
     const sortedData = () => {
         if (sortConfig.key !== null) {
@@ -94,10 +100,23 @@ const GenericTable = ({
                       </span>
                          )}
                     </span>
-
-                                <span className="delete-span" onClick={() => onDelete(item.id)}>
-                    Usuń
-                  </span>
+                                {invoiceMode ? (
+                                    token.role === 'ADMIN' ? (
+                                        <span className="delete-span" onClick={() => onDelete(item.id)}>
+            Pobierz fakturę
+        </span>
+                                    ) : (
+                                        <span className="delete-span" onClick={() => onDelete(item.id)}>
+            Pobierz fakturę
+        </span>
+                                    )
+                                ) : (
+                                    token.role === 'ADMIN' ? (
+                                        <span className="delete-span" onClick={() => onDelete(item.id)}>
+            Usuń
+        </span>
+                                    ) : null
+                                )}
                             </div>
                         </td>
                     </tr>

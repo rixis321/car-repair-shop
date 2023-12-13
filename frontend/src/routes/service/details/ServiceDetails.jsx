@@ -156,13 +156,19 @@ const ServiceDetails = () => {
                             <Row className={"mt-0"}>
                                 <div className="d-flex mb-3 option-buttons">
                                     <Col md={1}  className="mb-1">
-                                        <Button block onClick={handleEditButtonClick} >Edytuj dane serwisu</Button>
+                                        {serviceData && (serviceData.serviceStatus !== "OCZEKUJE_NA_KLIENTA" && serviceData.serviceStatus !== "ZAKONCZONE") && (
+                                            <Button block onClick={handleEditButtonClick}>Edytuj dane serwisu</Button>
+                                        )}
                                     </Col>
                                     <Col md={4}  className="mb-1">
-                                        <Button block onClick={handleProgressServiceClick} >Aktualizuj przebieg naprawy</Button>
+                                        {serviceData && (serviceData.serviceStatus !== "OCZEKUJE_NA_KLIENTA" && serviceData.serviceStatus !== "ZAKONCZONE") && (
+                                            <Button block onClick={handleProgressServiceClick}>Aktualizuj przebieg naprawy</Button>
+                                        )}
                                     </Col>
                                     <Col className="mb-1">
-                                        <Button block onClick={handleStatusModalClick} >Uznaj prace za skończoną</Button>
+                                        {serviceData && (serviceData.serviceStatus !== "OCZEKUJE_NA_KLIENTA" && serviceData.serviceStatus !== "ZAKONCZONE") && (
+                                            <Button block onClick={handleStatusModalClick}>Uznaj prace za skończoną</Button>
+                                        )}
                                     </Col>
                                     <ServiceEditModal
                                         showEditModal={showEditModal}

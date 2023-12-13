@@ -3,13 +3,21 @@ import React, { useState } from 'react';
 import { ListGroup, Spinner, Pagination } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import "./list-item.css"
+import {useContext} from "react";
+import AuthContext from "../../security/AuthProvider.jsx";
+import {jwtDecode} from "jwt-decode";
 
-const ListItem = ({ items, template, loading, detailsLinkBuilder, itemsPerPage }) => {
+const ListItem = ({ items, template, loading, detailsLinkBuilder, itemsPerPage, customerMode }) => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+
+
+
+    const { auth } = useContext(AuthContext);
+    const token = jwtDecode(auth.accessToken)
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -24,9 +32,11 @@ const ListItem = ({ items, template, loading, detailsLinkBuilder, itemsPerPage }
                     currentItems.map((item) => (
                         <ListGroup.Item className={"item"} key={item.id}>
                             {template(item)}
-                            <Link to={detailsLinkBuilder(item)}>
-                                Szczegóły
-                            </Link>
+                            {!(customerMode && token.role === 'RECEPCJONISTA') && (
+                                <Link to={detailsLinkBuilder(item)}>
+                                    Szczegóły
+                                </Link>
+                            )}
                         </ListGroup.Item>
                     ))
                 )}

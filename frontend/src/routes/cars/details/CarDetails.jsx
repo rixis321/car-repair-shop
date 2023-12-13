@@ -118,7 +118,7 @@ const CarDetails = () => {
                                         <>
                                             <strong>Opis:</strong> {diagnosis.description}<br />
                                             <strong>Status:</strong> {diagnosis.clientApproval}<br />
-                                            <strong>Szacowany koszt: </strong>{diagnosis.estimatedCost}<br />
+                                            <strong>Szacowany koszt: </strong>{diagnosis.estimatedCost+ " zl"}<br />
                                             <strong>Data: </strong>{dateFormat(diagnosis.diagnosisDate)}<br />
                                         </>
                                     )}
@@ -139,7 +139,7 @@ const CarDetails = () => {
                                         <>
                                             <strong>Opis:</strong> {service.description}<br />
                                             <strong>Status:</strong> {service.serviceStatus}<br />
-                                            <strong>Koszt: </strong>{service.cost}<br />
+                                            <strong>Koszt: </strong>{service.cost + " zl"}<br />
                                         </>
                                     )}
                                     loading={loading}

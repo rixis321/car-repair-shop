@@ -22,6 +22,7 @@ import ProfileDetails from "./routes/profile/ProfileDetails.jsx";
 import Services from "./routes/service/Services.jsx";
 import ServiceAdd from "./routes/service/ServiceAdd";
 import ServiceDetails from "./routes/service/details/ServiceDetails.jsx";
+import Invoices from "./routes/invoices/Invoices.jsx";
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
               <Route path={"/cars/add"} element={<CarsAdd/>}/>
               <Route path={"/login"} element={<LoginPage/>}/>
               <Route path={"/profile"} element={<ProfileDetails/>}/>
+              <Route path={"/invoices"} element={<Invoices/>}/>
           </Routes>
       </AuthProvider>
   )
