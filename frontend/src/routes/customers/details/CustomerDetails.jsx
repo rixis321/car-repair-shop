@@ -158,6 +158,7 @@ const CustomerDetails = () => {
                                     loading={loading}
                                     detailsLinkBuilder={(car) => `/cars/${car.id}`}
                                     itemsPerPage={4}
+                                    customerMode={true}
                                 />
                             ):(
                                 <Alert className={"alert-info"} variant="info">Brak przypisanych samochodów.</Alert>

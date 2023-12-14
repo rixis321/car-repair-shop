@@ -1,9 +1,14 @@
 import React from 'react';
 import { Row, Col, Alert } from 'react-bootstrap';
 import DateFormat from "../../utils/DateFormat.jsx";
+import {useContext} from "react";
+import AuthContext from "../../security/AuthProvider.jsx";
+import {jwtDecode} from "jwt-decode";
 
 
-const ServiceHistoryList = ({ currentServiceHistory }) => {
+const ServiceHistoryList = ({ currentServiceHistory, onDelete }) => {
+    const { auth } = useContext(AuthContext);
+    const token = jwtDecode(auth.accessToken)
     return (
         <div className="custom-list history">
             {currentServiceHistory.map((history, index) => (
@@ -22,6 +27,15 @@ const ServiceHistoryList = ({ currentServiceHistory }) => {
                     <Row>
                         <Col>
                             <strong>Data dodania:</strong> {DateFormat(history.date)}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            {token.role === "ADMIN" && (
+                                <span className="delete-span" onClick={() => onDelete(history.id)}>
+                                    Usuń
+                                </span>
+                            )}
                         </Col>
                     </Row>
                 </Row>

@@ -1,56 +1,40 @@
 import React, {useContext, useEffect, useState} from 'react';
-import "./login-style.css"
 import {Link} from "react-router-dom";
-import api from "../../api/axiosConfig.js";
-import AuthContext from "../../security/AuthProvider.jsx";
 import {useNavigate} from "react-router";
+import Footer from "../../components/static/footer/Footer.jsx";
+import axios from "axios";
 
-const LOGIN_URL = "auth/login";
 const Login = () => {
-
     const navigate = useNavigate();
-    const [email,setEmail] = useState("");
-    const [password,setPassword]= useState("");
-    const [errorMessage,setErrorMessage]= useState("");
-    const {auth,setAuth} = useContext(AuthContext)
-
-    useEffect(()=>{
-        setErrorMessage("")
-    },[email,password]);
+    const [accessCode, setAccessCode] = useState('');
+    const [errorMessage, setErrorMessage] = useState("");
 
     useEffect(() => {
-        if (auth.accessToken) {
-            navigate("/dashboard");
-        }
-    }, [auth.accessToken]);
+        setErrorMessage("")
+    }, [accessCode]);
 
-    const handleSubmit = async(e) =>{
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await api.post(
-                LOGIN_URL,
-                JSON.stringify({
-                    email:email,
-                    password: password
-                }),
+            const response = await axios.get(
+                `http://localhost:8080/client/customers/access?accessCode=${accessCode}`,
                 {
-                    headers:{"Content-Type": "Application/json"}
+                    headers: { "Content-Type": "Application/json" }
                 }
             )
-            const accessToken = response.data;
-            setAuth({accessToken})
-            sessionStorage.setItem("token",accessToken);
-            navigate("/dashboard")
+            if(response.status === 200){
+                navigate('/client/details', { state: { clientData: response.data } });
+                sessionStorage.setItem("accessCode",accessCode);
+            }
             console.log(response.data)
 
-        }catch (err){
-            if(err.response.status === 500){
+        } catch (err) {
+            if (err.response.status === 400) {
                 setErrorMessage(err.response.data.message)
                 console.log(err.response.data.message)
             }
         }
     }
-
 
     return (
         <>
@@ -75,7 +59,7 @@ const Login = () => {
                                         <div className="card-body pb-5" >
 
                                             <div className="pt-4 pb-2 nameWorkspace">
-                                                <h5 className="card-title text-center pb-0 fs-4">Logowanie</h5>
+                                                <h5 className="card-title text-center pb-0 fs-4">Sprawdz status swojej naprawy</h5>
                                                 {errorMessage.length === 0 ? null : <p>{errorMessage}</p>}
 
                                             </div>
@@ -83,27 +67,16 @@ const Login = () => {
                                             <form className="row g-3 needs-validation" onSubmit={handleSubmit} noValidate>
 
                                                 <div className="col-12">
-                                                    <label htmlFor="yourUsername" className="form-label">Email</label>
+                                                    <label htmlFor="accessCode" className="form-label">Kod</label>
                                                     <div className="input-group has-validation">
                                                         <input
-                                                            type="email"
-                                                            name="email"
+                                                            type="text"
+                                                            name="accessCode"
                                                             className="form-control"
-                                                            value={email}
-                                                            onChange={(e)=>setEmail(e.target.value)}
-                                                            id="yourUsername" required/>
+                                                            value={accessCode}
+                                                            onChange={(e)=>setAccessCode(e.target.value)}
+                                                            id="accessCode" required/>
                                                     </div>
-                                                </div>
-
-                                                <div className="col-12">
-                                                    <label htmlFor="yourPassword" className="form-label">Hasło</label>
-                                                    <input
-                                                        type="password"
-                                                        name="password"
-                                                        className="form-control"
-                                                        value={password}
-                                                        onChange={(e)=> setPassword(e.target.value)}
-                                                        id="yourPassword" required/>
                                                 </div>
                                                 <div className="col-12">
                                                     <button className="btn  btn-primary w-100" type="submit">Zaloguj</button>
@@ -119,6 +92,7 @@ const Login = () => {
 
                 </div>
             </main>
+            <Footer/>
         </>
 
     );

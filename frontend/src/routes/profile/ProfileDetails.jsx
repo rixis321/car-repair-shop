@@ -87,7 +87,7 @@ const ProfileDetails = () => {
                                     </Card.Body>
                                 </Card>
                             </Col>
-                            <Col className={"profile-data"} md={8}>
+                            <Col className={"profile-data"} md={7}>
                                 <ProfileTabs onSelectTab={(tab) => setSelectedTab(tab)} />
                                 {loading ? (
                                     <Spinner animation="border" role="status">

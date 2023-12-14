@@ -8,17 +8,16 @@ import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import {Button, Container} from "react-bootstrap";
 import GenericTable from "../../components/Utils/GenericTable.jsx";
 import DeleteConfirmationModal from "../../components/Utils/DeleteConfirmModal.jsx";
+import {jwtDecode} from "jwt-decode";
 
 
 const Cars = () => {
 
     const { auth } = useContext(AuthContext);
     const [responseData, setResponseData] = useState(null);
-
     const [carsPerPage] = useState(7);
     const [currentPage, setCurrentPage] = useState(1);
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
-
 
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [deleteModalContent, setDeleteModalContent] = useState({
