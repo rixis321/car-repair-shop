@@ -3,7 +3,7 @@ package com.example.backend.service;
 import com.example.backend.payload.Customer.NewCustomerDto;
 import com.example.backend.payload.Customer.ShortCustomerDto;
 import com.example.backend.payload.Customer.CustomerDto;
-import com.example.backend.payload.Customer.ShortCustomerWithoutCode;
+import com.example.backend.payload.Customer.ClientData;
 
 import java.util.List;
 
@@ -17,5 +17,5 @@ public interface CustomerService {
 
     String resetCustomerAccessCode(long customerId);
 
-    ShortCustomerWithoutCode getCustomerByAccessCode(String accessCode);
+    ClientData getCustomerDataByAccessCode(String accessCode);
 }

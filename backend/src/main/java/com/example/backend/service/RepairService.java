@@ -17,12 +17,9 @@ public interface RepairService {
     ServiceDto getServiceById(Long serviceId);
 
     ShortServiceDto updateServiceStatus(Long serviceId, ServiceStatus serviceStatus);
-
-   // ServiceWithoutInvoices getServiceWithoutInvoices(Long serviceId);
-
     String deleteServiceById(Long serviceId);
 
     ShortServiceDto updateService(ShortServiceDto shortServiceDto, Long serviceId);
 
-    List<ShortServiceDto> getCustomerServices(Long customerId);
+    List<ServiceWithoutInvoices> getCustomerServices(Long customerId);
 }

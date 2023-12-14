@@ -16,7 +16,6 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//TODO
 public class CustomerDto {
     private long id;
     @NotEmpty(message = "Name should not be null or empty")

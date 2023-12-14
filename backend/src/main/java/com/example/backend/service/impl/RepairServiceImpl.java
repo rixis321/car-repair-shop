@@ -9,6 +9,7 @@ import com.example.backend.model.constants.ServiceStatus;
 import com.example.backend.payload.History.ServiceHistoryDto;
 import com.example.backend.payload.Invoice.ShortInvoiceDto;
 import com.example.backend.payload.Service.ServiceDto;
+import com.example.backend.payload.Service.ServiceWithoutInvoices;
 import com.example.backend.payload.Service.ShortServiceDto;
 import com.example.backend.payload.mapper.InvoiceMapper;
 import com.example.backend.payload.mapper.ServiceMapper;
@@ -198,7 +199,7 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public List<ShortServiceDto> getCustomerServices(Long customerId) {
+    public List<ServiceWithoutInvoices> getCustomerServices(Long customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(()->new ResourceNotFoundException("Customer","id",customerId));
 
@@ -207,7 +208,7 @@ public class RepairServiceImpl implements RepairService {
                 .flatMap(car -> car.getDiagnoses().stream())
                 .filter(diagnosis -> diagnosis.getService() != null)
                 .filter(diagnosis -> isDesiredStatus(diagnosis.getService().getServiceStatus()))
-                .map(diagnosis -> serviceMapper.mapToShortServiceDto(diagnosis.getService()))
+                .map(diagnosis -> serviceMapper.mapToServiceWithoutInvoices(diagnosis.getService()))
                 .toList();
 
     }

@@ -8,12 +8,11 @@ import com.example.backend.model.Customer;
 import com.example.backend.model.Diagnosis;
 import com.example.backend.model.Employee;
 import com.example.backend.model.constants.ClientApproval;
+import com.example.backend.model.constants.ServiceStatus;
 import com.example.backend.payload.Diagnosis.*;
 import com.example.backend.payload.mapper.DiagnosisMapper;
-import com.example.backend.repository.CarRepository;
-import com.example.backend.repository.CustomerRepository;
-import com.example.backend.repository.DiagnosisRepository;
-import com.example.backend.repository.EmployeeRepository;
+import com.example.backend.payload.mapper.ServiceMapper;
+import com.example.backend.repository.*;
 import com.example.backend.service.DiagnosisService;
 import com.example.backend.service.SMSService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -34,14 +34,18 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     private final DiagnosisRepository diagnosisRepository;
 
     private final CustomerRepository customerRepository;
+    private final ServiceRepository serviceRepository;
     private final SMSService smsService;
-    public DiagnosisServiceImpl(EmployeeRepository employeeRepository, CarRepository carRepository, DiagnosisMapper diagnosisMapper, DiagnosisRepository diagnosisRepository, CustomerRepository customerRepository, SMSService smsService) {
+    private final ServiceMapper serviceMapper;
+    public DiagnosisServiceImpl(EmployeeRepository employeeRepository, CarRepository carRepository, DiagnosisMapper diagnosisMapper, DiagnosisRepository diagnosisRepository, CustomerRepository customerRepository, ServiceRepository serviceRepository, SMSService smsService, ServiceMapper serviceMapper) {
         this.employeeRepository = employeeRepository;
         this.carRepository = carRepository;
         this.diagnosisMapper = diagnosisMapper;
         this.diagnosisRepository = diagnosisRepository;
         this.customerRepository = customerRepository;
+        this.serviceRepository = serviceRepository;
         this.smsService = smsService;
+        this.serviceMapper = serviceMapper;
     }
 
     @Override
@@ -168,6 +172,28 @@ public class DiagnosisServiceImpl implements DiagnosisService {
                 stream()
                 .map(diagnosisMapper::mapToDiagnosisDto)
                 .toList();
+    }
+
+    @Override
+    public DiagnosisWithServices getDiagnosisWithServices() {
+
+        DiagnosisWithServices diagnosisWithServices = new DiagnosisWithServices();
+
+        diagnosisWithServices.setServices(serviceRepository
+                .findAllByServiceStatusIn(
+                        Arrays.asList(ServiceStatus.ZAKONCZONE,ServiceStatus.OCZEKUJE_NA_KLIENTA))
+                .stream()
+                .map(serviceMapper::mapToServiceWithoutInvoices)
+                .toList()
+        );
+
+        List<ShortDiagnosisDto> diagnosis =  diagnosisRepository.findAllByClientApproval(ClientApproval.ODRZUCONO)
+                .stream()
+                .map(diagnosisMapper::mapToShortDiagnosisDto)
+                .toList();
+        diagnosisWithServices.setDiagnosis(diagnosis);
+
+        return diagnosisWithServices;
     }
 
     private boolean checkIfStringIsNumber(String str){
