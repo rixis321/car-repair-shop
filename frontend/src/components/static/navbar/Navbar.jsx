@@ -26,7 +26,7 @@ const Navbar = () => {
                 <h1 className="navbar-logo"> Warsztat samochodowy</h1>
                 <ul className={"nav-menu"}>
                     {MenuItems.map((item, index) => {
-                        if(item.url === "/" || item.url ==="/about" || item.url ==="/contact"){
+                        if(item.url ==="/about" || item.url ==="/contact"){
                             return (
                                 <li key={index}>
                                     <ScrollLink

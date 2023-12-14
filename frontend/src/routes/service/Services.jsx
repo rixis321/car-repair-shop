@@ -8,6 +8,8 @@ import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import {Button, Container} from "react-bootstrap";
 import GenericTable from "../../components/Utils/GenericTable.jsx";
 import DeleteConfirmationModal from "../../components/Utils/DeleteConfirmModal.jsx";
+import {jwtDecode} from "jwt-decode";
+import ServicesWithDiagnosis from "./ServicesWithDiagnosis.jsx";
 
 const Services = () => {
 
@@ -36,6 +38,8 @@ const Services = () => {
     if (!auth.accessToken) {
         return <Navigate to='/login' />;
     }
+
+    const token = jwtDecode(auth.accessToken)
 
     const handleFilter = (state) => {
         setFilterState(state);
@@ -155,6 +159,9 @@ const Services = () => {
                     <div className="sidebar-wrapper">
                         <Sidebar />
                     </div>
+                    {token.role === 'RECEPCJONISTA' ? (
+                        <ServicesWithDiagnosis/>
+                        ): (
                     <div className="content-wrapper">
                         <h2>Prace serwisowe</h2>
                         <div className="filter-buttons ">
@@ -169,16 +176,16 @@ const Services = () => {
                                 data={filterData(formatData(responseData), filterState)}
                                 columns={[
                                     { key: 'description', label: 'Opis pracy serwisowej' },
-                                    { key: 'cost', label: 'Koszt' },
+                                    { key: 'cost', label: 'Koszt [pln]' },
                                     { key: 'serviceStatus', label: 'Status serwisu' },
                                 ]}
-                                onDelete={(employeeId) => handleDelete(employeeId)}
+                                onDelete={(serviceId) => handleDelete(serviceId)}
                                 onPageChange={(pageNumber) => handlePageChange(pageNumber)}
                                 sortConfig={sortConfig}
                                 onSort={(key) => handleSort(key)}
                                 currentPage={currentPage}
                                 itemsPerPage={servicesPerPage}
-                                onDetailsClick={(diagnosisId) => handleDetailsClick(diagnosisId)}
+                                onDetailsClick={(serviceId) => handleDetailsClick(serviceId)}
                                 onEndServiceClick={(serviceId) => handleEndService(serviceId)}
                             />
 
@@ -201,6 +208,7 @@ const Services = () => {
                             />
                         </Container>
                     </div>
+                        )}
                 </div>
             </div>
         </>

@@ -13,7 +13,7 @@ export const MenuItems = [
     },
     {
         title: "Panel klienta",
-        url: "/employee",
+        url: "/client",
         cName: "nav-links",
         icon: "bi bi-person-badge-fill",
     },

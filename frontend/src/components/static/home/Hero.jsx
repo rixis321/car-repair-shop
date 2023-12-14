@@ -1,10 +1,11 @@
 import React from 'react';
 import "./hero-styles.css"
+import image from  "../assets/hero-image.jpg"
 const Hero = (props) => {
     return (
         <>
             <div className={props.cName} id={"/"}>
-                <img src={props.heroImg} alt="HerpImg" />
+                <img src={image} alt="HerpImg" />
 
                 <div className="hero-text">
                     <h1>{props.title}</h1>
