@@ -72,6 +72,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET,"/swagger-ui/**").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/v3/**").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/client/**").permitAll()
+                                .requestMatchers(HttpMethod.PUT,"/client/**").permitAll()
                                 //.anyRequest().authenticated()
                                 )
                  .exceptionHandling((exception)->
