@@ -21,4 +21,6 @@ public interface DiagnosisService {
 
     List<DiagnosisDto> getAllDiagnosisByStatus(ClientApproval clientApproval);
 
+    DiagnosisWithServices getDiagnosisWithServices();
+
 }

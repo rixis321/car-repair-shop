@@ -30,6 +30,12 @@ public class DiagnosisController {
         return new ResponseEntity<>(diagnosisService.getAllDiagnosis(), HttpStatus.OK);
     }
 
+    @GetMapping("/diagnosis/services/receptionist")
+    public ResponseEntity<DiagnosisWithServices> getDiagnosisWithServices(){
+
+        return new ResponseEntity<>(diagnosisService.getDiagnosisWithServices(), HttpStatus.OK);
+    }
+
     @GetMapping("/diagnosis/status")
     public ResponseEntity<List<DiagnosisDto>> getAllDiagnosisByStatus(@RequestParam ClientApproval status){
 
