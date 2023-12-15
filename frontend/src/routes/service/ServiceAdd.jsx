@@ -142,7 +142,7 @@ const DiagnosesAdd = () => {
                                 {diagnosisData && (
                                     <Row md={2} className="justify-content-center align-items-center">
                                         {diagnosisData.map((diagnosis) => (
-                                            <Col key={diagnosis.id} md={4} className="mb-3">
+                                            <Col key={diagnosis.id} md={8} className="mb-3">
                                                 <div
                                                     className={`card diagnosis-card ${
                                                         selectedDiagnosisId === diagnosis.id
