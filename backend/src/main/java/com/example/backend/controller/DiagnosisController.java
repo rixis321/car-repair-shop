@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
 public class DiagnosisController {
 
     private final DiagnosisService diagnosisService;
@@ -19,49 +18,57 @@ public class DiagnosisController {
         this.diagnosisService = diagnosisService;
     }
 
-    @PostMapping("/diagnosis")
+    @PostMapping("/api/diagnosis")
     public ResponseEntity<NewDiagnosisDto> addDiagnosis(@RequestBody NewDiagnosisDto newDiagnosisDto){
 
         return new ResponseEntity<>(diagnosisService.addDiagnosis(newDiagnosisDto), HttpStatus.CREATED);
     }
-    @GetMapping("/diagnosis")
+    @GetMapping("/api/diagnosis")
     public ResponseEntity<List<DiagnosisWithEmployee>> getAllDiagnosis(){
 
         return new ResponseEntity<>(diagnosisService.getAllDiagnosis(), HttpStatus.OK);
     }
 
-    @GetMapping("/diagnosis/services/receptionist")
+    @GetMapping("/api/diagnosis/services/receptionist")
     public ResponseEntity<DiagnosisWithServices> getDiagnosisWithServices(){
 
         return new ResponseEntity<>(diagnosisService.getDiagnosisWithServices(), HttpStatus.OK);
     }
 
-    @GetMapping("/diagnosis/status")
+    @GetMapping("/api/diagnosis/status")
     public ResponseEntity<List<DiagnosisDto>> getAllDiagnosisByStatus(@RequestParam ClientApproval status){
 
         return new ResponseEntity<>(diagnosisService.getAllDiagnosisByStatus(status), HttpStatus.OK);
     }
-    @GetMapping("/diagnosis/{diagnosisId}")
+    @GetMapping("/api/diagnosis/{diagnosisId}")
     public ResponseEntity<DiagnosisDto> getDiagnosisById(@PathVariable Long diagnosisId){
 
         return new ResponseEntity<>(diagnosisService.getDiagnosisById(diagnosisId), HttpStatus.OK);
     }
-    @DeleteMapping("/diagnosis/{diagnosisId}")
+    @DeleteMapping("/api/diagnosis/{diagnosisId}")
     public ResponseEntity<String> deleteDiagnosisById(@PathVariable Long diagnosisId){
 
         return new ResponseEntity<>(diagnosisService.deleteDiagnosisById(diagnosisId), HttpStatus.OK);
     }
-    @PutMapping("/diagnosis/{diagnosisId}")
+    @PutMapping("/api/diagnosis/{diagnosisId}")
     public ResponseEntity<UpdatedDiagnosisDto> updateDiagnosis(@RequestBody UpdatedDiagnosisDto updatedDiagnosisDto,
                                                                @PathVariable Long diagnosisId){
 
         return new ResponseEntity<>(diagnosisService.updateDiagnosis(updatedDiagnosisDto,diagnosisId), HttpStatus.OK);
     }
-    @PutMapping("/diagnosis/{diagnosisId}/status")
+    @PutMapping("/api/diagnosis/{diagnosisId}/status")
     public ResponseEntity<UpdatedDiagnosisDto> updateDiagnosisStatus(@PathVariable Long diagnosisId,
                                                                @RequestParam ClientApproval status){
 
         return new ResponseEntity<>(diagnosisService.updateDiagnosisStatus(diagnosisId,status), HttpStatus.OK);
+    }
+
+    @PutMapping("/client/diagnosis/{diagnosisId}/status")
+    public ResponseEntity<UpdatedDiagnosisDto> updateCustomerDiagnosisStatus(@PathVariable Long diagnosisId,
+                                                                     @RequestParam ClientApproval status,
+                                                                             @RequestParam String accessCode){
+
+        return new ResponseEntity<>(diagnosisService.updateCustomerDiagnosisStatus(diagnosisId,status,accessCode), HttpStatus.OK);
     }
 
 }

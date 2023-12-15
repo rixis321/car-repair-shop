@@ -151,6 +151,19 @@ public class DiagnosisServiceImpl implements DiagnosisService {
     }
 
     @Override
+    public UpdatedDiagnosisDto updateCustomerDiagnosisStatus(Long diagnosisId, ClientApproval clientApproval, String accessCode) {
+        customerRepository.findCustomerByAccessCode(accessCode)
+                .orElseThrow(()-> new CarRepairShopApiException(HttpStatus.UNAUTHORIZED,"Invalid code"));
+
+        Diagnosis diagnosis = diagnosisRepository.findById(diagnosisId)
+                .orElseThrow(()-> new ResourceNotFoundException("diagnosis","id",diagnosisId));
+
+        diagnosis.setClientApproval(clientApproval);
+        diagnosis = diagnosisRepository.save(diagnosis);
+        return diagnosisMapper.mapToUpdatedDiagnosisDto(diagnosis);
+    }
+
+    @Override
     public List<ShortDiagnosisDto> getCustomerDiagnosesWithWaitingStatus(Long customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer","id",customerId));
