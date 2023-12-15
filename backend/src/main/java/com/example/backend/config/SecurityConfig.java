@@ -63,17 +63,17 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize)->
                         authorize
                                 //TODO ENDPOINT z tabelami
-                                .requestMatchers(HttpMethod.POST,"/api/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/api/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/api/dashboard/**").authenticated()
-                                .requestMatchers(HttpMethod.POST,"/api/**").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/api/**").permitAll()
-                                .requestMatchers(HttpMethod.PUT,"/api/**").permitAll()
-                                .requestMatchers(HttpMethod.DELETE,"/api/**").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/swagger-ui/**").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/v3/**").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/api/**").authenticated()
+                                .requestMatchers(HttpMethod.GET,"/api/**").authenticated()
+                                .requestMatchers(HttpMethod.PUT,"/api/**").authenticated()
+                                .requestMatchers(HttpMethod.DELETE,"/api/**").authenticated()
+                                .requestMatchers(HttpMethod.GET,"/swagger-ui/**").authenticated()
+                                .requestMatchers(HttpMethod.GET,"/v3/**").authenticated()
                                 .requestMatchers(HttpMethod.GET,"/client/**").permitAll()
                                 .requestMatchers(HttpMethod.PUT,"/client/**").permitAll()
-                                //.anyRequest().authenticated()
+                                .anyRequest().authenticated()
                                 )
                  .exceptionHandling((exception)->
                         exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))
