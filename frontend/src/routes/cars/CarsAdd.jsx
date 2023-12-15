@@ -43,7 +43,9 @@ const CarsAdd = () => {
     useEffect(()=>{
         const fetchData = async () => {
             try {
-                const response = await api.get('/customers');
+                const response = await api.get('/customers',{
+                    headers: { "Content-Type": "Application/json", "Authorization": auth.accessToken }
+                });
                 setCustomerData(response.data);
             } catch (error) {
                 setAlertMessage(error.message);

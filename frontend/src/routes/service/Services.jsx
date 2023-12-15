@@ -115,7 +115,7 @@ const Services = () => {
     const handleChangeStatusConfirm = async () => {
         try {
 
-            await api.put(endModalContent.apiLink, {
+            await api.put(endModalContent.apiLink, {},{
                 headers: { "Authorization": auth.accessToken }
             });
 

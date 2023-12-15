@@ -15,6 +15,8 @@ const ServiceStatusChangeModal = ({ showStatusChangeModal, handleStatusChangeCli
             })
             const response = await api.put(`/services/${serviceId}/status?${queryParams}`, {
 
+            },{
+                headers: { "Content-Type": "Application/json", "Authorization": auth.accessToken }
             });
 
             if(response.status !== 200){

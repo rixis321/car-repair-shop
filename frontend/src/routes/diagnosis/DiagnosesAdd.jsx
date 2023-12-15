@@ -104,7 +104,9 @@ const DiagnosesAdd = () => {
                 const queryParams = new URLSearchParams({
                     status: 'ZATWIERDZONO'
                 })
-                const response = await api.get(`/cars?${queryParams}`);
+                const response = await api.get(`/cars?${queryParams}`,{
+                    headers: { "Content-Type": "Application/json", "Authorization": auth.accessToken }
+                });
                 setCarData(response.data);
             } catch (error) {
                 setAlertMessage(error.message);
