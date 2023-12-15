@@ -23,7 +23,7 @@ const Login = () => {
                 }
             )
             if(response.status === 200){
-                navigate('/client/details', { state: { clientData: response.data } });
+                navigate('/client/details');
                 sessionStorage.setItem("accessCode",accessCode);
             }
             console.log(response.data)
