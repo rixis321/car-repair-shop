@@ -124,7 +124,7 @@ const CustomerDetails = () => {
                                     <Col md={1}  className="mb-1">
                                         <Button block onClick={handleEditButtonClick} >Edytuj dane klienta</Button>
                                     </Col>
-                                    <Col md={3}  className="mb-3">
+                                    <Col md={4}  className="mb-3">
                                         <Button block onClick={handleShowResetCodeModal} >Zresetuj kod dostępu</Button>
                                     </Col>
                                     <EditCustomerModal
