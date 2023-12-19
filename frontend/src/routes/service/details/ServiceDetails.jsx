@@ -160,7 +160,7 @@ const ServiceDetails = () => {
                                             <Button block onClick={handleEditButtonClick}>Edytuj dane serwisu</Button>
                                         )}
                                     </Col>
-                                    <Col md={4}  className="mb-1">
+                                    <Col md={5}  className="mb-1">
                                         {serviceData && (serviceData.serviceStatus !== "OCZEKUJE_NA_KLIENTA" && serviceData.serviceStatus !== "ZAKONCZONE") && (
                                             <Button block onClick={handleProgressServiceClick}>Aktualizuj przebieg naprawy</Button>
                                         )}
