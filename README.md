@@ -24,33 +24,33 @@ provides invoice generation for customers.
 ## Employee 
 <br/>
 <br/>
-![strona-glwn](https://github.com/rixis321/car-repair-shop/assets/58139675/69a90825-722a-4497-80bb-982bea62390b)
+![image](https://github.com/rixis321/car-repair-shop/assets/58139675/69a90825-722a-4497-80bb-982bea62390b)
 <br/>
 <br/>
-![panel-admin](https://github.com/rixis321/car-repair-shop/assets/58139675/f603959b-1471-4355-921d-80ef1876c92e)
+![image](https://github.com/rixis321/car-repair-shop/assets/58139675/f603959b-1471-4355-921d-80ef1876c92e)
 <br/>
 <br/>
-![rej-pracownik](https://github.com/rixis321/car-repair-shop/assets/58139675/67d17dbb-564a-498c-9fc8-1e38f23b4242)
+![image](https://github.com/rixis321/car-repair-shop/assets/58139675/67d17dbb-564a-498c-9fc8-1e38f23b4242)
 <br/>
 <br/>
-![lista-diagnoz](https://github.com/rixis321/car-repair-shop/assets/58139675/28f74115-81c7-484b-a183-e9677c9453f8)
+![image](https://github.com/rixis321/car-repair-shop/assets/58139675/28f74115-81c7-484b-a183-e9677c9453f8)
 <br/>
 <br/>
-![lista-serwisow](https://github.com/rixis321/car-repair-shop/assets/58139675/2b4262ca-947d-41e3-ba48-7071c247b085)
+![image](https://github.com/rixis321/car-repair-shop/assets/58139675/2b4262ca-947d-41e3-ba48-7071c247b085)
 <br/>
 <br/>
-![moj-profil](https://github.com/rixis321/car-repair-shop/assets/58139675/96703f78-9111-41b3-a538-4696c2a20379)
+![image](https://github.com/rixis321/car-repair-shop/assets/58139675/96703f78-9111-41b3-a538-4696c2a20379)
 <br/>
 <br/>
 
 ## Cusotomer 
 <br/>
 <br/>
-![diagnoza-sms](https://github.com/rixis321/car-repair-shop/assets/58139675/9af3e85a-4fb7-4e2b-bb87-9b64c4f02bb3)
+![image](https://github.com/rixis321/car-repair-shop/assets/58139675/9af3e85a-4fb7-4e2b-bb87-9b64c4f02bb3)
 <br/>
 <br/>
-![diagnoza-klient](https://github.com/rixis321/car-repair-shop/assets/58139675/8e07933f-9d3b-4401-ba11-bfb1fdef112f)
+![image](https://github.com/rixis321/car-repair-shop/assets/58139675/8e07933f-9d3b-4401-ba11-bfb1fdef112f)
 <br/>
 <br/>
-![klient-serwis](https://github.com/rixis321/car-repair-shop/assets/58139675/be574482-03c1-4758-9e38-e1b206a36290)
+![image](https://github.com/rixis321/car-repair-shop/assets/58139675/be574482-03c1-4758-9e38-e1b206a36290)
 <br/>
